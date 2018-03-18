@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\InvidoCore">
+      <UniqueIdentifier>{0d3e011a-f86a-4706-944e-628ef2b49e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InvidoClient">
+      <UniqueIdentifier>{1b687c20-d264-45a7-bfa2-912dd695d4cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Include">
+      <UniqueIdentifier>{8f88e75a-cfc4-4c4a-b8cb-6293f20b93f4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\InvidoCore\AlgPlayerInterface.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cAlgAdvancedPlayer.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cAlgDummyPlayer.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\CardSpec.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cGiocata.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cInvidoCoreEngine.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cInvidoCoreEnv.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cMano.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cMatchPoints.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cMazzo.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cPartita.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cPlayer.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cPlayersOnTable.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cPlayerStatistic.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\cProbality.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\fuzzy.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\InvidoInfoComm.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\myexception.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\save_utility.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoCore\TraceService.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\cSettings.h">
+      <Filter>Source Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\StdAfx.h">
+      <Filter>Source Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\win_type_global.h">
+      <Filter>Source Files\Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cAlgDummyPlayer.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\CardSpec.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cGiocata.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cInvidoCoreEngine.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cMano.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cMatchPoints.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cMazzo.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cPartita.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cPlayer.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cPlayersOnTable.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cPlayerStatistic.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cProbality.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\TraceService.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
