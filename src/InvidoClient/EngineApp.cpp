@@ -75,8 +75,6 @@ cEngineApp::cEngineApp()
 	g_MainApp = this;
     m_bOpzWinRunning = FALSE;
     m_pTitleCredits = 0;
-    m_pRemoteGui = 0;
-    m_pClientNetwork = 0;
 }
 
 
@@ -117,11 +115,10 @@ void cEngineApp::writeProfile()
 */
 void cEngineApp::Init()
 {
-    // load settings in the registry
+    // load settings from the registry
     loadProfile();
 
     CHAR ErrBuff[512];
-    // Initialize SDL 
     if ( SDL_Init(0) < 0 ) 
     {
         sprintf(ErrBuff, "Couldn't initialize SDL: %s\n",SDL_GetError());
@@ -213,33 +210,7 @@ void cEngineApp::Init()
 }
 
 
-////////////////////////////////////////
-//       InitNetwork
-/*! Init network stuff
-*/
-void cEngineApp::InitNetwork()
-{
-    // network
-    
-    // initialize SDL_net
-	if(SDLNet_Init()==-1)
-	{
-        CHAR ErrBuff[512];
-		sprintf(ErrBuff, "SDLNet_Init: %s\n",SDLNet_GetError());
-		throw Error::Init(ErrBuff);
-	}
 
-    // NOTE: don't separate this 2 stuff, because the initilization need an instantiated object
-    // The order of initialiaziation (call of Init()) is not relevant.
-    // creation stuff
-    m_pClientNetwork = new cNetClient();
-    m_pRemoteGui = new cNetGuiRemote();
-
-    // init stuff
-    m_pClientNetwork->Init(m_pRemoteGui);
-    m_pRemoteGui->Init(m_pClientNetwork);
-
-}
 
 
 ////////////////////////////////////////
@@ -316,11 +287,6 @@ void cEngineApp::terminate()
     delete m_pInvidoGfx;
     delete m_pMusicManager;
     delete m_pHScore;
-
-    delete m_pRemoteGui;
-    delete m_pClientNetwork;
-    // shutdown SDL_net
-	SDLNet_Quit();
 
     SDL_Quit();
 }
@@ -516,16 +482,7 @@ int  cEngineApp::PlayGame()
 */
 void  cEngineApp::PlayNetGame()
 {
-    // init invido newtork core stuff
     m_pInvidoGfx->InitInvido2Player();
-    // net client need to know the current hmi user (local)
-    cPlayer* pPlayer1 = m_pInvidoGfx->GetPlayer(PLAYER1) ;
-    m_pClientNetwork->SetPlayer(pPlayer1); 
-
-    // start network GUI in order to connect a game server and user login
-    ASSERT(m_pRemoteGui);
-    m_pRemoteGui->Start(); 
-
     
     // loop on waiting that the remote gui start a network game 
     // GUI-remote: 1) connect to the game server
@@ -547,14 +504,6 @@ void  cEngineApp::PlayNetGame()
         }
         // to do: display some progress bar
       
-        m_pClientNetwork->ProcMsgInQueue();
-        m_pRemoteGui->ProcMsgInQueue();
-        if (m_pRemoteGui->IsTerminated())
-        {
-            // something wrong with server communication, exit
-            return;
-        }
-
         // actualize display
 		SDL_Flip(m_pScreen);
 

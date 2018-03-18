@@ -15,8 +15,6 @@ class cLanguages;
 class cInvidoGfx;
 class cMusicManager;
 class cMenuMgr;
-class cNetClient;
-class cNetGuiRemote;
 
 //! class cEngineApp
 class cEngineApp
@@ -27,8 +25,6 @@ public:
 
     //! init stuff
     void    Init();
-    //! init network
-    void    InitNetwork();
     //! application entry point
     void    MainMenu();
     //! language translation
@@ -107,10 +103,6 @@ private:
     SDL_cond*         m_pOptCond;
 	//! running flag option window
 	BOOL              m_bOpzWinRunning;
-    //! client network
-    cNetClient*       m_pClientNetwork;
-    //! remote gui client
-    cNetGuiRemote*    m_pRemoteGui;
     // application directory
     STRING            m_strApplicationDir;
 };
