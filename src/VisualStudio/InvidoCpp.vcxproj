@@ -82,6 +82,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Include;../InvidoCore;../console;../guigfx;../InvidoClient</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -209,7 +210,19 @@
     <ClInclude Include="..\Include\SDL_vulkan.h" />
     <ClInclude Include="..\Include\StdAfx.h" />
     <ClInclude Include="..\Include\win_type_global.h" />
+    <ClInclude Include="..\InvidoClient\cCardGfx.h" />
+    <ClInclude Include="..\InvidoClient\cDelayNextAction.h" />
+    <ClInclude Include="..\InvidoClient\cHightScoreMgr.h" />
+    <ClInclude Include="..\InvidoClient\cInvidoGfx.h" />
+    <ClInclude Include="..\InvidoClient\cMenuMgr.h" />
+    <ClInclude Include="..\InvidoClient\cMusicManager.h" />
+    <ClInclude Include="..\InvidoClient\credits.h" />
+    <ClInclude Include="..\InvidoClient\cTipoDiMazzo.h" />
     <ClInclude Include="..\InvidoClient\EngineApp.h" />
+    <ClInclude Include="..\InvidoClient\fading.h" />
+    <ClInclude Include="..\InvidoClient\FastDelegate.h" />
+    <ClInclude Include="..\InvidoClient\lang_gen.h" />
+    <ClInclude Include="..\InvidoClient\regkey.h" />
     <ClInclude Include="..\InvidoCore\AlgPlayerInterface.h" />
     <ClInclude Include="..\InvidoCore\cAlgAdvancedPlayer.h" />
     <ClInclude Include="..\InvidoCore\cAlgDummyPlayer.h" />
@@ -243,8 +256,21 @@
     <ClCompile Include="..\guigfx\EnterNameGfx.cpp" />
     <ClCompile Include="..\guigfx\gfx_util.cpp" />
     <ClCompile Include="..\guigfx\OptionGfx.cpp" />
+    <ClCompile Include="..\InvidoClient\cCardGfx.cpp" />
+    <ClCompile Include="..\InvidoClient\cDelayNextAction.cpp" />
+    <ClCompile Include="..\InvidoClient\cHightScoreMgr.cpp" />
+    <ClCompile Include="..\InvidoClient\cInvidoGfx.cpp" />
+    <ClCompile Include="..\InvidoClient\cMenuMgr.cpp" />
+    <ClCompile Include="..\InvidoClient\cMusicManager.cpp" />
+    <ClCompile Include="..\InvidoClient\credits.cpp" />
+    <ClCompile Include="..\InvidoClient\cSettings.cpp" />
+    <ClCompile Include="..\InvidoClient\cTipoDiMazzo.cpp" />
     <ClCompile Include="..\InvidoClient\EngineApp.cpp" />
+    <ClCompile Include="..\InvidoClient\fading.cpp" />
+    <ClCompile Include="..\InvidoClient\lang_gen.cpp" />
     <ClCompile Include="..\InvidoClient\main.cpp" />
+    <ClCompile Include="..\InvidoClient\regkey.cpp" />
+    <ClCompile Include="..\InvidoClient\StdAfx.cpp" />
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp" />
     <ClCompile Include="..\InvidoCore\cAlgDummyPlayer.cpp" />
     <ClCompile Include="..\InvidoCore\CardSpec.cpp" />

@@ -1,26 +1,3 @@
-/*
-    Tressette
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
 
 // cButtonGfx.h: interface for the cButtonGfx class.
 //
@@ -42,7 +19,7 @@ using namespace fastdelegate;
 
 
 //! class  cButtonGfx  
-class DLL_EXPORTIMPORT cButtonGfx  
+class cButtonGfx  
 {
     // use fastdelegate to implement the observer pattern and avoid using the callback interface on observer
     typedef FastDelegate1<int> CLICKEVENT;
@@ -70,11 +47,11 @@ public:
     //! set window text
     void   SetWindowText(LPCSTR strCaption){m_strButText = strCaption;}
     //! mouse move event
-    void   MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background);
+    void   MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! mouse up
     void   MouseUp(SDL_Event &event);
     //! mouse down
-    void   MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background);
+    void   MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! draw the button 
     void   DrawButton(SDL_Surface*  pScreen);
     //! enable the button
@@ -82,7 +59,7 @@ public:
     //! set button state
     void   SetState(eSate eVal);
     //! redraw the button
-    void   RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background);
+    void   RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! set a button type (bitmap or text)
     void   SetButtonType(eType eTypevalue){m_eButType = eTypevalue;}
     //! set bitmap surfaces
@@ -105,6 +82,7 @@ public:
     CLICKEVENT    m_fncbClickEvent;
 
 private:
+	SDL_Renderer*     m_psdlRenderer;
     //! surface where to draw the button
     SDL_Surface*    m_pSurf_Bar;
     //! button font

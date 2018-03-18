@@ -1,27 +1,3 @@
-/*
-    Tressette
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-
 // cButtonGfx.cpp: implementation of the cButtonGfx class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -80,7 +56,9 @@ void  cButtonGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, 
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctButt.w, m_rctButt.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 255, 0, 0, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); // SDL 2.0
+
     m_pFontText = pFont;
 
     m_colCurrent = GFX_UTIL_COLOR::White;
@@ -112,7 +90,7 @@ void   cButtonGfx::SetState(eSate eVal)
 /*! 
 // \param SDL_Event &event : 
 */
-void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -121,7 +99,7 @@ void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface
         {
             // mouse inner button
             m_colCurrent = GFX_UTIL_COLOR::Orange;
-            RedrawButton(pScreen, pScene_background);
+            RedrawButton(pScreen, pScene_background, pScreenTexture);
         }
         else
         {
@@ -132,7 +110,7 @@ void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface
             {
                 // button was selected
                 m_colCurrent = GFX_UTIL_COLOR::White;
-                RedrawButton(pScreen, pScene_background);
+                RedrawButton(pScreen, pScene_background, pScreenTexture);
             }
             m_bMouseIsDown = FALSE;
         }
@@ -147,7 +125,7 @@ void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cButtonGfx::MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cButtonGfx::MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -157,7 +135,7 @@ void   cButtonGfx::MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface
             // mouse inner button
             m_colCurrent = GFX_UTIL_COLOR::Orange;
             m_bMouseIsDown = TRUE;
-            RedrawButton(pScreen, pScene_background);
+            RedrawButton(pScreen, pScene_background, pScreenTexture);
         }
     }
 }
@@ -277,8 +255,8 @@ void cButtonGfx::drawBtAsBitmap(SDL_Surface*  pScreen)
     }
     // end stuff mouse
 
-    //GFX_UTIL::DrawStaticSpriteEx(pScreen, 0, 0, m_rctButt.w, m_rctButt.h, m_rctButt.x, m_rctButt.y, m_pSurf_Bar);
-    SDL_SetAlpha(pSurfToDraw, SDL_SRCALPHA, 180);
+    //SDL_SetAlpha(pSurfToDraw, SDL_SRCALPHA, 180); SDL 1.2
+	SDL_SetSurfaceAlphaMod(pSurfToDraw, 180); //SDL 2.0
     GFX_UTIL::DrawStaticSpriteEx(pScreen, 0, 0, m_rctButt.w, m_rctButt.h, m_rctButt.x, m_rctButt.y, pSurfToDraw);
 }
 
@@ -289,12 +267,20 @@ void cButtonGfx::drawBtAsBitmap(SDL_Surface*  pScreen)
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cButtonGfx::RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cButtonGfx::RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (pScene_background)
     {
         SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt);
     }
     DrawButton(pScreen);
-    SDL_Flip(pScreen);
+    //SDL_Flip(pScreen); // SDL 1.2
+	// SDL 2.0
+	/*SDL_RenderClear(m_psdlRenderer);
+	SDL_RenderCopy(m_psdlRenderer, psdlTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);*/
+	SDL_UpdateTexture(pScreenTexture, NULL, pScreen->pixels, pScreen->pitch);
+	SDL_RenderClear(m_psdlRenderer);
+	SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);
 }

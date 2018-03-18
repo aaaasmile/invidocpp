@@ -384,6 +384,42 @@
     <ClInclude Include="..\guigfx\cEditGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\InvidoClient\cCardGfx.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cDelayNextAction.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cHightScoreMgr.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cInvidoGfx.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cMenuMgr.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cMusicManager.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\credits.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\cTipoDiMazzo.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\fading.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\FastDelegate.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\lang_gen.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\regkey.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -466,6 +502,45 @@
     </ClCompile>
     <ClCompile Include="..\guigfx\cEditGfx.cpp">
       <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cCardGfx.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cDelayNextAction.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cHightScoreMgr.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cInvidoGfx.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cMenuMgr.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cMusicManager.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\credits.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cSettings.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\cTipoDiMazzo.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\fading.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\lang_gen.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\regkey.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\StdAfx.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
