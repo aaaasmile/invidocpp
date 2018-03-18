@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Include;../InvidoCore;../InvidoClient/console</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Include;../InvidoCore;../console;../guigfx;../InvidoClient</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,6 +112,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\console\ConsoleCmdHand.h" />
+    <ClInclude Include="..\console\CON_console.h" />
+    <ClInclude Include="..\console\DT_drawtext.h" />
+    <ClInclude Include="..\console\internal.h" />
+    <ClInclude Include="..\console\split.h" />
+    <ClInclude Include="..\guigfx\cPopUpMenuGfx.h" />
+    <ClInclude Include="..\guigfx\EnterNameGfx.h" />
+    <ClInclude Include="..\guigfx\gfx_util.h" />
+    <ClInclude Include="..\guigfx\OptionGfx.h" />
     <ClInclude Include="..\Include\begin_code.h" />
     <ClInclude Include="..\Include\close_code.h" />
     <ClInclude Include="..\Include\cSettings.h" />
@@ -198,11 +207,6 @@
     <ClInclude Include="..\Include\SDL_vulkan.h" />
     <ClInclude Include="..\Include\StdAfx.h" />
     <ClInclude Include="..\Include\win_type_global.h" />
-    <ClInclude Include="..\InvidoClient\console\ConsoleCmdHand.h" />
-    <ClInclude Include="..\InvidoClient\console\CON_console.h" />
-    <ClInclude Include="..\InvidoClient\console\DT_drawtext.h" />
-    <ClInclude Include="..\InvidoClient\console\internal.h" />
-    <ClInclude Include="..\InvidoClient\console\split.h" />
     <ClInclude Include="..\InvidoClient\EngineApp.h" />
     <ClInclude Include="..\InvidoCore\AlgPlayerInterface.h" />
     <ClInclude Include="..\InvidoCore\cAlgAdvancedPlayer.h" />
@@ -226,11 +230,15 @@
     <ClInclude Include="..\InvidoCore\TraceService.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\InvidoClient\console\ConsoleCmdHand.cpp" />
-    <ClCompile Include="..\InvidoClient\console\CON_console.cpp" />
-    <ClCompile Include="..\InvidoClient\console\DT_drawtext.cpp" />
-    <ClCompile Include="..\InvidoClient\console\internal.cpp" />
-    <ClCompile Include="..\InvidoClient\console\split.cpp" />
+    <ClCompile Include="..\console\ConsoleCmdHand.cpp" />
+    <ClCompile Include="..\console\CON_console.cpp" />
+    <ClCompile Include="..\console\DT_drawtext.cpp" />
+    <ClCompile Include="..\console\internal.cpp" />
+    <ClCompile Include="..\console\split.cpp" />
+    <ClCompile Include="..\guigfx\cPopUpMenuGfx.cpp" />
+    <ClCompile Include="..\guigfx\EnterNameGfx.cpp" />
+    <ClCompile Include="..\guigfx\gfx_util.cpp" />
+    <ClCompile Include="..\guigfx\OptionGfx.cpp" />
     <ClCompile Include="..\InvidoClient\EngineApp.cpp" />
     <ClCompile Include="..\InvidoClient\main.cpp" />
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp" />

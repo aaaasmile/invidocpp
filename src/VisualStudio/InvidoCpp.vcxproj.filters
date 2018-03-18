@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Console">
       <UniqueIdentifier>{2190410c-2ad4-420f-9ccc-78610d3cc260}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\guigfx">
+      <UniqueIdentifier>{1c04d391-32ee-4b26-9822-db3e601819c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\InvidoCore\AlgPlayerInterface.h">
@@ -348,20 +351,32 @@
     <ClInclude Include="..\Include\SDL_vulkan.h">
       <Filter>Source Files\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\console\CON_console.h">
+    <ClInclude Include="..\console\CON_console.h">
       <Filter>Source Files\Console</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\console\ConsoleCmdHand.h">
+    <ClInclude Include="..\console\ConsoleCmdHand.h">
       <Filter>Source Files\Console</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\console\DT_drawtext.h">
+    <ClInclude Include="..\console\DT_drawtext.h">
       <Filter>Source Files\Console</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\console\internal.h">
+    <ClInclude Include="..\console\internal.h">
       <Filter>Source Files\Console</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\console\split.h">
+    <ClInclude Include="..\console\split.h">
       <Filter>Source Files\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cPopUpMenuGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\EnterNameGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\gfx_util.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\OptionGfx.h">
+      <Filter>Source Files\guigfx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -413,20 +428,32 @@
     <ClCompile Include="..\InvidoClient\EngineApp.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\console\CON_console.cpp">
+    <ClCompile Include="..\console\CON_console.cpp">
       <Filter>Source Files\Console</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\console\ConsoleCmdHand.cpp">
+    <ClCompile Include="..\console\ConsoleCmdHand.cpp">
       <Filter>Source Files\Console</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\console\DT_drawtext.cpp">
+    <ClCompile Include="..\console\DT_drawtext.cpp">
       <Filter>Source Files\Console</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\console\internal.cpp">
+    <ClCompile Include="..\console\internal.cpp">
       <Filter>Source Files\Console</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\console\split.cpp">
+    <ClCompile Include="..\console\split.cpp">
       <Filter>Source Files\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cPopUpMenuGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\EnterNameGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\gfx_util.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\OptionGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
