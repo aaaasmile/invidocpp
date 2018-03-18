@@ -378,6 +378,12 @@
     <ClInclude Include="..\guigfx\OptionGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\guigfx\cButtonGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cEditGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -453,6 +459,12 @@
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
     <ClCompile Include="..\guigfx\OptionGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cButtonGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cEditGfx.cpp">
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
   </ItemGroup>

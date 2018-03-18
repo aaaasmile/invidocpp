@@ -38,7 +38,7 @@ static const char* lpszIniFileOptions = "Software\\BredaSoft\\InvidoClientSdl";
 static const char* lpszIniFileOptions = "data/options.ini";
 #endif
 static const char* lpszIniFontAriblk = "data/font/ariblk.ttf";
-static const char* lpszIniFontVera = "data/font/vera.ttf"; 
+static const char* lpszIniFontVera = "data/font/vera.ttf";
 static const char* lpszImageDir = "data/images/";
 static const char* lpszImageSplash = "mainmenu.jpg";
 static const char* lpszCreditsTitle = "data/images/titlecredits.png";
@@ -60,21 +60,22 @@ cEngineApp* g_MainApp = 0;
 */
 cEngineApp::cEngineApp()
 {
-    m_pScreen = NULL;
-    m_iScreenW = 800 ; //640;
-    m_iScreenH = 600 ; //480;
-    m_iBpp = 0;
-    m_pMusicManager = 0;
-    m_pLanString = 0;
-    m_pMenuMgr = 0;
-    m_pfontAriblk = 0;
-    m_pfontVera = 0;
-    m_pSlash = 0;
-    m_pMxAccOptions = 0;
-    m_pOptCond = 0;
+	m_pWindow = NULL;
+	m_psdlRenderer = NULL;
+	m_iScreenW = 800; //640;
+	m_iScreenH = 600; //480;
+	m_iBpp = 0;
+	m_pMusicManager = 0;
+	m_pLanString = 0;
+	m_pMenuMgr = 0;
+	m_pfontAriblk = 0;
+	m_pfontVera = 0;
+	m_pSlash = 0;
+	m_pMxAccOptions = 0;
+	m_pOptCond = 0;
 	g_MainApp = this;
-    m_bOpzWinRunning = FALSE;
-    m_pTitleCredits = 0;
+	m_bOpzWinRunning = FALSE;
+	m_pTitleCredits = 0;
 }
 
 
@@ -84,7 +85,7 @@ cEngineApp::cEngineApp()
 */
 cEngineApp::~cEngineApp()
 {
-    terminate();
+	terminate();
 }
 
 
@@ -94,7 +95,7 @@ cEngineApp::~cEngineApp()
 */
 void cEngineApp::loadProfile()
 {
-    SpaceInvidoSettings::GetProfile(lpszIniFileOptions);
+	SpaceInvidoSettings::GetProfile(lpszIniFileOptions);
 }
 
 
@@ -104,7 +105,7 @@ void cEngineApp::loadProfile()
 */
 void cEngineApp::writeProfile()
 {
-    SpaceInvidoSettings::WriteProfile(lpszIniFileOptions);
+	SpaceInvidoSettings::WriteProfile(lpszIniFileOptions);
 }
 
 
@@ -115,102 +116,105 @@ void cEngineApp::writeProfile()
 */
 void cEngineApp::Init()
 {
-    // load settings from the registry
-    loadProfile();
+	// load settings from the registry
+	loadProfile();
+	CHAR ErrBuff[512];
+	if (!SDL_WasInit(SDL_INIT_VIDEO))
+	{
+		if (SDL_Init(0) < 0)
+		{
+			sprintf(ErrBuff, "Couldn't initialize SDL: %s\n", SDL_GetError());
+			throw Error::Init(ErrBuff);
+		}
+	}
+	setVideoResolution();
 
-    CHAR ErrBuff[512];
-    if ( SDL_Init(0) < 0 ) 
-    {
-        sprintf(ErrBuff, "Couldn't initialize SDL: %s\n",SDL_GetError());
-        throw Error::Init(ErrBuff);
-    }    
-    setVideoResolution();
+	m_pMusicManager = new cMusicManager;
+	m_pMusicManager->Init();
 
-    m_pMusicManager = new cMusicManager;
-    m_pMusicManager->Init(); 
+	m_pInvidoGfx = new cInvidoGfx(this);
+	m_pLanString = new cLanguages;
+	m_pHScore = new cHightScoreMgr;
 
-    m_pInvidoGfx = new cInvidoGfx(this);
-    m_pLanString = new cLanguages;
-    m_pHScore = new cHightScoreMgr;
-     
-    // set application language
-    m_pLanString->SetLang((cLanguages::eLangId)g_Options.All.iLanguageID);
-    
-    // caption
-    SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	
-    
-    // hight score
-    //m_HScore.Load(); 
-    
-    //trasparent icon
-    SDL_Surface * psIcon = SDL_LoadBMP(lpszIconRes);
-    if (psIcon == 0)
-    {
-        sprintf(ErrBuff, "Icon not found");
-        throw Error::Init(ErrBuff);
-    }
-    SDL_SetColorKey(psIcon, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(psIcon->format, 0, 128, 0));
-    SDL_WM_SetIcon(psIcon, NULL);
-    
-    //HICON  hicon = LoadIcon(hAppInstance, MAKEINTRESOURCE(IDI_ICON1));
-    
-    // font TTF
-    if (TTF_Init() == -1) 
-    {
-        sprintf(ErrBuff, "Font init error");
-        throw Error::Init(ErrBuff);
-    }
-    // font Ariblk
-    std::string strFileFontStatus = lpszIniFontAriblk; 
-    m_pfontAriblk = TTF_OpenFont(strFileFontStatus.c_str()  , 22);
-    if (m_pfontAriblk == 0)
-    {
-        sprintf(ErrBuff, "Unable to load font %s, error: %s\n", strFileFontStatus.c_str() , SDL_GetError());
-        throw Error::Init(ErrBuff);
-    }
+	// set application language
+	m_pLanString->SetLang((cLanguages::eLangId)g_Options.All.iLanguageID);
+
+	// caption
+	//SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	
+	SDL_SetWindowTitle(m_pWindow, m_pLanString->GetCStringId(cLanguages::ID_INVIDO)); // SDL 2.0
+
+	// hight score
+	//m_HScore.Load(); 
+
+	//trasparent icon
+	SDL_Surface * psIcon = SDL_LoadBMP(lpszIconRes);
+	if (psIcon == 0)
+	{
+		sprintf(ErrBuff, "Icon not found");
+		throw Error::Init(ErrBuff);
+	}
+	//SDL_SetColorKey(psIcon, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(psIcon->format, 0, 128, 0)); //SDL 1.2
+	SDL_SetColorKey(psIcon, TRUE, SDL_MapRGB(psIcon->format, 0, 128, 0)); // SDL 2.0
+
+	//SDL_WM_SetIcon(psIcon, NULL);
+	SDL_SetWindowIcon(m_pWindow, psIcon); // SDL 2.0
+
+	//HICON  hicon = LoadIcon(hAppInstance, MAKEINTRESOURCE(IDI_ICON1));
+
+	// font TTF
+	if (TTF_Init() == -1)
+	{
+		sprintf(ErrBuff, "Font init error");
+		throw Error::Init(ErrBuff);
+	}
+	// font Ariblk
+	std::string strFileFontStatus = lpszIniFontAriblk;
+	m_pfontAriblk = TTF_OpenFont(strFileFontStatus.c_str(), 22);
+	if (m_pfontAriblk == 0)
+	{
+		sprintf(ErrBuff, "Unable to load font %s, error: %s\n", strFileFontStatus.c_str(), SDL_GetError());
+		throw Error::Init(ErrBuff);
+	}
 	// font Vera
-    strFileFontStatus = lpszIniFontVera;
-    m_pfontVera = TTF_OpenFont(strFileFontStatus.c_str(), 11);
-    if (m_pfontVera == 0)
-    {
-        sprintf(ErrBuff, "Unable to load font %s, error: %s\n", strFileFontStatus.c_str() , SDL_GetError());
-        throw Error::Init(ErrBuff);
-    }
+	strFileFontStatus = lpszIniFontVera;
+	m_pfontVera = TTF_OpenFont(strFileFontStatus.c_str(), 11);
+	if (m_pfontVera == 0)
+	{
+		sprintf(ErrBuff, "Unable to load font %s, error: %s\n", strFileFontStatus.c_str(), SDL_GetError());
+		throw Error::Init(ErrBuff);
+	}
 
-    // game invido app
-    m_pInvidoGfx->SetMainApp(this);
-    
-    // menu manager
-    m_pMenuMgr = new cMenuMgr(this, m_pInvidoGfx);
-    m_pMenuMgr->Init(m_pScreen); 
+	// game invido app
+	m_pInvidoGfx->SetMainApp(this);
 
-    // set main menu
-    m_Histmenu.push(cMenuMgr::QUITAPP);
-    m_Histmenu.push(cMenuMgr::MENU_ROOT);
+	// menu manager
+	m_pMenuMgr = new cMenuMgr(this, m_pInvidoGfx);
+	m_pMenuMgr->Init(m_pScreen);
 
-    // background
-    loadSplash();
-    drawSplash();
+	// set main menu
+	m_Histmenu.push(cMenuMgr::QUITAPP);
+	m_Histmenu.push(cMenuMgr::MENU_ROOT);
 
-    // credits title
-    m_pTitleCredits = IMG_Load(lpszCreditsTitle);
-    if (m_pTitleCredits == 0)
-    {
-        CHAR ErrBuff[512];
-        sprintf(ErrBuff, "Unable to load %s  image\n" , lpszCreditsTitle);
-        throw Error::Init(ErrBuff);
-    }
+	// background
+	loadSplash();
+	drawSplash();
 
-    // load music
-    // music manager initialization is a long process, update also a progress bar
-    m_pMusicManager->LoadMusicRes(); 
+	// credits title
+	m_pTitleCredits = IMG_Load(lpszCreditsTitle);
+	if (m_pTitleCredits == 0)
+	{
+		CHAR ErrBuff[512];
+		sprintf(ErrBuff, "Unable to load %s  image\n", lpszCreditsTitle);
+		throw Error::Init(ErrBuff);
+	}
 
-    m_pMxAccOptions = SDL_CreateMutex();
-    m_pOptCond = SDL_CreateCond();
+	// load music
+	// music manager initialization is a long process, update also a progress bar
+	m_pMusicManager->LoadMusicRes();
+
+	m_pMxAccOptions = SDL_CreateMutex();
+	m_pOptCond = SDL_CreateCond();
 }
-
-
-
 
 
 ////////////////////////////////////////
@@ -219,41 +223,48 @@ void cEngineApp::Init()
 */
 void cEngineApp::loadSplash()
 {
-    // load background
-    if (g_Options.All.bUseSplashJpg)
-    {
-        SDL_Surface *Temp;
-        std::string strFileName = lpszImageDir;
-        strFileName += lpszImageSplash;
+	// load background
+	SDL_Surface *Temp;
+	if (g_Options.All.bUseSplashJpg)
+	{
 
-        SDL_RWops *srcBack = SDL_RWFromFile(strFileName.c_str(), "rb");
-        if (srcBack==0)
-        {
-            CHAR ErrBuff[512];
-            sprintf(ErrBuff, "Unable to load %s background image\n" , strFileName.c_str());
-            throw Error::Init(ErrBuff);
-        }
-        Temp = IMG_LoadJPG_RW(srcBack);
-        m_pSlash = SDL_DisplayFormat(Temp);
-        SDL_FreeSurface(Temp);
-    }
-    else
-    {
-        m_pSlash = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
-        SDL_FillRect(m_pSlash, NULL, SDL_MapRGBA(m_pScreen->format, 0, 80, 0, 0));
-    }
-	
+		std::string strFileName = lpszImageDir;
+		strFileName += lpszImageSplash;
+
+		SDL_RWops *srcBack = SDL_RWFromFile(strFileName.c_str(), "rb");
+		if (srcBack == 0)
+		{
+			CHAR ErrBuff[512];
+			sprintf(ErrBuff, "Unable to load %s background image\n", strFileName.c_str());
+			throw Error::Init(ErrBuff);
+		}
+		Temp = IMG_LoadJPG_RW(srcBack);
+		//m_pSlash = SDL_DisplayFormat(Temp); //SDL 1.2
+	}
+	else
+	{
+		int w, h;
+		SDL_GetWindowSize(m_pWindow, &w, &h);
+		Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
+		SDL_FillRect(Temp, NULL, SDL_MapRGBA(Temp->format, 0, 80, 0, 0));
+	}
+	m_pSlash = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp);
+	SDL_FreeSurface(Temp);
+
 }
 
 
 ////////////////////////////////////////
 //       drawSplash
-/*! 
+/*!
 */
 void cEngineApp::drawSplash()
 {
-   	SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL);
-    SDL_Flip(m_pScreen);
+	//SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL); // SDL 1.2
+	//SDL_Flip(m_pScreen); // SDL 1.2
+	SDL_RenderClear(m_psdlRenderer);
+	SDL_RenderCopy(m_psdlRenderer, m_pSlash, NULL, NULL); // SDL 2.0
+	SDL_RenderPresent(m_psdlRenderer);
 }
 
 
@@ -263,32 +274,43 @@ void cEngineApp::drawSplash()
 */
 void cEngineApp::terminate()
 {
-    writeProfile();
+	writeProfile();
 
-    SDL_ShowCursor( SDL_ENABLE );
-    
-    if (m_pScreen!=NULL)
-    {
-        SDL_FreeSurface(m_pScreen);
-        m_pScreen=NULL;
-    }
-    if (m_pSlash)
-    {
-        SDL_FreeSurface(m_pSlash);
-        m_pSlash = 0;
-    }
-    if (m_pTitleCredits)
-    {
-        SDL_FreeSurface(m_pTitleCredits);
-        m_pTitleCredits = 0;
-    }
+	SDL_ShowCursor(SDL_ENABLE);
 
-    delete m_pLanString;
-    delete m_pInvidoGfx;
-    delete m_pMusicManager;
-    delete m_pHScore;
+	if (m_pScreen != NULL)
+	{
+		SDL_FreeSurface(m_pScreen);
+		m_pScreen = NULL;
+	}
+	if (m_pScreenTexture != NULL)
+	{
+		SDL_DestroyTexture(m_pScreenTexture);
+	}
+	/*
+	if (m_pSlash)
+	{
+		SDL_FreeSurface(m_pSlash);
+		m_pSlash = 0;
+	}*/ // SDL 1.2
+	if (m_pSlash)
+	{
+		SDL_DestroyTexture(m_pSlash); // SDL 2.0
+	}
 
-    SDL_Quit();
+	if (m_pTitleCredits)
+	{
+		SDL_FreeSurface(m_pTitleCredits);
+		m_pTitleCredits = 0;
+	}
+
+	delete m_pLanString;
+	delete m_pInvidoGfx;
+	delete m_pMusicManager;
+	delete m_pHScore;
+	SDL_DestroyWindow(m_pWindow); // sdl 2.0
+
+	SDL_Quit();
 }
 
 
@@ -299,49 +321,53 @@ void cEngineApp::terminate()
 */
 void cEngineApp::MainLoop()
 {
-    bool bquit = false;
-    
-    // set background of menu
-    m_pMenuMgr->SetBackground(m_pSlash);
-   	
-    while (!bquit && !m_Histmenu.empty()) 
-    {
-		switch (m_Histmenu.top()) 
-        {
-            case cMenuMgr::MENU_ROOT:
-                if (g_Options.All.bMusicOn && !m_pMusicManager->IsPLayingMusic()  )
-                {
-                    m_pMusicManager->PlayMusic(cMusicManager::MUSIC_INIT_SND, cMusicManager::LOOP_ON);
-                }
-                m_pMenuMgr->HandleRootMenu();
+	bool bquit = false;
 
-                break;
+	// set background of menu
+	m_pMenuMgr->SetBackground(m_pSlash);
 
-            case cMenuMgr::MENU_GAME:
-                PlayGame();
-                break;
+	while (!bquit && !m_Histmenu.empty())
+	{
+		switch (m_Histmenu.top())
+		{
+		case cMenuMgr::MENU_ROOT:
+			if (g_Options.All.bMusicOn && !m_pMusicManager->IsPLayingMusic())
+			{
+				m_pMusicManager->PlayMusic(cMusicManager::MUSIC_INIT_SND, cMusicManager::LOOP_ON);
+			}
+			m_pMenuMgr->HandleRootMenu();
 
-            case cMenuMgr::MENU_HELP:
-                ShowHelp();
-                break;
+			break;
 
-            case cMenuMgr::MENU_CREDITS:
-                ShowCredits();
-                break;
+		case cMenuMgr::MENU_GAME:
+			PlayGame();
+			break;
 
-            case cMenuMgr::MENU_OPTIONS:
-                ShowOptionsGeneral();
-                break;
+		case cMenuMgr::MENU_HELP:
+			ShowHelp();
+			break;
 
-            case cMenuMgr::QUITAPP:
-            default:
-                bquit = true;
-                break;
-            
+		case cMenuMgr::MENU_CREDITS:
+			ShowCredits();
+			break;
+
+		case cMenuMgr::MENU_OPTIONS:
+			ShowOptionsGeneral();
+			break;
+
+		case cMenuMgr::QUITAPP:
+		default:
+			bquit = true;
+			break;
+
 		}
-	
-        // actualize display
-		SDL_Flip(m_pScreen);
+
+		// actualize display
+		//SDL_Flip(m_pScreen); // SDL 1.2
+		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch);
+		SDL_RenderClear(m_psdlRenderer);
+		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
 
 	}
 }
@@ -353,20 +379,20 @@ void cEngineApp::MainLoop()
 */
 void cEngineApp::showEditUserName()
 {
-    EnterNameGfx Dlg;
-    SDL_Rect rctWin;
-    rctWin.w = 350;
-    rctWin.h = 200;
+	EnterNameGfx Dlg;
+	SDL_Rect rctWin;
+	rctWin.w = 350;
+	rctWin.h = 200;
 
-    rctWin.x = (m_pScreen->w  - rctWin.w)/2;
-    rctWin.y = (m_pScreen->h - rctWin.h) / 2;
-    
+	rctWin.x = (m_pScreen->w - rctWin.w) / 2;
+	rctWin.y = (m_pScreen->h - rctWin.h) / 2;
 
-    Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk);
-    Dlg.SetCaption(m_pLanString->GetStringId(cLanguages::ID_CHOOSENAME)); 
-    Dlg.Show(m_pSlash);
 
-    drawSplash();
+	Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk);
+	Dlg.SetCaption(m_pLanString->GetStringId(cLanguages::ID_CHOOSENAME));
+	Dlg.Show(m_pSlash);
+
+	drawSplash();
 }
 
 ////////////////////////////////////////
@@ -375,15 +401,15 @@ void cEngineApp::showEditUserName()
 */
 void cEngineApp::ShowHelp()
 {
-    //std::string strFileName = lpszHelpFileName;
+	//std::string strFileName = lpszHelpFileName;
 	//ShellExecute(0, "open", strFileName.c_str() , 0, 0, SW_SHOWNORMAL);	
 #ifdef WIN32
-    std::string strFileName = lpszHelpFileName;
-    STRING strCompleteHelpPath = m_strApplicationDir + "\\" + strFileName;
-	::ShellExecute(NULL, TEXT("open"), strCompleteHelpPath.c_str() , 0, 0, SW_SHOWNORMAL);
+	std::string strFileName = lpszHelpFileName;
+	STRING strCompleteHelpPath = m_strApplicationDir + "\\" + strFileName;
+	::ShellExecute(NULL, TEXT("open"), strCompleteHelpPath.c_str(), 0, 0, SW_SHOWNORMAL);
 #endif
 
-    LeaveMenu();
+	LeaveMenu();
 }
 
 
@@ -393,11 +419,11 @@ void cEngineApp::ShowHelp()
 */
 void cEngineApp::ShowCredits()
 {
-    cCredits aCred(m_pfontVera);
+	cCredits aCred(m_pfontVera);
 
-    aCred.Show(m_pScreen, m_pTitleCredits);
+	aCred.Show(m_pScreen, m_pTitleCredits);
 
-    LeaveMenu();
+	LeaveMenu();
 }
 
 ////////////////////////////////////////
@@ -406,18 +432,27 @@ void cEngineApp::ShowCredits()
 */
 void cEngineApp::setVideoResolution()
 {
-    if (m_pScreen)
-    {
-        SDL_FreeSurface(m_pScreen);
-    }
-    m_pScreen = SDL_SetVideoMode(m_iScreenW, m_iScreenH, m_iBpp, SDL_SWSURFACE);
-    if ( m_pScreen == NULL )
-    {
-        fprintf(stderr, "Error setvideomode: %s\n", SDL_GetError());
-        exit(1);
-        
-    }
-    
+	if (m_pWindow != NULL)
+	{
+
+		SDL_DestroyWindow(m_pWindow);
+	}
+	SDL_CreateWindowAndRenderer(m_iScreenW, m_iScreenH, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_pWindow, &m_psdlRenderer); //SDL 2.0
+	if (m_pWindow == NULL || m_psdlRenderer == NULL)
+	{
+		fprintf(stderr, "Error setvideomode: %s\n", SDL_GetError());
+		exit(1);
+	}
+	m_pScreen = SDL_CreateRGBSurface(0, m_iScreenW, m_iScreenH, 32,
+		0x00FF0000,
+		0x0000FF00,
+		0x000000FF,
+		0xFF000000);
+	m_pScreenTexture = SDL_CreateTexture(m_psdlRenderer,
+		SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		m_iScreenW, m_iScreenH);
+
 }
 
 
@@ -428,7 +463,7 @@ void cEngineApp::setVideoResolution()
 */
 void cEngineApp::hightScoreMenu()
 {
-    // to do
+	// to do
 }
 
 
@@ -441,9 +476,9 @@ void cEngineApp::hightScoreMenu()
 */
 void   cEngineApp::LeaveMenu()
 {
-    drawSplash();
+	drawSplash();
 
-    m_Histmenu.pop();
+	m_Histmenu.pop();
 }
 
 ////////////////////////////////////////
@@ -452,71 +487,31 @@ void   cEngineApp::LeaveMenu()
 */
 int  cEngineApp::PlayGame()
 {
-    if (g_Options.All.strPlayerName == "Anonimo" )
-    {
-        // default name, show  a dialogbox to set the name
-        showEditUserName();
-    }
+	if (g_Options.All.strPlayerName == "Anonimo")
+	{
+		// default name, show  a dialogbox to set the name
+		showEditUserName();
+	}
 
-    m_pMusicManager->StopMusic();
-    
-    // load and initialize background
-    m_pInvidoGfx->Initialize(m_pScreen);
-    // init invido core stuff
-    m_pInvidoGfx->InitInvidoVsCPU();
-    
-    // match main loop
-    m_pInvidoGfx->MatchLoop();
-    
-    // game terminated
-    
-    LeaveMenu();
-    
-    return 0;
+	m_pMusicManager->StopMusic();
+
+	// load and initialize background
+	m_pInvidoGfx->Initialize(m_pScreen);
+	// init invido core stuff
+	m_pInvidoGfx->InitInvidoVsCPU();
+
+	// match main loop
+	m_pInvidoGfx->MatchLoop();
+
+	// game terminated
+
+	LeaveMenu();
+
+	return 0;
 }
 
 
-////////////////////////////////////////
-//       PlayNetGame
-/*! Start playing a network game
-*/
-void  cEngineApp::PlayNetGame()
-{
-    m_pInvidoGfx->InitInvido2Player();
-    
-    // loop on waiting that the remote gui start a network game 
-    // GUI-remote: 1) connect to the game server
-    //             2) login
-    //             3) join/create a table
-    //             4) start a new match
-    //             5) opponent accept a match
-    SDL_Event event;
-    BOOL bTriggerMatch = FALSE;
-    while(!bTriggerMatch)
-    {
-        while(SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-            case SDL_QUIT:
-                return ;
-            }
-        }
-        // to do: display some progress bar
-      
-        // actualize display
-		SDL_Flip(m_pScreen);
 
-        SDL_Delay(10);
-    }
-    
-    m_pMusicManager->StopMusic();
-    // load and initialize background
-    m_pInvidoGfx->Initialize(m_pScreen);
-    
-    // match main loop
-    m_pInvidoGfx->MatchLoop();
-}
 
 
 ////////////////////////////////////////
@@ -527,20 +522,20 @@ void cEngineApp::ShowOptionsGeneral()
 {
 	OptionGfx Optio;
 
-    SDL_Rect rctOptionWin;
+	SDL_Rect rctOptionWin;
 
-    rctOptionWin.w = 500;
-    rctOptionWin.h = 500;
+	rctOptionWin.w = 500;
+	rctOptionWin.h = 500;
 
-    rctOptionWin.x = (m_pScreen->w  - rctOptionWin.w)/2;
-    rctOptionWin.y = (m_pScreen->h - rctOptionWin.h) / 2;
-    
+	rctOptionWin.x = (m_pScreen->w - rctOptionWin.w) / 2;
+	rctOptionWin.y = (m_pScreen->h - rctOptionWin.h) / 2;
 
-    Optio.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk);
-    Optio.SetCaption(m_pLanString->GetStringId(cLanguages::ID_OPT_CONTRL_GENERAL)); 
-    Optio.Show(m_pSlash);
 
-    LeaveMenu();
+	Optio.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk);
+	Optio.SetCaption(m_pLanString->GetStringId(cLanguages::ID_OPT_CONTRL_GENERAL));
+	Optio.Show(m_pSlash);
+
+	LeaveMenu();
 }
 
 

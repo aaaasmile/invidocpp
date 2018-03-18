@@ -49,7 +49,6 @@ int main(int argc, char *argv[])
             g_Options.Net.iPortGui = iPortNum;
         }
 #endif
-        app.InitNetwork(); 
 
         // uncomment this to start with the correct menu
 	    app.MainLoop();

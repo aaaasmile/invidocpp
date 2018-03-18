@@ -47,8 +47,6 @@ public:
     cMusicManager*  GetMusicManager(){return m_pMusicManager;}
     //! show credits screen
     void  ShowCredits();
-    //! start a network game
-    void  PlayNetGame();
     //! show options
     void ShowOptionsGeneral();
     STRING GetApplicationDir(){return m_strApplicationDir;}
@@ -69,10 +67,12 @@ private:
     void    showEditUserName();
    
 private:
-    //! main screen surface
-    SDL_Surface*      m_pScreen;
+	SDL_Surface*      m_pScreen;
+	SDL_Texture*      m_pScreenTexture;
+	SDL_Window*       m_pWindow;
+	SDL_Renderer*     m_psdlRenderer;
     //! splash surface
-    SDL_Surface*      m_pSlash;
+    SDL_Texture*      m_pSlash;
     //! title credits
     SDL_Surface*      m_pTitleCredits;
     //! screen width

@@ -14,3 +14,7 @@ Nota:
 Ho messo tutti i files in include e lib senza distinguere le versioni.
 
 Esempi di sdl 2 si trovano su https://www.libsdl.org/projects/
+
+Un esempio di porting sdl 1.2 a 2.0 si trova su: https://github.com/yquake2/yquake2/blob/master/src/backends/sdl/refresh.c
+La guida per la migrazione è su:
+https://wiki.libsdl.org/MigrationGuide
