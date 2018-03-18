@@ -19,10 +19,10 @@
 */
 void cProbality::SvilCombiHands(VCT_MAZZO &vct_Mazzo, MTX_HANDCOMBI &mtx_Result)
 {
-    long lNumCard = vct_Mazzo.size();
+	long lNumCard = (long)vct_Mazzo.size();
     mtx_Result.clear();
 
-    long lNumCombi =  (long)BinomialCoef(lNumCard, m_iCardOnHand);
+	size_t lNumCombi =  (size_t)BinomialCoef(lNumCard, m_iCardOnHand);
 
                        
     if (m_bIndexNotInit)
@@ -137,7 +137,7 @@ double cProbality::Fattorial(long lN)
 std::ostream &operator << (std::ostream &stream, const MTX_HANDCOMBI &o)
 {
    long lCount = 0;
-   int iNumEle = o.size();
+   size_t iNumEle = o.size();
    for (long i = 0; i < iNumEle; i++)
    {
       lCount ++;
@@ -153,14 +153,12 @@ std::ostream &operator << (std::ostream &stream, const MTX_HANDCOMBI &o)
          stream <<  "[" << lCount << "] ";
 	  }
       
-	  int iNumRow = vct_tmpRow.size();
+	  size_t iNumRow = vct_tmpRow.size();
       for (long j = 0; j < iNumRow; j++)
       {
          if (vct_tmpRow[j] < 10)
          {
-             
             stream << " " << ((int) vct_tmpRow[j]) << " ";
-             
          }
          else
          {

@@ -47,7 +47,7 @@ STRING EntryTraceDetail::ToString()
     CHAR buff[512];
 
     // use only the filename and not the complete path
-    int iIndex = m_strFileName.rfind('\\');
+    size_t iIndex = m_strFileName.rfind('\\');
     if (iIndex != -1)
     {
         // eat slash

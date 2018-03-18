@@ -49,7 +49,7 @@ cButtonGfx::~cButtonGfx()
 // \param SDL_Rect* pRect : 
 // \param SDL_Surface*  pScreen : 
 */
-void  cButtonGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID)
+void  cButtonGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer)
 {
     m_rctButt = *pRect;
 
@@ -65,6 +65,7 @@ void  cButtonGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, 
     m_iButID = iButID;
     m_bMouseIsDown = FALSE;
     m_eButType = TEXT_BUTTON;
+	m_psdlRenderer = psdlRenderer;
 
 }
 

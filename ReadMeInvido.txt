@@ -18,3 +18,8 @@ Esempi di sdl 2 si trovano su https://www.libsdl.org/projects/
 Un esempio di porting sdl 1.2 a 2.0 si trova su: https://github.com/yquake2/yquake2/blob/master/src/backends/sdl/refresh.c
 La guida per la migrazione è su:
 https://wiki.libsdl.org/MigrationGuide
+
+Come riferimento guarda il progetto: D:\Projects\from_sf_net_to_github\Sdl_example\TextImput
+
+Il problema del linker che non trova l'entry point:
+Right click on project name -> Properties -> Expand Linker tab -> System -> SubSystem: make sure that it is Console (/SUBSYSTEM:CONSOLE)

@@ -21,7 +21,7 @@ cEditGfx::cEditGfx()
     m_pSurf_Bar = 0;
     m_bShowCaret = FALSE;
     m_iCarLogPos = 0;
-    SDL_EnableUNICODE(1);
+    //SDL_EnableUNICODE(1); // SDL 1.2 in SDL 2.0 is gone
     m_bOnlyNum = FALSE;
 }
 
@@ -161,6 +161,7 @@ void   cEditGfx::KeyDown(SDL_Event &event)
     if (m_eState != SELECTED )
         return;
 
+	// SDL 2.0 use SDL_TEXTINPUT
     int c = event.key.keysym.unicode;
 	SDLKey key = event.key.keysym.sym;
 	if (key >= SDLK_KP0 && key <= SDLK_KP9) {
@@ -215,7 +216,7 @@ void   cEditGfx::KeyDown(SDL_Event &event)
         {
             if (key < SDLK_0 || key > SDLK_9)
             {
-                // not a num key, rejject it
+                // not a num key, reject it
                 bContinue = FALSE;
             }
         }

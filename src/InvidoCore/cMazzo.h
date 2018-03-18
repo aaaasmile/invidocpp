@@ -47,7 +47,7 @@ public:
     //! row vetcors of index, better don't use it
     VCT_LONG   GetVectorIndexes(){return m_vctCards;}
     //! total number of cards on the deck
-    long       Count(){return m_vctCards.size();}
+	size_t     Count(){return m_vctCards.size();}
     //! value of assigned deck position
     long       GetIndexRaw(long l){return m_vctCards[l];}
     //! provides if the deck has yet cards

@@ -43,7 +43,7 @@ public:
    	virtual ~cButtonGfx();
 
     //! init the control 
-    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID);
+    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer);
     //! set window text
     void   SetWindowText(LPCSTR strCaption){m_strButText = strCaption;}
     //! mouse move event
