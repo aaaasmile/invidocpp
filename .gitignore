@@ -3,11 +3,8 @@
 ################################################################################
 
 /src/VisualStudio/.vs/InvidoCpp/v14/.suo
-/src/VisualStudio/Debug/InvidoCpp.tlog
 *.obj
-/src/VisualStudio/Debug/vc140.pdb
-/src/VisualStudio/Debug/vc140.idb
-/src/VisualStudio/Debug/InvidoCpp.log
-/src/VisualStudio/Debug/InvidoCpp.Build.CppClean.log
+/src/VisualStudio/Debug/*.*
+/src/VisualStudio/x64/*.*
 /src/VisualStudio/InvidoCpp.VC.VC.opendb
 /src/VisualStudio/InvidoCpp.VC.db
