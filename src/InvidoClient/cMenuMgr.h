@@ -48,11 +48,11 @@ public:
 	cMenuMgr(cEngineApp* pApp, cInvidoGfx* pGfx);
 	virtual ~cMenuMgr();
     //! Init
-    void   Init(SDL_Surface *s);
+    void   Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer);
     //! menu root handler
     void   HandleRootMenu();
     //! set background
-    void   SetBackground(SDL_Surface* pVal){m_pScene_background = pVal;}
+    void   SetBackground(SDL_Texture* pVal){m_pScene_background = pVal;}
     //! label callback
     void   LabelClicked(int iButID);
 
@@ -89,6 +89,7 @@ private:
     cInvidoGfx*         m_pInvidoGfx;
     //! main screen surface
     SDL_Surface*     m_pScreen;
+	SDL_Renderer*     m_psdlRenderer;
     //! focus value
     int              m_ifocus_valuesM_A;
     //! upper y position in menu box
@@ -100,7 +101,7 @@ private:
     //! menu panel 
     SDL_Surface*     m_pSurf_Bar;
     //! background
-    SDL_Surface*     m_pScene_background;
+    SDL_Texture*     m_pScene_background;
 
     //! rect of the menu
     SDL_Rect         m_rctPanel;   

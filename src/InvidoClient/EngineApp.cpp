@@ -186,7 +186,7 @@ void cEngineApp::Init()
 
 	// menu manager
 	m_pMenuMgr = new cMenuMgr(this, m_pInvidoGfx);
-	m_pMenuMgr->Init(m_pScreen);
+	m_pMenuMgr->Init(m_pScreen, m_psdlRenderer);
 
 	// set main menu
 	m_Histmenu.push(cMenuMgr::QUITAPP);
@@ -418,7 +418,7 @@ void cEngineApp::ShowCredits()
 {
 	cCredits aCred(m_pfontVera);
 
-	aCred.Show(m_pScreen, m_pTitleCredits);
+	aCred.Show(m_pScreen, m_pTitleCredits, m_psdlRenderer);
 
 	LeaveMenu();
 }
@@ -493,7 +493,7 @@ int  cEngineApp::PlayGame()
 	m_pMusicManager->StopMusic();
 
 	// load and initialize background
-	m_pInvidoGfx->Initialize(m_pScreen);
+	m_pInvidoGfx->Initialize(m_pScreen, m_psdlRenderer);
 	// init invido core stuff
 	m_pInvidoGfx->InitInvidoVsCPU();
 

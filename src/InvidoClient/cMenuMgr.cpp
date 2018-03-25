@@ -81,10 +81,11 @@ cMenuMgr::~cMenuMgr()
 //       Init
 /*! Initilialize stuff
 */
-void cMenuMgr::Init(SDL_Surface *s)
+void cMenuMgr::Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer)
 {
     CHAR ErrBuff[Error::BUFDIM];
-    m_pScreen = s;
+    m_pScreen = pScreen;
+	m_psdlRenderer = pRenderer;
 
     m_iSx = m_pScreen->clip_rect.w;
 	m_iDebx = m_iSx / 6;
@@ -226,8 +227,9 @@ void cMenuMgr::fillRect(int x0, int y0, int width, int height, Uint32 color)
 */
 void cMenuMgr::drawBackground()
 {
-    //SDL_BlitSurface(m_pScene_background, &m_rctPanel, m_pScreen, &m_rctPanel);
-    SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL);
+    //SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); //SDL 1.2
+	SDL_RenderCopy(m_psdlRenderer, m_pScene_background, NULL, NULL); // SDL 2.0
+
 
 	m_iSx = m_pScreen->clip_rect.w;
 	m_iDebx = m_iSx / 6;
@@ -239,7 +241,6 @@ void cMenuMgr::drawBackground()
 	
     // don't invert, because content overwrite header
     // content
-    //fillRect(m_iDebx, m_iDeby, m_iSx - m_iDebx*2, m_iSy - m_iDeby*2, c_bluefg);
     GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, m_rctPanel.w, m_rctPanel.h, m_rctPanel.x, m_rctPanel.y, m_pSurf_Bar);
 
     // header bar
@@ -250,7 +251,6 @@ void cMenuMgr::drawBackground()
 	drawRect(m_iDebx-2, m_iDeby-2, m_iSx - m_iDebx + 2, m_iSy - m_iDeby + 2, staColor_black);
 	drawRect(m_iDebx, m_iDeby, m_iSx - m_iDebx, m_iSy - m_iDeby, staColor_white);
 	drawRect(m_iDebx, m_iDeby, m_iSx - m_iDebx, m_iDeby + 36, staColor_white);
-	
 }
 
 
