@@ -50,9 +50,9 @@ public:
 	virtual ~OptionGfx();
 
     //! init control
-    void Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl);
+    void Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl, SDL_Renderer* pRenderer);
     //! shows the control
-    void Show(SDL_Surface* pScene_background);
+    void Show(SDL_Texture* pScene_background, SDL_Renderer* pRenderer);
     //! button click callback
     void ButCmdClicked(int iButID);
     //! checkbox callback

@@ -435,6 +435,15 @@
     <ClInclude Include="..\InvidoClient\cSettings.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
+    <ClInclude Include="..\guigfx\cCheckBoxGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cComboGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cProgressBarGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -567,6 +576,15 @@
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
     <ClCompile Include="..\guigfx\cLabelLinkGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cCheckBoxGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cComboGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cProgressBarGfx.cpp">
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
   </ItemGroup>

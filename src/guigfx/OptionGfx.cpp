@@ -1,5 +1,3 @@
-
-
 // OptionGfx.cpp: implementation of the OptionGfx class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -80,7 +78,7 @@ OptionGfx::~OptionGfx()
 // \param SDL_Surface*  pScreen : 
 // \param TTF_Font* pFont : 
 */
-void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl)
+void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl, SDL_Renderer* pRenderer)
 {
     ASSERT(pRect);
     ASSERT(pScreen && m_pFontCtrl);
@@ -92,7 +90,8 @@ void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt,
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctOptBox.w, m_rctOptBox.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 10, 100, 10, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 200);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 200); // SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 200); //SDL 2.0
 
     SDL_Rect rctBt1;
     int iSpace2bt = 20;
@@ -104,7 +103,7 @@ void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt,
     rctBt1.h = 28;
     rctBt1.y = m_rctOptBox.y + m_rctOptBox.h - 10 - rctBt1.h;
     rctBt1.x = ( m_rctOptBox.w - rctBt1.w) / 2 +  m_rctOptBox.x - rctBt1.w - iSpace2bt;
-    m_pBtOK->Init(&rctBt1, pScreen,  m_pFontText, MYIDOK);
+    m_pBtOK->Init(&rctBt1, pScreen,  m_pFontText, MYIDOK, pRenderer);
     m_pBtOK->SetState(cButtonGfx::INVISIBLE);
     
     
@@ -115,7 +114,7 @@ void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt,
     rctBt1.h = 28;
     rctBt1.y = m_rctOptBox.y + m_rctOptBox.h - 10 - rctBt1.h;
     rctBt1.x = ( m_rctOptBox.w - rctBt1.w) / 2 +  m_rctOptBox.x + rctBt1.w + iSpace2bt;
-    m_pBtCancel->Init(&rctBt1, pScreen,  m_pFontText, MYIDCANCEL);
+    m_pBtCancel->Init(&rctBt1, pScreen,  m_pFontText, MYIDCANCEL, pRenderer);
     m_pBtCancel->SetState(cButtonGfx::INVISIBLE);
     
     // check box music
@@ -167,9 +166,6 @@ void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt,
     m_pCheckShowFotoBack->m_fncbClickEvent = MakeDelegate(this, &OptionGfx::ClickCheckBox);
     m_pCheckShowFotoBack->Init(&rctBt1, pScreen,  m_pFontText, MYIDSHOWFOTOBACK);
     m_pCheckShowFotoBack->SetState(cCheckBoxGfx::INVISIBLE);
-
-
-    
 }
 
 
@@ -179,7 +175,7 @@ void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt,
 /*! Shows the option window
 // \param SDL_Surface* pScene_background : 
 */
-void OptionGfx::Show(SDL_Surface* pScene_background)
+void OptionGfx::Show(SDL_Texture* pScene_background, SDL_Renderer* pRenderer)
 {
     int iRes = 0;
     m_bTerminated = FALSE;
@@ -241,11 +237,12 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 
     // create a shadow surface
     SDL_Surface* pShadowSrf = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
-
+	SDL_Texture* pScreenTexture = SDL_CreateTextureFromSurface(pRenderer, pShadowSrf);
     while (!m_bTerminated)
     {
         // background
-        SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL);
+        //SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL); //SDL 1.2
+		SDL_RenderCopy(pRenderer, pScene_background, NULL, NULL); // SDL 2.0
 
         // wait until the user click on button
         SDL_Event event;
@@ -296,7 +293,6 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
                 
             }
         }
-        
 
         // the msg box
         GFX_UTIL::DrawStaticSpriteEx(pShadowSrf, 0, 0, m_rctOptBox.w, m_rctOptBox.h, m_rctOptBox.x, 
@@ -352,7 +348,10 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
         
         //render the dialogbox
         SDL_BlitSurface(pShadowSrf, NULL, m_pScreen, NULL);
-        SDL_Flip(m_pScreen);
+        //SDL_Flip(m_pScreen); // SDL 1.2
+		SDL_UpdateTexture(pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch);
+		SDL_RenderCopy(pRenderer, pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(pRenderer);
 
         // synch to frame rate
         Uint32 uiNowTime = SDL_GetTicks();
@@ -363,6 +362,7 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 		}
     }
     SDL_FreeSurface(pShadowSrf);
+	SDL_DestroyTexture(pScreenTexture);
 }
 
 

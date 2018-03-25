@@ -517,7 +517,7 @@ int  cEngineApp::PlayGame()
 */
 void cEngineApp::ShowOptionsGeneral()
 {
-	OptionGfx Optio;
+	OptionGfx Options;
 
 	SDL_Rect rctOptionWin;
 
@@ -528,9 +528,9 @@ void cEngineApp::ShowOptionsGeneral()
 	rctOptionWin.y = (m_pScreen->h - rctOptionWin.h) / 2;
 
 
-	Optio.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk);
-	Optio.SetCaption(m_pLanString->GetStringId(cLanguages::ID_OPT_CONTRL_GENERAL));
-	Optio.Show(m_pSlash);
+	Options.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk);
+	Options.SetCaption(m_pLanString->GetStringId(cLanguages::ID_OPT_CONTRL_GENERAL));
+	Options.Show(m_pSlash);
 
 	LeaveMenu();
 }
