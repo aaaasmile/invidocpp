@@ -432,6 +432,9 @@
     <ClInclude Include="..\guigfx\cLabelLinkGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\InvidoClient\cSettings.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">

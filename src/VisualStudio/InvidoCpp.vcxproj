@@ -226,6 +226,7 @@
     <ClInclude Include="..\InvidoClient\cMenuMgr.h" />
     <ClInclude Include="..\InvidoClient\cMusicManager.h" />
     <ClInclude Include="..\InvidoClient\credits.h" />
+    <ClInclude Include="..\InvidoClient\cSettings.h" />
     <ClInclude Include="..\InvidoClient\cTipoDiMazzo.h" />
     <ClInclude Include="..\InvidoClient\EngineApp.h" />
     <ClInclude Include="..\InvidoClient\fading.h" />

@@ -1,17 +1,11 @@
 
 // cSettings.h 
-// used to handle settings 
-// Automatic generated header file by xml->xslt = header
+
 
 #ifndef   __INVSETTINGS_INI_H_
 #define   __INVSETTINGS_INI_H_  
- 
-
-
 
 #include <string>
-
-
 
 namespace SpaceInvidoSettings
 {

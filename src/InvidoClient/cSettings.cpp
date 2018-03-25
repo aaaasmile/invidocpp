@@ -1,7 +1,5 @@
 
 // cSettings.cpp
-// implementation of  settings 
-// Automatic generated header file by xml->xslt = header
   
 
 #include "StdAfx.h"
@@ -10,21 +8,13 @@
 #include "regkey.h"
 
 
-  
-
-
- 
-
 using namespace SpaceInvidoSettings;
-
     
 // global options object
 InvidoSettings  g_Options;
     
 
 static const char* lpszSubAll = "SubAll";
-    
-        
     
 static const char* lpszSubAlliDelayTimer = "SubAlliDelayTimer";
     

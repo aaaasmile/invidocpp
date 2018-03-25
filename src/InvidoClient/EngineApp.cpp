@@ -143,8 +143,6 @@ void cEngineApp::Init()
 	//SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	
 	SDL_SetWindowTitle(m_pWindow, m_pLanString->GetCStringId(cLanguages::ID_INVIDO)); // SDL 2.0
 
-	// hight score
-	//m_HScore.Load(); 
 
 	//trasparent icon
 	SDL_Surface * psIcon = SDL_LoadBMP(lpszIconRes);
@@ -156,10 +154,9 @@ void cEngineApp::Init()
 	//SDL_SetColorKey(psIcon, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(psIcon->format, 0, 128, 0)); //SDL 1.2
 	SDL_SetColorKey(psIcon, TRUE, SDL_MapRGB(psIcon->format, 0, 128, 0)); // SDL 2.0
 
-	//SDL_WM_SetIcon(psIcon, NULL);
+	//SDL_WM_SetIcon(psIcon, NULL); //SDL 1.2
+	//HICON  hicon = LoadIcon(hAppInstance, MAKEINTRESOURCE(IDI_ICON1)); //SDL 1.2
 	SDL_SetWindowIcon(m_pWindow, psIcon); // SDL 2.0
-
-	//HICON  hicon = LoadIcon(hAppInstance, MAKEINTRESOURCE(IDI_ICON1));
 
 	// font TTF
 	if (TTF_Init() == -1)
