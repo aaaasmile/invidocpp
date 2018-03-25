@@ -1494,7 +1494,7 @@ void cInvidoGfx::handleMouseMoveEvent(SDL_Event &event)
 {
     for (int i = 0; i < NUMOFBUTTON; i++)
     {
-        m_pbtArrayCmd[i]->MouseMove(event, m_pScreen, m_pScene_background);  
+        m_pbtArrayCmd[i]->MouseMove(event, m_pScreen, m_pScene_background, m_pScreenTexture);
     }
    
 }
@@ -1592,7 +1592,7 @@ void    cInvidoGfx::showPointsPlayer(int iPlayerIx , VCT_INT& vct_Points)
     int iInitial_X = dest.x;
     iCurr_Y = 50;
 
-	int iNumPoints = vct_Points.size();
+	int iNumPoints = (int)vct_Points.size();
 
     int iCaneliOnLine = 0;
     int iEggOnLine = 0;
@@ -1873,7 +1873,7 @@ void cInvidoGfx::showCurrentScore()
     // name on grid
     cPlayer* pPlayer = m_pInvidoCore->GetPlayer(PLAYER1) ;
     STRING strTmp = pPlayer->GetName();
-    int iLenName = strTmp.length(); 
+    int iLenName = (int)strTmp.length(); 
     GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical -(9 * iLenName), iY1, GFX_UTIL_COLOR::White, m_pFontText);
     pPlayer = m_pInvidoCore->GetPlayer(PLAYER2) ;
     GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical + 10, iY1, GFX_UTIL_COLOR::White, m_pFontText);
@@ -1962,7 +1962,7 @@ void cInvidoGfx::enableCmds()
     m_pInvidoCore->GetAdmittedCommands(vct_cmd, m_iPlayer1Index); 
     
     // reset button to default strings
-    int iNumCmd = vct_cmd.size();
+    int iNumCmd = (int)vct_cmd.size();
     enableNumButtonsCmd(iNumCmd);
     
     for (int i = 0; i < iNumCmd; i++)
@@ -1996,7 +1996,7 @@ void    cInvidoGfx::enableNumButtonsCmd(int iNumButt)
         m_pbtArrayCmd[j]->EnableWindow(FALSE);
         m_pbtArrayCmd[j]->SetState(cButtonGfx::INVISIBLE); 
         m_pbtArrayCmd[j]->SetWindowText("-");
-        m_pbtArrayCmd[j]->RedrawButton(m_pScreen, m_pScene_background); 
+        m_pbtArrayCmd[j]->RedrawButton(m_pScreen, m_pScene_background, m_pScreenTexture);
     }
 }
 
@@ -2013,7 +2013,7 @@ void cInvidoGfx::setCmdButton(int iButtonIndex, eSayPlayer eSay, LPCSTR strCapti
     {
         m_pbtArrayCmd[iButtonIndex]->SetWindowText(strCaption);
         m_CmdDet[iButtonIndex] = eSay;
-        m_pbtArrayCmd[iButtonIndex]->RedrawButton(m_pScreen, m_pScene_background); 
+        m_pbtArrayCmd[iButtonIndex]->RedrawButton(m_pScreen, m_pScene_background, m_pScreenTexture);
         
     }
     else
