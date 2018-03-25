@@ -696,6 +696,7 @@ void cInvidoGfx::animateBeginGiocata()
         //SDL_Flip(m_pScreen); //SDL 1.2
 		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
 		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
 
         // synch to frame rate
         Uint32 uiNowTime = SDL_GetTicks();

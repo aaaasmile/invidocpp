@@ -1,27 +1,3 @@
-/*
-    Invido
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-
 // credits.cpp
 
 #include "StdAfx.h"
@@ -341,28 +317,29 @@ cCredits::cCredits(TTF_Font* psdlFont)
 // \param SDL_Surface* screen : 
 // \param SDL_Surface *pSurfTitle : 
 */
-int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
+int cCredits::Show(SDL_Surface* pScreen, SDL_Surface *pSurfTitle, SDL_Renderer* psdlRenderer)
 {
 	int done, quit, scroll;
 	SDL_Rect src, dest;
 	SDL_Event event;
 	Uint32 last_time, now_time;
-	SDLKey key;
+	//SDLKey key; // SDL 1.2
+	SDL_Keycode key; // SDL 2.0
 
+	SDL_Texture *pScreenTexture = SDL_CreateTextureFromSurface(psdlRenderer, pScreen);
 
 	/* Clear window: */
-	fade (screen, screen, 2, 1) ;
-	//SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+	fade (pScreen, pScreen, 2, 1) ;
 
 
 	/* Draw title: */
 
-	dest.x = (screen->w - pSurfTitle->w) / 2;
+	dest.x = (pScreen->w - pSurfTitle->w) / 2;
 	dest.y = 0;
 	dest.w = pSurfTitle->w;
 	dest.h = pSurfTitle->h;
 
-	SDL_BlitSurface(pSurfTitle, NULL, screen, &dest);
+	SDL_BlitSurface(pSurfTitle, NULL, pScreen, &dest);
 
 
 	/* --- MAIN OPTIONS SCREEN LOOP: --- */
@@ -384,7 +361,6 @@ int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
 			if (event.type == SDL_QUIT)
 			{
 				/* Window close event - quit! */
-	      
 				quit = 1;
 				done = 1;
 			}
@@ -401,27 +377,27 @@ int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
 		/* Scroll: */
 		src.x = 0;
 		src.y = (pSurfTitle->h) + 2;
-		src.w = screen->w;
-		src.h = screen->h - (pSurfTitle->h);
+		src.w = pScreen->w;
+		src.h = pScreen->h - (pSurfTitle->h);
 
 		dest.x = 0;
 		dest.y = (pSurfTitle->h);
 		dest.w = src.w;
 		dest.h = src.h;
 
-		SDL_BlitSurface(screen, &src, screen, &dest);
+		SDL_BlitSurface(pScreen, &src, pScreen, &dest);
 
 		dest.x = 0;
-		dest.y = (screen->h) - 2;
-		dest.w = screen->w;
+		dest.y = (pScreen->h) - 2;
+		dest.w = pScreen->w;
 		dest.h = 2;
 
-		SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
+		SDL_FillRect(pScreen, &dest, SDL_MapRGB(pScreen->format, 0, 0, 0));
 		scroll++;
 
 		if (m_eFontType == EASY)
 		{
-			draw_text(credit_text[m_iLine], scroll, screen);
+			draw_text(credit_text[m_iLine], scroll, pScreen);
 			iLocalScroll = 9;
 		}
 		else
@@ -429,12 +405,11 @@ int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
 			iLocalScroll = 9;
 			if (!bLineShow)
 			{
-				draw_textFontM(credit_text[m_iLine], scroll, screen);
+				draw_textFontM(credit_text[m_iLine], scroll, pScreen);
 				bLineShow = TRUE;
 				
 			}
 		}
-
 
 		if (scroll >= iLocalScroll)
 		{
@@ -447,8 +422,11 @@ int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
 				done = 1;
 			}
 		}
-		SDL_Flip(screen);
-      
+		//SDL_Flip(screen); // SDL 1.2
+		SDL_UpdateTexture(pScreenTexture, NULL, pScreen->pixels, pScreen->pitch); // sdl 2.0
+		SDL_RenderCopy(psdlRenderer, pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(psdlRenderer);
+
         /* Pause (keep frame-rate event) */
       
 		now_time = SDL_GetTicks();
@@ -459,9 +437,9 @@ int cCredits::Show(SDL_Surface* screen, SDL_Surface *pSurfTitle)
     }
 	while (!done);
   
-	fade (screen, screen, 1, 1) ;
+	fade (pScreen, pScreen, 1, 1) ;
 	/* Return the chosen command: */
-  
+	SDL_DestroyTexture(pScreenTexture);
 	return quit;
 }
 
@@ -493,7 +471,7 @@ void cCredits::draw_text(char * str, int offset, SDL_Surface* screen)
 	}
 
 
-	cur_x = (screen->w - ((strlen(str) - start) * 18)) / 2;
+	cur_x = (int)((screen->w - ((strlen(str) - start) * 18)) / 2);
 
 	for (i = start; i < (int)strlen(str); i++)
 	{
@@ -554,17 +532,17 @@ void cCredits::draw_text(char * str, int offset, SDL_Surface* screen)
 // \param int offset : 
 // \param SDL_Surface* screen : 
 */
-void cCredits::draw_textFontM(char* pstrLine, int offset, SDL_Surface* screen)
+void cCredits::draw_textFontM(char* pstrLine, int offset, SDL_Surface* pScreen)
 {
 	ASSERT(m_pMainFont);
 
     int tx, ty;
 	TTF_SizeText(m_pMainFont,pstrLine, &tx, &ty);
-	int iY = screen->h - (offset * ty);
+	int iY = pScreen->h - (offset * ty);
 	SDL_Rect trect;
 	STRING strLayout = pstrLine;
 	STRING strRes = strLayout;
-	int iLen = strRes.length(); 
+	int iLen = (int)strRes.length(); 
 	if (pstrLine[0] == '-')
 	{
 		// highlight
@@ -572,24 +550,22 @@ void cCredits::draw_textFontM(char* pstrLine, int offset, SDL_Surface* screen)
 		strRes = strLayout.substr(1,iLen - 1); 
 		trect.y= iY - 2;
 		//trect.x =  (screen->w/2 - ((int)strRes.size()*tx + 3)/2) - 4;
-        trect.x =  (screen->w  - tx)/ 2;
+        trect.x =  (pScreen->w  - tx)/ 2;
 		//trect.w = (int)strRes.size()*tx + 8;
         trect.w = tx;
 		trect.h = ty + 4;
         SDL_Rect rctBox = trect;
         rctBox.x -= 4;
         rctBox.w += 4;
-		Uint32 tcolor = SDL_MapRGBA(screen->format, 128, 0, 0,255);
-		SDL_FillRect(screen,&rctBox,tcolor);
+		Uint32 tcolor = SDL_MapRGBA(pScreen->format, 128, 0, 0,255);
+		SDL_FillRect(pScreen,&rctBox,tcolor);
 	}
 	else
 	{
 		trect.y= iY - 2;
-		trect.x =  (screen->w  - tx)/ 2;
+		trect.x =  (pScreen->w  - tx)/ 2;
 		
 	}
-	//m_pMainFont->DrawString(screen, strRes, TEXTMIXED, TEXTALIGNCENTER, 0, iY, 0);
-    GFX_UTIL::DrawString(screen, strRes.c_str(), trect.x, 
-                                trect.y, m_colCurrent, m_pMainFont);
+    GFX_UTIL::DrawString(pScreen, strRes.c_str(), trect.x,trect.y, m_colCurrent, m_pMainFont);
 
 }
