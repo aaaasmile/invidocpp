@@ -1,27 +1,3 @@
-/*
-    Tressette
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-
 // cProgressBarGfx.h: interface for the cProgressBarGfx class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -42,7 +18,7 @@ using namespace fastdelegate;
 
 
 //! class  cProgressBarGfx  
-class DLL_EXPORTIMPORT cProgressBarGfx  
+class cProgressBarGfx  
 {
     // use fastdelegate to implement the observer pattern and avoid using the callback interface on observer
     typedef FastDelegate1<int> CLICKEVENT;
@@ -60,23 +36,21 @@ public:
    	virtual ~cProgressBarGfx();
 
     //! init the control 
-    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, SDL_Surface*  pCursor, TTF_Font* pFont, int iButID);
+    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, SDL_Surface*  pCursor, TTF_Font* pFont, int iButID, SDL_Renderer* pRenderer);
     //! set window text
     void   SetWindowText(LPCSTR strCaption){m_strButText = strCaption;}
-    //! mouse move event
-    void   MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background);
     //! mouse up
     void   MouseUp(SDL_Event &event);
     //! mouse down
     void   MouseDown(SDL_Event &event);
     //! draw the button 
-    void   Draw(SDL_Surface*  pScreen);
+    void   DrawControl(SDL_Surface*  pScreen);
     //! enable the button
     void   EnableWindow(BOOL bVal){m_bIsEnabled = bVal;}
     //! set button state
     void   SetState(eSate eVal);
     //! redraw the button
-    void   Redraw(SDL_Surface* pScreen, SDL_Surface* pScene_background);
+    void   RedrawControl(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture);
     //! set the number of steps
     void   SetNumStep(int iVal){m_iNumOfStep = iVal;}
     //! set the range
@@ -103,6 +77,7 @@ public:
     CLICKEVENT    m_fncbClickEvent;
 
 private:
+	SDL_Renderer*     m_psdlRenderer;
     //! surface where to draw the button
     SDL_Surface*    m_pSurf_Bar;
     //! cursor image

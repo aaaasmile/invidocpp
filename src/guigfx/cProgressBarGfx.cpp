@@ -1,28 +1,3 @@
-/*
-	Tressette
-	Copyright (C) 2005  Igor Sarzi Sartori
-
-	This library is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Library General Public
-	License as published by the Free Software Foundation; either
-	version 2 of the License, or (at your option) any later version.
-
-	This library is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-	Library General Public License for more details.
-
-	You should have received a copy of the GNU Library General Public
-	License along with this library; if not, write to the Free
-	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-	Igor Sarzi Sartori
-	www.invido.it
-	6colpiunbucosolo@gmx.net
-*/
-
-
-
 // cProgressBarGfx.cpp: implementation of the cProgressBarGfx class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -71,9 +46,6 @@ cProgressBarGfx::~cProgressBarGfx()
 	}
 }
 
-
-
-
 ////////////////////////////////////////
 //       Init
 /*! Init the progressbar
@@ -82,15 +54,16 @@ cProgressBarGfx::~cProgressBarGfx()
 // \param SDL_Surface*  pCursor : cursor image
 */
 void  cProgressBarGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, SDL_Surface*  pCursor,
-	TTF_Font* pFont, int iButID)
+	TTF_Font* pFont, int iButID, SDL_Renderer* pRenderer)
 {
 	m_rctButt = *pRect;
+	m_psdlRenderer = pRenderer;
 
 	// black bar surface
 	m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctButt.w, m_rctButt.h, 32, 0, 0, 0, 0);
 	SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 255, 0, 0, 0));
-	//SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127);
-	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127);
+	//SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); // SDL 2.0
 	m_pFontText = pFont;
 
 	m_colCurrent = GFX_UTIL_COLOR::White;
@@ -103,14 +76,14 @@ void  cProgressBarGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, SDL_Surface*
 	// selected surface cursor
 	m_pSurf_BoxSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctCursor.w, m_rctCursor.h, 32, 0, 0, 0, 0);
 	SDL_FillRect(m_pSurf_BoxSel, NULL, SDL_MapRGBA(pScreen->format, 200, 200, 130, 0));
-	//SDL_SetAlpha(m_pSurf_BoxSel, SDL_SRCALPHA, 127);
-	SDL_SetSurfaceAlphaMod(m_pSurf_BoxSel, 127);
+	//SDL_SetAlpha(m_pSurf_BoxSel, SDL_SRCALPHA, 127);//SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_BoxSel, 127);// SDL 2.0
 
 	//unselected suface cursor
 	m_pSurf_BoxUNSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctCursor.w, m_rctCursor.h, 32, 0, 0, 0, 0);
 	SDL_FillRect(m_pSurf_BoxUNSel, NULL, SDL_MapRGBA(pScreen->format, 255, 128, 30, 0));
-	//SDL_SetAlpha(m_pSurf_BoxUNSel, SDL_SRCALPHA, 127);
-	SDL_SetSurfaceAlphaMod(m_pSurf_BoxUNSel, 127);
+	//SDL_SetAlpha(m_pSurf_BoxUNSel, SDL_SRCALPHA, 127);//SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_BoxUNSel, 127);// SDL 2.0
 
 	m_bOnDrag = FALSE;
 
@@ -135,17 +108,6 @@ void   cProgressBarGfx::SetState(eSate eVal)
 		m_colCurrent = GFX_UTIL_COLOR::White;
 	}
 }
-
-////////////////////////////////////////
-//       MouseMove
-/*!
-// \param SDL_Event &event :
-*/
-void   cProgressBarGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background)
-{
-
-}
-
 
 ////////////////////////////////////////
 //       MouseUp
@@ -217,11 +179,11 @@ void   cProgressBarGfx::MouseDown(SDL_Event &event)
 
 
 ////////////////////////////////////////
-//       Draw
+//       DrawControl
 /*! Draw the label with text
 // \param SDL_Surface*  pScreen :
 */
-void   cProgressBarGfx::Draw(SDL_Surface*  pScreen)
+void   cProgressBarGfx::DrawControl(SDL_Surface*  pScreen)
 {
 	ASSERT(m_iNumOfStep > 0);
 
@@ -301,7 +263,7 @@ void   cProgressBarGfx::Draw(SDL_Surface*  pScreen)
 		}
 		else
 		{
-			// label disabled 
+			//  disabled 
 			// TO DO
 		}
 	}
@@ -315,17 +277,18 @@ void   cProgressBarGfx::Draw(SDL_Surface*  pScreen)
 // \param SDL_Surface* pScreen :
 // \param SDL_Surface* pScene_background :
 */
-void   cProgressBarGfx::Redraw(SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cProgressBarGfx::RedrawControl(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
 {
 	if (pScene_background)
 	{
-		SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt);
+		//SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); //SDL 1.2
+		SDL_RenderCopy(m_psdlRenderer, pScene_background, &m_rctButt, &m_rctButt); //SDL 2.0
 	}
-	Draw(pScreen); // SDL_RenderPresent(renderer);
-	//SDL_Flip(pScreen);
-	SDL_Window* window;
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-	SDL_RenderPresent(renderer);
+	DrawControl(pScreen); 
+	//SDL_Flip(pScreen); //SDL 1.2
+	SDL_UpdateTexture(pScreenTexture, NULL, pScreen->pixels, pScreen->pitch); //SDL 2.0
+	SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);
 }
 
 
