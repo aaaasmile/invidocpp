@@ -236,7 +236,7 @@ void OptionGfx::Show(SDL_Texture* pScene_background)
 
 	// create a shadow surface
 	SDL_Surface* pShadowSrf = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
-	SDL_Texture* pScreenTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, pShadowSrf);
+	SDL_Texture* pScreenTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, pShadowSrf); //SDL 2.0
 	while (!m_bTerminated)
 	{
 		// background
