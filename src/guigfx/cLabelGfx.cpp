@@ -1,27 +1,3 @@
-/*
-    Tressette
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-
 
 // cLabelGfx.cpp: implementation of the cLabelGfx class.
 //
@@ -54,27 +30,26 @@ cLabelGfx::~cLabelGfx()
 }
 
 
-
-
 ////////////////////////////////////////
 //       Init
 /*! Init the button
 // \param SDL_Rect* pRect : 
 // \param SDL_Surface*  pScreen : 
 */
-void  cLabelGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID)
+void  cLabelGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer)
 {
     m_rctButt = *pRect;
 
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctButt.w, m_rctButt.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 255, 0, 0, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); // SDL 2.0
     m_pFontText = pFont;
 
     m_colCurrent = GFX_UTIL_COLOR::White;
     m_iButID = iButID;
-
+	m_psdlRenderer = psdlRenderer;
 }
 
 
@@ -99,7 +74,7 @@ void   cLabelGfx::SetState(eSate eVal)
 /*! 
 // \param SDL_Event &event : 
 */
-void   cLabelGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cLabelGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -108,7 +83,7 @@ void   cLabelGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface*
         {
             // mouse inner button
             m_colCurrent = GFX_UTIL_COLOR::Orange;
-            Redraw(pScreen, pScene_background);
+            Redraw(pScreen, pScene_background, pScreenTexture);
         }
         else
         {
@@ -119,7 +94,7 @@ void   cLabelGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface*
             {
                 // button was selected
                 m_colCurrent = GFX_UTIL_COLOR::White;
-                Redraw(pScreen, pScene_background);
+                Redraw(pScreen, pScene_background, pScreenTexture);
             }
         }
     }
@@ -157,24 +132,7 @@ void   cLabelGfx::Draw(SDL_Surface*  pScreen)
     {
         if (m_bIsEnabled)
         {
-            // begin stuff mouse
-            /* // label don't use mouse over
-            Uint8 state;
-            int mx, my;
-            state = SDL_GetMouseState(&mx, &my);
-            if ( mx >=  m_rctButt.x  && mx <= m_rctButt.x + m_rctButt.w &&
-                  my >=  m_rctButt.y  && my <= m_rctButt.y + m_rctButt.h)
-            {
-                // mouse on button
-                m_colCurrent = GFX_UTIL_COLOR::Orange;
-            }
-            else
-            {
-                m_colCurrent = GFX_UTIL_COLOR::White;
-            }
-            // end stuff mouse
-            */
-
+     
             int tx, ty;
 	        TTF_SizeText(m_pFontText, m_strButText.c_str(), &tx, &ty);
             int iXOffSet = (m_rctButt.w - tx)/2 ;
@@ -199,20 +157,23 @@ void   cLabelGfx::Draw(SDL_Surface*  pScreen)
     }
 }
 
-
-
 ////////////////////////////////////////
 //       Redraw
 /*! Redraw the button
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cLabelGfx::Redraw(SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cLabelGfx::Redraw(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (pScene_background)
     {
-        SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt);
+        //SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); // SDL 1.2
+		SDL_RenderCopy(m_psdlRenderer, pScene_background, &m_rctButt, &m_rctButt); //SDL 2.0
     }
     Draw(pScreen);
-    SDL_Flip(pScreen);
+    //SDL_Flip(pScreen); //SDL 1.2
+	SDL_UpdateTexture(pScreenTexture, NULL, pScreen->pixels, pScreen->pitch);
+	SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);
+
 }
