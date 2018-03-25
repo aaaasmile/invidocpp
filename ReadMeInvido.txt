@@ -34,4 +34,6 @@ Delete line: CTRL + L
 Compile: CTRL + F7
 
 == TODO
-Sono arrivato al file gfx_util.cpp, che è l'ultimo della directory guigfx
+Sono arrivato al file gfx_util.cpp, che è l'ultimo della directory guigfx, la funzione ScreenShake sarebbe da completare, anche senza
+in invido non viene usata. 
+-> guigfx è compile clean
