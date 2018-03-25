@@ -1,25 +1,3 @@
-/*
-    Invido
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
 
 // cCardGfx.cpp
 
@@ -173,10 +151,10 @@ void cCardGfx::CopyButNoPosition(cCardGfx* pModel)
 /*! Draw a card on the surface s
 // \param SDL_Surface *s : destination surface
 */
-int cCardGfx::DrawCard(SDL_Surface *s)
+int cCardGfx::DrawCard(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
 {
 	ASSERT(m_pDeck);
-    ASSERT(s);
+    ASSERT(pSurfDest);
     int nCdIndex = cardSpec.GetCardIndex();
 
 	if(nCdIndex < 0) 
@@ -218,24 +196,20 @@ int cCardGfx::DrawCard(SDL_Surface *s)
             if (m_pReversedSurf == NULL)
             {
                 m_pReversedSurf = SDL_CreateRGBSurface(SDL_SWSURFACE, rctCardDim.w, rctCardDim.h, 32, 0, 0, 0, 0);
-                SDL_FillRect(m_pReversedSurf, NULL, SDL_MapRGBA(s->format, 0, 0, 0, 0));
+                SDL_FillRect(m_pReversedSurf, NULL, SDL_MapRGBA(pSurfDest->format, 0, 0, 0, 0));
             
             }
-            return SDL_BlitSurface(m_pReversedSurf, &rctCardDim, s, &dest);
+            return SDL_BlitSurface(m_pReversedSurf, &rctCardDim, pSurfDest, &dest);
         }
         else
         {
             // time out, restore normal view
             m_bDrawReversed = FALSE;
         }
-    }
-    
-    /*
-    TRACE("Draw card ix = %d, segno = %d, nome = %s \n", 
-        pCard->cardSpec.GetCardIndex() , pCard->cardSpec.GetSuit(), pCard->cardSpec.GetName() ); 
-        */
+    }       
+	//return SDL_BlitSurface(m_pDeck, &SrcCard, s, &dest); // SDL 1.2
+	return SDL_RenderCopy(psdlRenderer, m_pDeck, &SrcCard, &dest); // SDL 2.0
 
-	return SDL_BlitSurface(m_pDeck, &SrcCard, s, &dest);
 }
 
 ////////////////////////////////////////
@@ -262,8 +236,8 @@ int cCardGfx::DrawSymbol( SDL_Surface *s)
 	dest.x = m_iX;
 	dest.y = m_iY;
 
-    //GFX_UTIL::DrawStaticSpriteEx(s, SrcCard.x, SrcCard.y, SrcCard.w, SrcCard.h, dest.x, dest.y, m_pSurf_Bar);
-    SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 120) ;
+    //SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 120);//SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSymbols, 120); // SDL 2.0
     SDL_BlitSurface(m_pSymbols, &SrcCard, s, &dest);
     return 0;
 }
@@ -286,7 +260,8 @@ int cCardGfx::DrawCardBack( SDL_Surface *s)
     SrcCard.y = 0;
     SrcCard.w = m_iWidth;
     SrcCard.h = m_iHeight;
-    SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 255) ;
+    //SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 255); //SDL1.2
+	SDL_SetSurfaceAlphaMod(m_pSymbols, 255); // SDL 2.0
 	return SDL_BlitSurface(m_pSymbols, &SrcCard, s, &dest);
 }
 
@@ -295,7 +270,7 @@ int cCardGfx::DrawCardBack( SDL_Surface *s)
 //       DrawGeneric
 /*! Draw card, symbol or nothing, depend on the state
 */
-int cCardGfx::DrawGeneric(SDL_Surface *s)
+int cCardGfx::DrawGeneric(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
 {
     int iRetVal = 0;
     if (this->State == cCardGfx::CSW_ST_INVISIBLE)
@@ -304,15 +279,15 @@ int cCardGfx::DrawGeneric(SDL_Surface *s)
     }
     else if (this->State == cCardGfx::CSW_ST_SYMBOL)
     {
-        iRetVal = this->DrawSymbol( s );
+        iRetVal = this->DrawSymbol( pSurfDest );
     }
     else if (this->State == cCardGfx::CSW_ST_VISIBLE)
     {
-        iRetVal = this->DrawCard( s );
+        iRetVal = this->DrawCard( pSurfDest, psdlRenderer);
     }
     else if (this->State == cCardGfx::CSW_ST_BACK)
     {
-        iRetVal = this->DrawCardBack(s);
+        iRetVal = this->DrawCardBack(pSurfDest);
     }
     else
     {

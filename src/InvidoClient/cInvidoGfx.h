@@ -90,15 +90,11 @@ public:
 	cInvidoGfx(cEngineApp*  pApp);
 	~cInvidoGfx();
     //! Initialize gfx
-	void Initialize(SDL_Surface *s);
- 	
-	void InitAllCoords();
+	void Initialize(SDL_Surface *s, SDL_Renderer* pRender);
     //! match loop
     void MatchLoop();
     //! init invido 2 player vs cpu
     void InitInvidoVsCPU();
-    //! init invido 2 player game
-    void InitInvido2Player();
     //! Set app
     void SetMainApp(cEngineApp* pVal){m_pApp = pVal;}
     //! show chat mode
@@ -180,13 +176,14 @@ private:
     //! main surface
 	SDL_Surface*      m_pScreen;
     //! background surface
-	SDL_Surface*      m_pScene_background;
+	SDL_Texture*      m_pScene_background;
      //! suface to draw message box
     SDL_Surface*      m_pAlphaDisplay;
-    
+	SDL_Renderer*     m_psdlRenderer;
+	SDL_Texture*      m_pScreenTexture;
 
     //! main deck image
-    SDL_Surface*      m_pDeck;
+    SDL_Texture*      m_pDeck;
     //! symbol surface
     SDL_Surface*      m_pSymbols;
     //! rect of back card

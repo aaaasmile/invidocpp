@@ -1,25 +1,4 @@
-/*
-    Invido
-    Copyright (C) 2005  Igor Sarzi Sartori
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
 
 // cInvidoGfx.cpp
 #pragma warning(disable:4786)
@@ -85,10 +64,6 @@ extern TTF_Font*	      g_pConsFontText;
 
 //invido core
 cInvidoCore*  g_pInvidoCore;
-
-
-
-////////////////////// cInvidoGfx
 
 static cInvidoGfx* g_stacInvidoGfx = 0;
 
@@ -165,7 +140,7 @@ void cInvidoGfx::cleanup()
     
     if (m_pScene_background)
     {
-	    SDL_FreeSurface(m_pScene_background); 
+		SDL_DestroyTexture(m_pScene_background);
         m_pScene_background = NULL;
     }
 
@@ -184,13 +159,7 @@ void cInvidoGfx::cleanup()
         SDL_FreeSurface(m_pAlphaDisplay);
         m_pAlphaDisplay = NULL;
     }
-    /*
-    if (m_pDeck)
-    {
-        SDL_FreeSurface(m_pDeck);
-        m_pDeck = NULL;
-    }
-    */
+   
 }
 
 ////////////////////////////////////////
@@ -199,12 +168,6 @@ void cInvidoGfx::cleanup()
 */
 void cInvidoGfx::drawStaticScene()
 {
-    //renderChatPlayers();
-    if (m_pScene_background)
-	{
-        SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL);
-	}
-
     for(int i=0; i < NUM_CARDS_HAND; i++)
     {
         renderCard(&m_aOpponentCards[i]);
@@ -237,7 +200,16 @@ void cInvidoGfx::drawStaticScene()
     // ballon
     m_pbalGfx->Draw(m_pScreen); 
  
-	SDL_Flip(m_pScreen);
+	//SDL_Flip(m_pScreen); // SDL 1.2
+	SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+	SDL_RenderClear(m_psdlRenderer);
+	if (m_pScene_background)
+	{
+		//SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); //SDL 1.2
+		SDL_RenderCopy(m_psdlRenderer, m_pScene_background, NULL, NULL);
+	}
+	SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);
 }
 
 
@@ -258,7 +230,7 @@ void cInvidoGfx::renderCard(cCardGfx* pCard)
     }
     else if (pCard->State == cCardGfx::CSW_ST_VISIBLE)
     {
-        pCard->DrawCard( m_pScreen );
+        pCard->DrawCard( m_pScreen, m_psdlRenderer);
     }
     else if (pCard->State == cCardGfx::CSW_ST_BACK)
     {
@@ -280,13 +252,12 @@ void cInvidoGfx::renderChatPlayers()
     char txt_to_render[300];
 	static char un_char = ' ';
 	
-	sprintf(txt_to_render, "%s> %s%", "chagpqdt_nome", "eèàáéúóhallo" );
+	sprintf(txt_to_render, "%s> %s%%", "chagpqdt_nome", "eèàáéúóhallo" );
     // draw background chat
 	GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, m_pScreen->w, 28, 0, 20, m_pSurf_Bar);
 
     GFX_UTIL::DrawString(m_pScreen, txt_to_render, 5, 21, GFX_UTIL_COLOR::White, m_pFontText);
 	GFX_UTIL::DrawStaticLine(m_pScreen, 0, 48, m_pScreen->w, 48, GFX_UTIL_COLOR::Red);
-    //SDL_Flip(m_pScreen);
     //*** end font ttf
 }
 
@@ -320,11 +291,6 @@ void cInvidoGfx::renderPlayerName(int iPlayerIx)
         ASSERT(0);
     }
     
-
-    
-	//GFX_UTIL::DrawStaticLine(m_pScreen, 0, 48, m_pScreen->w, 48, GFX_UTIL_COLOR::Red);
-    //SDL_Flip(m_pScreen);
-    
 }
 
 
@@ -334,9 +300,12 @@ void cInvidoGfx::renderPlayerName(int iPlayerIx)
 /*! Initialize the game gfx with the background
 // \param SDL_Surface *s : screen surface 
 */
-void cInvidoGfx::Initialize(SDL_Surface *s)
+void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
 {
+	m_psdlRenderer = pRender;
   	m_pScreen = s;
+
+	m_pScreenTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, m_pScreen);
     cleanup();
     CHAR ErrBuff[512];
 
@@ -413,9 +382,10 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
     std::string strFileName;
 
    	// load background
+	SDL_Surface *Temp;
     if (g_Options.All.bFotoBack)
     {
-        SDL_Surface *Temp;
+        
         strFileName = lpszImageDir;
         strFileName += lpszImageBack;
 
@@ -426,16 +396,17 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
             throw Error::Init(ErrBuff);
         }
         Temp = IMG_LoadJPG_RW(srcBack);
-        m_pScene_background = SDL_DisplayFormat(Temp);
-        SDL_FreeSurface(Temp);
+        //m_pScene_background = SDL_DisplayFormat(Temp); //SDL 1.2
     }
     else
     {
         // use a default green surface 
-        m_pScene_background = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
-        SDL_FillRect(m_pScene_background, NULL, SDL_MapRGBA(m_pScreen->format, 0, 80, 0, 0));
+		Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
+        SDL_FillRect(Temp, NULL, SDL_MapRGBA(m_pScreen->format, 0, 80, 0, 0));
     }
-	
+
+	m_pScene_background = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp); //SDL 2.0
+	SDL_FreeSurface(Temp);
 
     // create stack regions
     createRegionsInit();
@@ -471,7 +442,8 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
             sprintf(ErrBuff, "Image not found %s" , lpszaImage_filenames[i]);
             throw Error::Init(ErrBuff);
         }
-        SDL_SetColorKey(m_pAnImages[i], SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(m_pAnImages[i]->format, rr, gg, bb));
+        //SDL_SetColorKey(m_pAnImages[i], SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(m_pAnImages[i]->format, rr, gg, bb));// SDL 1.2
+		SDL_SetColorKey(m_pAnImages[i], TRUE, SDL_MapRGB(m_pAnImages[i]->format, rr, gg, bb)); // SDL 2.0
     }
    
     // console  stuff - BEGIN
@@ -485,13 +457,9 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
         m_Con_rect.h = iHeightCon;
         if((m_pConsole = CON_Init(lpszFontConsoleImg, m_pScreen, 0, m_Con_rect)) == NULL)
         {
-            sprintf(ErrBuff, "Unable to load ConsoleFont image" , strFileName.c_str());
+            sprintf(ErrBuff, "Unable to load ConsoleFont image %s" , strFileName.c_str());
             throw Error::Init(ErrBuff);
         }
-
-        // background
-        //CON_Background(m_pConsole, "./data/images/console_sfondo_3.pcx", 0,0);
-        
 
         cConsoleCmdHandler* pCmdHand = new cConsoleCmdHandler(m_pScreen, this, m_pApp->GetLanguageMan(), m_pApp );
 
@@ -511,7 +479,8 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
 
     // console  stuff - END
     
-    SDL_EnableKeyRepeat(250,30);
+    //SDL_EnableKeyRepeat(250,30); // SDL 1.2 
+	// TODO in sdl 2.0 in event.type == SDL_KEYDOWN && event.key.repeat == 0
 
     // command buttons
     if (m_pbtArrayCmd[0] == 0)
@@ -526,7 +495,7 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
         {
             rctBt.x = iXButInit - i * (rctBt.w + 10);
             m_pbtArrayCmd[i] = new cButtonGfx;
-            m_pbtArrayCmd[i]->Init(&rctBt, m_pScreen, /*m_pFontText*/m_pFontStatus, i); 
+            m_pbtArrayCmd[i]->Init(&rctBt, m_pScreen, /*m_pFontText*/m_pFontStatus, i, m_psdlRenderer); 
             // delegate
             m_pbtArrayCmd[i]->m_fncbClickEvent =  MakeDelegate(this, &cInvidoGfx::ButCmdClicked);
         }
@@ -545,9 +514,7 @@ void cInvidoGfx::Initialize(SDL_Surface *s)
     m_pMusicMgr = m_pApp->GetMusicManager(); 
 
      // messagebox background surface
-    m_pAlphaDisplay = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, 
-              m_pScreen->h, 32, 0, 0, 0, 0);
-
+    m_pAlphaDisplay = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
     
 }
 
@@ -590,11 +557,13 @@ int cInvidoGfx::initDeck()
         
     if ( m_pDeckType->GetSymbolFileName() == "symb_336.bmp" )
     {
-	    SDL_SetColorKey(m_pSymbols, SDL_SRCCOLORKEY, SDL_MapRGB(m_pSymbols->format, 242, 30, 206));	
+	    //SDL_SetColorKey(m_pSymbols, SDL_SRCCOLORKEY, SDL_MapRGB(m_pSymbols->format, 242, 30, 206));	// SDL 1.2
+		SDL_SetColorKey(m_pSymbols, TRUE, SDL_MapRGB(m_pSymbols->format, 242, 30, 206)); // SDL 2.0
     }
     else
     {
-        SDL_SetColorKey(m_pSymbols, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(m_pSymbols->format, 0, 128, 0));
+        //SDL_SetColorKey(m_pSymbols, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(m_pSymbols->format, 0, 128, 0)); // SDL 1.2
+		SDL_SetColorKey(m_pSymbols, TRUE, SDL_MapRGB(m_pSymbols->format, 0, 128, 0)); // SDL 2.0
     }
 
     m_iSymbolWidth = m_pSymbols->w/4;
@@ -606,7 +575,8 @@ int cInvidoGfx::initDeck()
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(m_pScreen->format, 0, 0, 0, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); // SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); //SDL 2.0
 
 	return 0;
 }
@@ -617,7 +587,6 @@ int cInvidoGfx::initDeck()
 */
 void cInvidoGfx::createRegionsInit()
 {
-
     //mazzo con le altre carte: non visibile
     //CreateRegion(CRD_MAZZOALTRECARTE, CRD_3D, 0, 0, CRD_OSYMBOL, 800 -  (m_iCardWidth + 30), 10, 2, 2);
     
@@ -658,12 +627,7 @@ void cInvidoGfx::createRegionsInit()
 */
 void cInvidoGfx::animateBeginGiocata()
 {
-    /*
-    // update the screen
-    drawStaticScene();
-
-    m_DelayAction.CheckPoint(600);
-    */
+    
     Uint32 uiTickTot = 0;
     Uint32 uiInitialTick = SDL_GetTicks();
     Uint32 uiLast_time = uiInitialTick; 
@@ -684,7 +648,8 @@ void cInvidoGfx::animateBeginGiocata()
     do
 	{
         // clear screen
-        SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL);
+        //SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); //SDL1.2
+		SDL_RenderClear(m_psdlRenderer); // SDL 2.0
 
         for (int iManoNum = 0; iManoNum < NUM_CARDS_HAND; iManoNum++)
         {
@@ -726,9 +691,11 @@ void cInvidoGfx::animateBeginGiocata()
 				return; 
             }
             // update card position
-            cardTmp[iManoNum].DrawCard( m_pScreen);
+            cardTmp[iManoNum].DrawCard(m_pScreen, m_psdlRenderer);
         }
-        SDL_Flip(m_pScreen);
+        //SDL_Flip(m_pScreen); //SDL 1.2
+		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
 
         // synch to frame rate
         Uint32 uiNowTime = SDL_GetTicks();
@@ -740,7 +707,6 @@ void cInvidoGfx::animateBeginGiocata()
 		}
 	}
 	while(uiTickTot < 1000); 
-    //while(!bEnd);
 
     // restore begin scene
     drawStaticScene();
@@ -817,6 +783,7 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
     
     BOOL bEnd = FALSE;
     BOOL bPhase1_X = FALSE;
+	SDL_Texture* pTextureAlphaDisplay = SDL_CreateTextureFromSurface(m_psdlRenderer, m_pAlphaDisplay);
     do
 	{
         // clear screen
@@ -829,7 +796,7 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
 	        cardTmp[iCardPlayedIndex].m_iY += cardTmp[iCardPlayedIndex].m_iVy;
 
             // update card position
-            cardTmp[iCardPlayedIndex].DrawCard( m_pAlphaDisplay);
+            cardTmp[iCardPlayedIndex].DrawCard( m_pAlphaDisplay, m_psdlRenderer);
         }
         if ( !bPhase1_X && cardTmp[1].m_iX <= cardTmp[0].m_iX)
         {   
@@ -840,7 +807,11 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
         }
 
         SDL_BlitSurface( m_pAlphaDisplay, NULL, m_pScreen, NULL);
-        SDL_Flip(m_pScreen);
+        //SDL_Flip(m_pScreen); //SDL 1.2
+		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
+
         int iIncVel = iPhase2Speed;
 
         if (bPhase1_X )
@@ -990,7 +961,10 @@ void cInvidoGfx::animGiocataEnd(int iPlayerIx, BOOL bIsPata)
 		    
             
         }
-        SDL_Flip(m_pScreen);
+        //SDL_Flip(m_pScreen); // SDL 1.2
+		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
 
         int iNowTick = SDL_GetTicks();
         iTickFlashDiff = iNowTick - iFlashTickStart;
@@ -1057,8 +1031,11 @@ int cInvidoGfx::animateCards()
 				yspeed = int(-yspeed * BOUNCE);
 			}
 
-			cardGfx.DrawCard( m_pScreen);
-			SDL_Flip(m_pScreen);
+			cardGfx.DrawCard( m_pScreen, m_psdlRenderer);
+			//SDL_Flip(m_pScreen); //SDL 1.2
+			SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+			SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+			SDL_RenderPresent(m_psdlRenderer);
 		}
 		while((cardGfx.m_iX + 73 > 0) && (cardGfx.m_iX < m_pScreen->w));
 	}
@@ -1137,26 +1114,30 @@ int cInvidoGfx::loadCardPac()
         delays[i] = THINKINGS_PER_TICK*((10*SDL_ReadLE16(src))/FRAMETICKS);  
     }
 
-    SDL_Surface *s;
+    SDL_Texture *textureCards;
     SDL_Surface *temp;
     temp = IMG_LoadPNG_RW(src); 
     if (!temp) 
         return NULL;
 
-    if(SDL_WasInit(SDL_INIT_VIDEO)!=0)     
-    {
-        // converte l'immagine al formato video scelto
-        s = SDL_DisplayFormat(temp);      // we are in game
-        SDL_FreeSurface(temp);
-        // setta il pixel trasparente
-        SDL_SetColorKey(s, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(s->format, 0, 128, 0));
-    }
-    else
-    {
-        s = temp;                         // we are dedicated windows traybar server
-    }
+    //if(SDL_WasInit(SDL_INIT_VIDEO)!=0)     
+    //{
+    //    // converte l'immagine al formato video scelto
+    //    //surfCards = SDL_DisplayFormat(temp); //SDL 1.2      // we are in game
+		
+    //    // setta il pixel trasparente
+    //    
+    //}
 
-    m_pDeck = s;
+	
+
+	//SDL_SetColorKey(textureCards, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(textureCards->format, 0, 128, 0)); // SDL 1.2
+	SDL_SetColorKey(temp, TRUE, SDL_MapRGB(temp->format, 0, 128, 0)); // SDL 2.0
+
+	textureCards = SDL_CreateTextureFromSurface(m_psdlRenderer, temp);
+	SDL_FreeSurface(temp);
+
+    m_pDeck = textureCards;
 	m_iCardWidth = w/4;
     m_iCardHeight = h/10;
 
@@ -1193,38 +1174,6 @@ int  cInvidoGfx::showYesNoMsgBox(LPCSTR strText)
     return iRes;
 }
 
-////////////////////////////////////////
-//       InitInvido2Player
-/*! Init the invido core
-*/
-void  cInvidoGfx::InitInvido2Player()
-{
-    if (m_pInvidoCore)
-    {
-        delete m_pInvidoCore;
-        m_pInvidoCore = 0;
-    }
-    m_pInvidoCore = new cInvidoCore();
-    m_pInvidoCore->Create(NULL, 2);
-    g_pInvidoCore = m_pInvidoCore;
-    // random seed
-    m_pInvidoCore->SetRandomSeed((unsigned)time(NULL));
-
-
-    cPlayer* pPlayer1 = m_pInvidoCore->GetPlayer(PLAYER1) ;
-    cPlayer* pPlayer2 = m_pInvidoCore->GetPlayer(PLAYER2);
-
-    pPlayer1->SetType( PT_LOCAL);
-    pPlayer1->SetName(g_Options.All.strPlayerName.c_str()); 
-    pPlayer1->SetLevel(HMI, this); 
-
-    pPlayer2->SetType(PT_REMOTE);
-    pPlayer2->SetName("Remote"); 
-    pPlayer2->SetLevel(REMOTE_LEVEL,NULL); 
-    m_pMatchPoints = m_pInvidoCore->GetMatchPointsObj();
-
-    m_bMatchTerminated = FALSE;
-}
 
 
 ////////////////////////////////////////
@@ -1360,7 +1309,10 @@ void cInvidoGfx::MatchLoop()
 		}
 		
 		// actualize display
-		SDL_Flip(m_pScreen);
+		//SDL_Flip(m_pScreen);
+		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
 
 		/*
 		uiNowTime = SDL_GetTicks();
@@ -1514,7 +1466,10 @@ void cInvidoGfx::drawPlayedCard(cCardGfx* pCard)
     pCard->SetSymbolTocard(cCardGfx::SYMBOL_BRISCNET, m_iCardWidth, m_iCardHeight, m_pScreen);
     renderCard(pCard);
 
-    SDL_Flip(m_pScreen);
+    //SDL_Flip(m_pScreen); // SDL1.2
+	SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+	SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+	SDL_RenderPresent(m_psdlRenderer);
 }
 
 
@@ -1541,12 +1496,7 @@ void cInvidoGfx::handleMouseMoveEvent(SDL_Event &event)
     {
         m_pbtArrayCmd[i]->MouseMove(event, m_pScreen, m_pScene_background);  
     }
-    /*
-    if(event.motion.state == SDL_BUTTON(1))
-    {
-        
-    }
-    */
+   
 }
 
 ////////////////////////////////////////

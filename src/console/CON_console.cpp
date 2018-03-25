@@ -819,7 +819,7 @@ int CON_Background(ConsoleInformation *console, const char *image, int x, int y)
 }
 
 //! ISS : set a background images already loaded
-void CON_BackImages_Pres(ConsoleInformation *console, SDL_Surface* pImagBack, SDL_Rect& rctSrc, int iXDst, int iYDst)
+void CON_BackImages_Pres(ConsoleInformation *console, SDL_Texture* pImagBack, SDL_Rect& rctSrc, int iXDst, int iYDst)
 {
     if(!console)
 		return ;
@@ -837,7 +837,7 @@ void CON_BackImages_Pres(ConsoleInformation *console, SDL_Surface* pImagBack, SD
     // black bar surface
     console->pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, rctSrc.w, rctSrc.h, 32, 0, 0, 0, 0);
     SDL_FillRect(console->pSurf_Bar, NULL, SDL_MapRGBA(console->ConsoleSurface->format, 0, 0, 0, 0));
-    SDL_SetAlpha(console->pSurf_Bar, SDL_SRCALPHA, 170);
+    SDL_SetAlpha(console->pSurf_Bar, SDL_SRCALPHA, 170); //SDL 1.2
     
 
 }

@@ -1,27 +1,4 @@
-/*
-    Invido
-    Copyright (C) 2005  Igor Sarzi Sartori
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-// cCardGfx.h: interface for the cCardGfx class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -72,7 +49,7 @@ public:
     //! set card information
     void SetCardInfo(int iIndex, int iW, int iH);
     //! set deck sourface
-    void SetDeckSurface(SDL_Surface* pVal, int w, int h ){m_pDeck = pVal; m_iWidth = w; m_iHeight = h;}
+    void SetDeckSurface(SDL_Texture* pVal, int w, int h ){m_pDeck = pVal; m_iWidth = w; m_iHeight = h;}
     //! set deck simbol sourface
     void SetSymbSurf(SDL_Surface* pVal, int w, int h){m_pSymbols = pVal; m_iSymbWidth = w; m_iSmbHeight = h; }
     
@@ -83,13 +60,13 @@ public:
     //! copy model but not the position
     void CopyButNoPosition(cCardGfx* pModel);
     //! draw a card
-    int  DrawCard(SDL_Surface *s);
+    int  DrawCard(SDL_Surface *s, SDL_Renderer* psdlRenderer);
     //! draw symbol
     int  DrawSymbol(SDL_Surface *s);
     //! draw card backside
     int  DrawCardBack( SDL_Surface *s);
     //! draw card, symbol or nothing, depend on the state
-    int  DrawGeneric(SDL_Surface *s);
+    int  DrawGeneric(SDL_Surface *s, SDL_Renderer* psdlRenderer);
     //! start to draw a card reversed
     void StartShowReversed();
 
@@ -114,7 +91,7 @@ public:
     //! state
     eState     State;
     //! complete deck image
-    SDL_Surface*      m_pDeck;
+    SDL_Texture*      m_pDeck;
     //! complete symbol sourface
     SDL_Surface*      m_pSymbols;
     //! z order

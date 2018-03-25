@@ -420,6 +420,12 @@
     <ClInclude Include="..\InvidoClient\regkey.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
+    <ClInclude Include="..\guigfx\cBalloonGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cMesgBoxGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -541,6 +547,12 @@
     </ClCompile>
     <ClCompile Include="..\InvidoClient\StdAfx.cpp">
       <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cBalloonGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cMesgBoxGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

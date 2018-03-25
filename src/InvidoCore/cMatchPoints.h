@@ -102,7 +102,7 @@ public:
     //! giocata informations
     void    GetGiocataInfo(int iNumGiocata, cGiocataInfo* pGiocInfo);
     //! provides number of giocate
-    int     GetNumGiocateInCurrMatch(){return m_vctGiocataInfo.size();}
+    int     GetNumGiocateInCurrMatch(){return (int)m_vctGiocataInfo.size();}
     //! player abandon giocata
     void    PlayerVaVia(int iPlayerIx);
     //! set mano object
