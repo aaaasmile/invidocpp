@@ -32,3 +32,6 @@ vanno sostituite con SDL_SetSurfaceAlphaMod
 Autoformat Code: CTRL + K + D
 Delete line: CTRL + L
 Compile: CTRL + F7
+
+== TODO
+Sono arrivato al file gfx_util.cpp, che è l'ultimo della directory guigfx

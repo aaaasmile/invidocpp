@@ -1,5 +1,3 @@
-
-
 //gfx_util.h
 
 #ifndef __GFX_UTIL__H
@@ -12,35 +10,35 @@
 namespace  GFX_UTIL
 {
 	///READ PIXEL FROM A SURFACE
-	DLL_EXPORTIMPORT Uint32 inline GetPixel(SDL_Surface *surface, int x, int y);
+	Uint32 inline GetPixel(SDL_Surface *surface, int x, int y);
 	///WRITE PIXEL TO A SURFACE
-	DLL_EXPORTIMPORT void inline   SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+	void inline   SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 
 	///DRAW A NON-FILLED BOX (RGBA)
-	DLL_EXPORTIMPORT void rectangleRGBA(SDL_Surface *screen,int x,int y,int x2,int y2,unsigned char r,unsigned char g,unsigned char b,unsigned char a);
+	void rectangleRGBA(SDL_Surface *screen,int x,int y,int x2,int y2,unsigned char r,unsigned char g,unsigned char b,unsigned char a);
 	///DRAW A FILLED BOX (RGBA)
-	DLL_EXPORTIMPORT void boxRGBA(SDL_Surface *screen,int x1,int y1,int x2,int y2,unsigned char r,unsigned char g,unsigned char b,unsigned char a);
+	void boxRGBA(SDL_Surface *screen,int x1,int y1,int x2,int y2,unsigned char r,unsigned char g,unsigned char b,unsigned char a);
 
 	///SET TRANSLUCENCY FOR AN AREA
-	DLL_EXPORTIMPORT void ScreenShade(SDL_Surface *surface, SDL_Rect *rect, float opacity, unsigned char r, unsigned char g,unsigned char b);
+	void ScreenShade(SDL_Surface *surface, SDL_Rect *rect, float opacity, unsigned char r, unsigned char g,unsigned char b);
 	///SHAKE THE SCREEN FOR THE SPECIFIED TIME PERIOD
-	DLL_EXPORTIMPORT void ScreenShake(SDL_Surface *screen,int val, int time,int delay);
+	void ScreenShake(SDL_Surface *screen,int val, int time,int delay, SDL_Renderer* psdlRenderer);
     //! draw a string
-    DLL_EXPORTIMPORT void DrawString(SDL_Surface *screen, const char* tmp, int x, int y, SDL_Color color, TTF_Font* customfont);
+    void DrawString(SDL_Surface *screen, const char* tmp, int x, int y, SDL_Color color, TTF_Font* customfont);
     //! draw a sprite
-    DLL_EXPORTIMPORT void DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int src_dx, int src_dy, int dst_x, int dst_y, SDL_Surface* sprite);
+    void DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int src_dx, int src_dy, int dst_x, int dst_y, SDL_Surface* sprite);
     //! draw a line
-    DLL_EXPORTIMPORT void DrawStaticLine(SDL_Surface *screen, int x0, int y0, int x1, int y1, SDL_Color color);
+    void DrawStaticLine(SDL_Surface *screen, int x0, int y0, int x1, int y1, SDL_Color color);
     //! draw a broken line
-	DLL_EXPORTIMPORT void DrawStaticBrokenLine(SDL_Surface *screen, int x0, int y0, int x1, int y1, const SDL_Color *color1, const SDL_Color *color2, int break_size);	
+	void DrawStaticBrokenLine(SDL_Surface *screen, int x0, int y0, int x1, int y1, const SDL_Color *color1, const SDL_Color *color2, int break_size);	
     //! draw rectangle
-    DLL_EXPORTIMPORT void DrawRect(SDL_Surface *screen,int x, int y, int dx, int dy, SDL_Color c) ;
+    void DrawRect(SDL_Surface *screen,int x, int y, int dx, int dy, SDL_Color c) ;
 };
 
 //! class GFX_UTIL_COLOR
 /** define colors constant
 */ 
-class DLL_EXPORTIMPORT GFX_UTIL_COLOR
+class GFX_UTIL_COLOR
 {
 public:
     GFX_UTIL_COLOR(){}
