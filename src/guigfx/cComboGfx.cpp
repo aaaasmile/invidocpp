@@ -1,27 +1,3 @@
-/*
-    Tressette
-    Copyright (C) 2005  Igor Sarzi Sartori
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Igor Sarzi Sartori
-    www.invido.it
-    6colpiunbucosolo@gmx.net
-*/
-
-
 // cComboGfx.cpp: implementation of the cComboGfx class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -78,9 +54,10 @@ cComboGfx::~cComboGfx()
 // \param SDL_Rect* pRect : 
 // \param SDL_Surface*  pScreen : 
 */
-void  cComboGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID)
+void  cComboGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer)
 {
     m_rctButt = *pRect;
+	m_psdlRenderer = psdlRenderer;
 
     int iWBoxInc = 20;
     int iHBoxInc = m_rctButt.h / 2;
@@ -102,17 +79,20 @@ void  cComboGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, i
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctButt.w, m_rctButt.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 255, 128, 30, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); //SDL 2.0
 
     // selected surface +/-
     m_pSurf_BoxSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctBoxUp.w, m_rctBoxUp.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_BoxSel, NULL, SDL_MapRGBA(pScreen->format, 200, 200, 130, 0));
-    SDL_SetAlpha(m_pSurf_BoxSel, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_BoxSel, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_BoxSel, 127); //SDL 2.0
 
     //unselected suface +/-
     m_pSurf_BoxUNSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctBoxUp.w, m_rctBoxUp.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_BoxUNSel, NULL, SDL_MapRGBA(pScreen->format, 255, 128, 30, 0));
-    SDL_SetAlpha(m_pSurf_BoxUNSel, SDL_SRCALPHA, 127);
+    //SDL_SetAlpha(m_pSurf_BoxUNSel, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_BoxUNSel, 127); //SDL 2.0
 
     m_pFontText = pFont;
 
@@ -120,7 +100,6 @@ void  cComboGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, i
     m_iButID = iButID;
     m_iCurrDataIndex = 0;
     m_vctDataStrings.clear();
-
 }
 
 
@@ -174,7 +153,7 @@ void   cComboGfx::SetState(eSate eVal)
 /*! 
 // \param SDL_Event &event : 
 */
-void   cComboGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cComboGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -183,7 +162,7 @@ void   cComboGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface*
         {
             // mouse inner button
             m_colCurrent = GFX_UTIL_COLOR::Orange;
-            RedrawButton(pScreen, pScene_background);
+            RedrawButton(pScreen, pScene_background, pScreenTexture);
         }
         else
         {
@@ -194,7 +173,7 @@ void   cComboGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface*
             {
                 // button was selected
                 m_colCurrent = GFX_UTIL_COLOR::White;
-                RedrawButton(pScreen, pScene_background);
+                RedrawButton(pScreen, pScene_background, pScreenTexture);
             }
         }
     }
@@ -233,7 +212,7 @@ void   cComboGfx::MouseUp(SDL_Event &event)
             if (m_iCurrDataIndex == 0)
             {
                 // circular buffer
-                m_iCurrDataIndex = m_vctDataStrings.size() - 1;
+                m_iCurrDataIndex = (UINT)(m_vctDataStrings.size() - 1);
             }
 			else
 			{
@@ -384,20 +363,24 @@ void   cComboGfx::DrawButton(SDL_Surface*  pScreen)
     }
 }
 
-
-
 ////////////////////////////////////////
 //       RedrawButton
 /*! Redraw the button
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cComboGfx::RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background)
+void   cComboGfx::RedrawButton(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
 {
+	
     if (pScene_background)
     {
-        SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt);
+        //SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); // SDL 1.2
+		SDL_RenderCopy(m_psdlRenderer, pScene_background, NULL, NULL); //SDL 2.0
     }
     DrawButton(pScreen);
-    SDL_Flip(pScreen);
+    //SDL_Flip(pScreen); //SDL 1.2
+	SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL); //SDL 2.0
+	SDL_RenderPresent(m_psdlRenderer);
+
+
 }

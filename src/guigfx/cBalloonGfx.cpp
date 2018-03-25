@@ -164,8 +164,8 @@ void cBalloonGfx::startshow(LPCSTR lpszText, Uint32 uiTick)
 	if (m_strText.length() > 12)
 	{
 		// line too long split it in two
-		int iPosSpace = m_strText.find_first_of(' ');
-		int iLenText = m_strText.length();
+		int iPosSpace = (int)m_strText.find_first_of(' ');
+		int iLenText = (int)m_strText.length();
 		STRING strL1 = m_strText.substr(0, iPosSpace);
 		STRING strL2 = m_strText.substr(iPosSpace + 1, iLenText - iPosSpace);
 		m_strText = strL1;
