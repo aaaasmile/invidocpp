@@ -44,33 +44,30 @@ cPopUpMenuGfx::~cPopUpMenuGfx(void)
 // \param TTF_Font* pFont : font of the message
 // \param eMSGBOX_TYPE eval : type of the message box
 */
-void cPopUpMenuGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont)
+void cPopUpMenuGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, SDL_Renderer* pRenderer)
 {
     ASSERT(pRect);
     ASSERT(pScreen && pFont);
     m_rctMsgBox = *pRect;
     m_pScreen = pScreen;
     m_pFontText = pFont;
-  
+	m_psdlRenderer = pRenderer;
 
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctMsgBox.w, m_rctMsgBox.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 40, 0, 0, 0));
-    SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 125);
+    //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 125); //SDL 1.2
+	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 125); // SDL 2.0
 
     m_colCurrent = GFX_UTIL_COLOR::White;
-   
-
 }
-
-
 
 ////////////////////////////////////////
 //       Show
 /*! Show the message box
 // \param SDL_Surface* pScene_background : 
 */
-void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
+void  cPopUpMenuGfx::Show(SDL_Texture* pScene_background)
 {
     if (m_vctDataStrings.size() == 0)
     {
@@ -86,13 +83,14 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
 
     // create a shadow surface
     SDL_Surface* pShadowSrf = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
+	SDL_Texture* pScreenTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, pShadowSrf); //SDL 2.0
 
     // search the max string len
     int iMaxIndex = 0;
     int iMaxLen = 0;
     for (UINT i = 0; i < m_vctDataStrings.size(); i++)
     {
-        int iLenCurr = m_vctDataStrings[i].length();
+        int iLenCurr = (int)m_vctDataStrings[i].length();
         if (iLenCurr > iMaxLen)
         {
             iMaxIndex = i;
@@ -105,7 +103,7 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
     TTF_SizeText(m_pFontText, m_vctDataStrings[iMaxIndex].c_str(), &tx, &ty);
     // resize control to best fit the text
     int iNew_W = tx + 5;
-    int iNew_H = (ty + iEmptySpaceOn_Y) * m_vctDataStrings.size() + iEmptySpaceOn_Y;
+    int iNew_H = (int)((ty + iEmptySpaceOn_Y) * m_vctDataStrings.size() + iEmptySpaceOn_Y);
 
     if ( iNew_W < 100)
         iNew_W = 100;
@@ -126,7 +124,8 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
     while (!m_bTerminated)
     {
         // background
-        SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL);
+        //SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL); //SDL 1.2
+		SDL_RenderCopy(m_psdlRenderer, pScene_background, NULL, NULL); // SDL 2.0
 
         // wait until the user click on button
         SDL_Event event;
@@ -157,8 +156,8 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
                     // mouse inside the menu
                     for (UINT i = 0; i < m_vctDataStrings.size(); i++)
                     {
-                        if (event.motion.y >= (ty + iEmptySpaceOn_Y) * i + m_rctMsgBox.y &&
-                            event.motion.y <=  iEmptySpaceOn_Y + (ty + iEmptySpaceOn_Y) * (i+1) + m_rctMsgBox.y )
+                        if (event.motion.y >= (Sint32)((ty + iEmptySpaceOn_Y) * i + m_rctMsgBox.y) &&
+                            event.motion.y <= (Sint32)(iEmptySpaceOn_Y + (ty + iEmptySpaceOn_Y) * (i+1) + m_rctMsgBox.y ))
                         {
                             // i is the selected index
                             m_iCurrDataIndex = i;
@@ -171,14 +170,12 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
                 {
                     m_bMenuSelected = FALSE;
                 }
-                
             }
             if(event.type == SDL_MOUSEBUTTONDOWN)
             {
                 m_bTerminated = TRUE;
             }
         }
-        
 
         // the menu box
         GFX_UTIL::DrawStaticSpriteEx(pShadowSrf, 0, 0, m_rctMsgBox.w, m_rctMsgBox.h, m_rctMsgBox.x, 
@@ -219,7 +216,11 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
                             m_rctMsgBox.y + m_rctMsgBox.h , m_colCurrent);
         
         SDL_BlitSurface(pShadowSrf, NULL, m_pScreen, NULL);
-        SDL_Flip(m_pScreen);
+        //SDL_Flip(m_pScreen); //SDL 1.2
+		SDL_UpdateTexture(pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); //SDL 2.0
+		SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
+		SDL_RenderPresent(m_psdlRenderer);
+
         // synch to frame rate
         Uint32 uiNowTime = SDL_GetTicks();
         if (uiNowTime < uiLast_time + FPS)
@@ -229,9 +230,8 @@ void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
 		}
     }
     SDL_FreeSurface(pShadowSrf);
+	SDL_DestroyTexture(pScreenTexture); //SDL 2.0
 }
-
-
 
 ////////////////////////////////////////
 //       AddLineText
