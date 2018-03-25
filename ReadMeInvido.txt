@@ -23,3 +23,12 @@ Come riferimento guarda il progetto: D:\Projects\from_sf_net_to_github\Sdl_examp
 
 Il problema del linker che non trova l'entry point:
 Right click on project name -> Properties -> Expand Linker tab -> System -> SubSystem: make sure that it is Console (/SUBSYSTEM:CONSOLE)
+
+Nel porting tutte le chiamate a 
+SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 120);
+vanno sostituite con SDL_SetSurfaceAlphaMod
+
+= Short Key 
+Autoformat Code: CTRL + K + D
+Delete line: CTRL + L
+Compile: CTRL + F7

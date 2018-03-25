@@ -35,15 +35,16 @@ public:
 	virtual ~EnterNameGfx();
 
     //! init control
-    void Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl);
+    void Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl, SDL_Renderer* psdlRenderer);
     //! shows the control
-    void Show(SDL_Surface* pScene_background);
+    void Show(SDL_Texture* pScene_background);
     //! button click callback
     void ButCmdClicked(int iButID);
     //! set caption text
     void SetCaption(STRING& strCaption){m_strHeaderText = strCaption;}
 
 private:
+	SDL_Renderer*   m_psdlRenderer;
     //! rectangle of the options control
     SDL_Rect        m_rctOptBox; 
     //! text on the messagebox

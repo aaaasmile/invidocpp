@@ -20,7 +20,7 @@ using namespace fastdelegate;
 
 
 //! class  cEditGfx  
-class DLL_EXPORTIMPORT cEditGfx  
+class cEditGfx  
 {
     // use fastdelegate to implement the observer pattern and avoid using the callback interface on observer
     typedef FastDelegate1<int> CLICKEVENT;
@@ -41,7 +41,7 @@ public:
    	virtual ~cEditGfx();
 
     //! init the control 
-    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID);
+    void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer);
     //! set window text
     void   SetWindowText(LPCSTR strCaption){m_strButText = strCaption;}
     //! get window text
@@ -59,13 +59,14 @@ public:
     //! provides the current state
     eSate  GetState(){return m_eState;}
     //! redraw the button
-    void   RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background);
+    void   RedrawButton(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture);
     //! control lost the focus
     void   LostFocus();
     //! control becomes focus
     void   GetFocus();
     //! key down event
     void   KeyDown(SDL_Event &event);
+	void   TextInput(SDL_Event &event);
     //! set the numeric only flag
     void   SetNumericOnly(BOOL bVal){m_bOnlyNum = bVal;}
 
@@ -84,6 +85,7 @@ public:
 private:
     //! surface where to draw the button
     SDL_Surface*    m_pSurf_Bar;
+	SDL_Renderer*   m_psdlRenderer;
     //! button font
     TTF_Font*	    m_pFontText;
     //! current text color
@@ -100,6 +102,7 @@ private:
     UINT            m_iCarLogPos;
     //! numeric input mask flag
     BOOL            m_bOnlyNum;
+	UINT			m_iMaxLen;
     
 
 };
