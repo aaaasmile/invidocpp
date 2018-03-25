@@ -16,3 +16,4 @@ src/VisualStudio/x64/Debug/vc140.idb
 *.log
 *.tlog
 *.pdb
+Resources_not_used

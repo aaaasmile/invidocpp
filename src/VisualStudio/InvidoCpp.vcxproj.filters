@@ -426,6 +426,12 @@
     <ClInclude Include="..\guigfx\cMesgBoxGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\guigfx\cLabelGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\guigfx\cLabelLinkGfx.h">
+      <Filter>Source Files\guigfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -552,6 +558,12 @@
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
     <ClCompile Include="..\guigfx\cMesgBoxGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cLabelGfx.cpp">
+      <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\guigfx\cLabelLinkGfx.cpp">
       <Filter>Source Files\guigfx</Filter>
     </ClCompile>
   </ItemGroup>

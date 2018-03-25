@@ -126,6 +126,8 @@
     <ClInclude Include="..\guigfx\cBalloonGfx.h" />
     <ClInclude Include="..\guigfx\cButtonGfx.h" />
     <ClInclude Include="..\guigfx\cEditGfx.h" />
+    <ClInclude Include="..\guigfx\cLabelGfx.h" />
+    <ClInclude Include="..\guigfx\cLabelLinkGfx.h" />
     <ClInclude Include="..\guigfx\cMesgBoxGfx.h" />
     <ClInclude Include="..\guigfx\cPopUpMenuGfx.h" />
     <ClInclude Include="..\guigfx\EnterNameGfx.h" />
@@ -260,6 +262,8 @@
     <ClCompile Include="..\guigfx\cBalloonGfx.cpp" />
     <ClCompile Include="..\guigfx\cButtonGfx.cpp" />
     <ClCompile Include="..\guigfx\cEditGfx.cpp" />
+    <ClCompile Include="..\guigfx\cLabelGfx.cpp" />
+    <ClCompile Include="..\guigfx\cLabelLinkGfx.cpp" />
     <ClCompile Include="..\guigfx\cMesgBoxGfx.cpp" />
     <ClCompile Include="..\guigfx\cPopUpMenuGfx.cpp" />
     <ClCompile Include="..\guigfx\EnterNameGfx.cpp" />
