@@ -12,7 +12,7 @@
 #include "AppGfx.h" 
 
 #include "cMusicManager.h"
-#include "cSettings.h"
+#include "InvidoSettings.h"
 
 extern AppGfx TheApp;
 

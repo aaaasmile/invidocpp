@@ -1,5 +1,5 @@
 
-// cSettings.h 
+// InvidoSettings.h
 
 
 #ifndef   __INVSETTINGS_INI_H_
@@ -16,7 +16,6 @@ namespace SpaceInvidoSettings
 	public:
 
 		InvidoSettings();
-
 
 		class SubAll
 		{

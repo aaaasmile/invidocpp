@@ -224,7 +224,7 @@
     <ClInclude Include="..\InvidoClient\cMenuMgr.h" />
     <ClInclude Include="..\InvidoClient\cMusicManager.h" />
     <ClInclude Include="..\InvidoClient\credits.h" />
-    <ClInclude Include="..\InvidoClient\cSettings.h" />
+    <ClInclude Include="..\InvidoClient\InvidoSettings.h" />
     <ClInclude Include="..\InvidoClient\cTipoDiMazzo.h" />
     <ClInclude Include="..\InvidoClient\AppGfx.h" />
     <ClInclude Include="..\InvidoClient\fading.h" />
@@ -273,7 +273,7 @@
     <ClCompile Include="..\InvidoClient\cMenuMgr.cpp" />
     <ClCompile Include="..\InvidoClient\cMusicManager.cpp" />
     <ClCompile Include="..\InvidoClient\credits.cpp" />
-    <ClCompile Include="..\InvidoClient\cSettings.cpp" />
+    <ClCompile Include="..\InvidoClient\InvidoSettings.cpp" />
     <ClCompile Include="..\InvidoClient\cTipoDiMazzo.cpp" />
     <ClCompile Include="..\InvidoClient\AppGfx.cpp" />
     <ClCompile Include="..\InvidoClient\fading.cpp" />

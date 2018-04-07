@@ -17,7 +17,7 @@
 #include "AppGfx.h"
 #include "cTipoDiMazzo.h"
 
-#include "cSettings.h"
+#include "InvidoSettings.h"
 
 #include "cButtonGfx.h"
 

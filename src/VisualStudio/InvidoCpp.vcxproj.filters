@@ -408,9 +408,6 @@
     <ClInclude Include="..\guigfx\cLabelLinkGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\cSettings.h">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClInclude>
     <ClInclude Include="..\guigfx\cCheckBoxGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
@@ -427,6 +424,9 @@
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
     <ClInclude Include="..\InvidoClient\Languages.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\InvidoSettings.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
   </ItemGroup>
@@ -512,9 +512,6 @@
     <ClCompile Include="..\InvidoClient\credits.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\cSettings.cpp">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\InvidoClient\cTipoDiMazzo.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
@@ -555,6 +552,9 @@
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoClient\Languages.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\InvidoSettings.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,7 +15,7 @@
 #include "Languages.h"
 #include "cHightScoreMgr.h"
 #include "cMusicManager.h"
-#include "cSettings.h"
+#include "InvidoSettings.h"
 #include "cDelayNextAction.h"
 #include "cInvidoGfx.h"
 #include "cTipoDiMazzo.h"

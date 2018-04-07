@@ -2,7 +2,7 @@
 
 
 #include "StdAfx.h"
-#include "cSettings.h"
+#include "InvidoSettings.h"
 #include "win_type_global.h"
 #include "regkey.h"
 

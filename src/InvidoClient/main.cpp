@@ -12,7 +12,7 @@
 #include "AppGfx.h"
 #include <string>
 #include <direct.h>
-#include "cSettings.h"
+#include "InvidoSettings.h"
 
 
 ////////////////////////////////////////
@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
             // use another port to connect with the gui net
             int iPortNum = 0;
             sscanf(argv[1], "%d", &iPortNum);
-            g_Options.Net.iPortGui = iPortNum;
         }
 #endif
 

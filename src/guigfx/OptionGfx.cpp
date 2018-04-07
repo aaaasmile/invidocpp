@@ -9,7 +9,7 @@
 #include "cCheckBoxGfx.h"
 #include "cEditGfx.h"
 #include "cComboGfx.h"
-#include "cSettings.h"
+#include "InvidoSettings.h"
 #include "AppGfx.h"
 #include "Languages.h"
 #include "cMusicManager.h"
