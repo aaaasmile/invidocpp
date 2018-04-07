@@ -54,4 +54,6 @@ L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione 
 - animazione iniziale non si vede
 - tasti nella toolbox del nome
 - message box non funziona il background e l'alpha [DONE]
-- message box con solo OK non è corretta
+- message box con solo OK non è corretta, manca l'alpha.
+- usa cBalloonGfx::SetStyle per l'arrow in alto del ballon (vedi il tressette in quanto manca l'arrow image)
+- popup tasto destro per la giocata "vado dentro"

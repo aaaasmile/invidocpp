@@ -292,7 +292,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
 	destWIN.w = m_pAnImages[IMG_BALLOON]->w;
 	destWIN.h = m_pAnImages[IMG_BALLOON]->h;
 	m_pbalGfx = new cBalloonGfx;
-	m_pbalGfx->Init(destWIN, m_pAnImages[IMG_BALLOON], m_pFontStatus);
+	m_pbalGfx->Init(destWIN, m_pAnImages[IMG_BALLOON], m_pFontStatus, 200);
 
 	// music manager
 	m_pMusicMgr = m_pApp->GetMusicManager();
@@ -535,14 +535,12 @@ int cInvidoGfx::initDeck()
 */
 void cInvidoGfx::createRegionsInit()
 {
-	//mazzo con le altre carte: non visibile
-	//CreateRegion(CRD_MAZZOALTRECARTE, CRD_3D, 0, 0, CRD_OSYMBOL, 800 -  (m_iCardWidth + 30), 10, 2, 2);
-
 	// opponent cards
 	for (int i = 0; i < NUM_CARDS_HAND; i++)
 	{
 		m_aOpponentCards[i].m_iX = (m_iCardWidth * i) + ((i + 1) * 17);
 		m_aOpponentCards[i].m_iY = 10;
+		//m_aOpponentCards[i].State = cCardGfx::CSW_ST_BACK;
 		m_aOpponentCards[i].SetDeckSurface(m_pDeck, m_iCardWidth, m_iCardHeight);
 		m_aOpponentCards[i].SetSymbSurf(m_pSymbols, m_iSymbolWidth, m_iSymbolHeigth);
 	}
@@ -640,7 +638,7 @@ void cInvidoGfx::animateBeginGiocata()
 			SDL_Delay(uiLast_time + FPS - uiNowTime);
 			uiLast_time = uiNowTime;
 		}
-	} while (uiTickTot < 1000);
+	} while (uiTickTot < 1500);
 
 	TRACE("animateBeginGiocata - end\n");
 

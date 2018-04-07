@@ -30,7 +30,7 @@ public:
 	virtual ~cBalloonGfx();
 
     //! init balloon
-    void Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont);
+    void Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont, int alphaVal);
     //! set style
     void SetStyle(eStyle eVal, SDL_Surface* pImage);
     //! draw control
@@ -71,6 +71,7 @@ private:
     SDL_Color     m_colCurrent;
     //! style
     eStyle        m_eStyle;
+	int           m_alphaVal;
 };
 
 #endif // !defined(AFX_CBALLOONGFX_H__E3B36325_213E_4794_8FDC_43E3046E0A79__INCLUDED_)

@@ -19,7 +19,7 @@ cBalloonGfx::cBalloonGfx()
 	m_uiShowTick = 0;
 	m_pFontText = 0;
 	m_pImageArrow = 0;
-
+	m_alphaVal = -1;
 }
 
 cBalloonGfx::~cBalloonGfx()
@@ -27,23 +27,22 @@ cBalloonGfx::~cBalloonGfx()
 
 }
 
-
-
 ////////////////////////////////////////
 //       Init
 /*! Init control
 // \param SDL_Rect& rct :
 // \param SDL_Surface* pImage :
 */
-void cBalloonGfx::Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont)
+void cBalloonGfx::Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont, int alphaVal)
 {
 	ASSERT(pImage);
 	m_destWIN = rct;
 	m_pImageBall = pImage;
+	m_alphaVal = alphaVal;
 
 	//SDL_SetAlpha(m_pImageBall, SDL_SRCALPHA, 80);
 	SDL_SetSurfaceBlendMode(m_pImageBall, SDL_BLENDMODE_BLEND);
-	SDL_SetSurfaceAlphaMod(m_pImageBall, 80);
+	SDL_SetSurfaceAlphaMod(m_pImageBall, alphaVal);
 
 	m_colCurrent = GFX_UTIL_COLOR::Black;
 	m_pFontText = pFont;
@@ -58,10 +57,11 @@ void cBalloonGfx::Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont)
 */
 void cBalloonGfx::SetStyle(eStyle eVal, SDL_Surface* pImage)
 {
+	ASSERT(m_alphaVal != -1);
 	m_pImageArrow = pImage;
 	//SDL_SetAlpha(m_pImageArrow, SDL_SRCALPHA, 80);
 	SDL_SetSurfaceBlendMode(m_pImageArrow, SDL_BLENDMODE_BLEND); //SDL 2.0
-	SDL_SetSurfaceAlphaMod(m_pImageArrow, 80);
+	SDL_SetSurfaceAlphaMod(m_pImageArrow, m_alphaVal);
 	m_eStyle = eVal;
 
 	int iXbody_middle = (m_destWIN.x + m_destWIN.w / 2);
@@ -174,9 +174,6 @@ void cBalloonGfx::startshow(LPCSTR lpszText, Uint32 uiTick)
 		m_strText2 = strL2;
 	}
 }
-
-
-
 
 ////////////////////////////////////////
 //       Disable
