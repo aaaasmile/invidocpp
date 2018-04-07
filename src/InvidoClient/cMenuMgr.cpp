@@ -14,7 +14,7 @@
 
 #include <math.h>
 #include "cMenuMgr.h"
-#include "EngineApp.h"
+#include "AppGfx.h"
 #include "cMenuMgr.h"
 #include "Lang_Gen.h"
 #include "gfx_util.h"

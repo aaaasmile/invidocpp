@@ -9,7 +9,7 @@
 //#include <stdlib.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "EngineApp.h"
+#include "AppGfx.h"
 #include <string>
 #include <direct.h>
 #include "cSettings.h"

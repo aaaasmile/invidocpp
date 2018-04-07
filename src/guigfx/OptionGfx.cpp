@@ -10,7 +10,7 @@
 #include "cEditGfx.h"
 #include "cComboGfx.h"
 #include "cSettings.h"
-#include "EngineApp.h"
+#include "AppGfx.h"
 #include "Lang_Gen.h"
 #include "cMusicManager.h"
 #include "cInvidoCoreEnv.h"

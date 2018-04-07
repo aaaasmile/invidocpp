@@ -14,7 +14,7 @@
 #include "cDelayNextAction.h"
 #include "cInvidoGfx.h"
 #include "gfx_util.h"
-#include "EngineApp.h"
+#include "AppGfx.h"
 #include "cTipoDiMazzo.h"
 
 #include "cSettings.h"

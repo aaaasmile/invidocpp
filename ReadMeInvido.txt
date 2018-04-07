@@ -49,3 +49,5 @@ L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione 
 - background
 - opzioni non scompare
 - durante il gioco non si vedono le carte
+- alpha in menu e dialogbox
+- tasti nella toolbox del nome

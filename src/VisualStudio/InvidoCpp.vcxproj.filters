@@ -96,9 +96,6 @@
     <ClInclude Include="..\Include\win_type_global.h">
       <Filter>Source Files\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\EngineApp.h">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\begin_code.h">
       <Filter>Source Files\Include</Filter>
     </ClInclude>
@@ -429,6 +426,9 @@
     <ClInclude Include="..\InvidoCore\cInvidoCore.h">
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
+    <ClInclude Include="..\InvidoClient\AppGfx.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -471,9 +471,6 @@
       <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoClient\main.cpp">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\InvidoClient\EngineApp.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
     <ClCompile Include="..\guigfx\cPopUpMenuGfx.cpp">
@@ -556,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="..\InvidoCore\cInvidoCore.cpp">
       <Filter>Source Files\InvidoCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\AppGfx.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

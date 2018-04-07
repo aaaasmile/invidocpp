@@ -1,6 +1,4 @@
-
-
-//EngineApp.h
+//AppGfx.h
 
 #ifndef __ENGINE_APP_H
 #define __ENGINE_APP_H

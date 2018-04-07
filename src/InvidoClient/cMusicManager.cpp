@@ -1,4 +1,3 @@
-
 // cMusicManager.cpp: implementation of the cMusicManager class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -10,7 +9,7 @@
 #include <sdl.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "EngineApp.h" 
+#include "AppGfx.h" 
 
 #include "cMusicManager.h"
 #include "cSettings.h"

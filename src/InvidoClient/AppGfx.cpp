@@ -1,4 +1,4 @@
-//EngineApp.cpp
+//AppGfx.cpp
 // Engine application for Invido game
 
 #include "StdAfx.h"
@@ -6,7 +6,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include "EngineApp.h"
+#include "AppGfx.h"
 #include <sdl.h>
 #include <SDL_thread.h>
 #include <SDL_mixer.h>
@@ -25,7 +25,6 @@
 #include "OptionGfx.h"
 #include "EnterNameGfx.h"
 
-//#include "font.h"
 
 static const char* lpszIconRes = "data/images/icona_asso.bmp";
 // key is stored in regestry as HKU
