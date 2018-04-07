@@ -35,7 +35,7 @@ public:
 	//! init the msgbox
 	void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, eMSGBOX_TYPE eval, SDL_Renderer* pRenderer);
 	//! show the message box
-	int    Show(SDL_Texture* pScene_background, LPCSTR lpsBut1_txt, LPCSTR lpsBut2_txt, LPCSTR lpsMsg_txt);
+	int    Show(SDL_Surface* pScene_background, LPCSTR lpsBut1_txt, LPCSTR lpsBut2_txt, LPCSTR lpsMsg_txt);
 	//! button click callback
 	void   ButCmdClicked(int iButID);
 	//! add a line in the data list

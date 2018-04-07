@@ -1030,7 +1030,7 @@ void cInvidoGfx::showOkMsgBox(LPCSTR strText)
 	SDL_Texture* pCurrDisplayTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, pCurrDisplay);
 
     SDL_BlitSurface(m_pScreen, NULL, pCurrDisplay, NULL);
-    MsgBox.Show(pCurrDisplayTexture, "Ok", "", strText);
+    MsgBox.Show(m_pScreen, "Ok", "", strText);
     SDL_FreeSurface(pCurrDisplay);
 	SDL_DestroyTexture(pCurrDisplayTexture);
 }
@@ -1133,14 +1133,10 @@ int  cInvidoGfx::showYesNoMsgBox(LPCSTR strText)
     // show a mesage box
     MsgBox.Init(&rctBox, m_pScreen, m_pFontStatus, cMesgBoxGfx::MB_YES_NO, m_psdlRenderer); 
     SDL_BlitSurface(m_pScreen, NULL, m_pAlphaDisplay, NULL);
-
-	SDL_Texture* pAlphaDisplayTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, m_pAlphaDisplay);
     
     STRING strTextYes = m_pLangMgr->GetStringId(cLanguages::ID_YES);
     STRING strTextNo = m_pLangMgr->GetStringId(cLanguages::ID_NO);
-    int iRes = MsgBox.Show(pAlphaDisplayTexture, strTextYes.c_str(), strTextNo.c_str(), strText);
-
-	SDL_DestroyTexture(pAlphaDisplayTexture);
+    int iRes = MsgBox.Show(m_pAlphaDisplay, strTextYes.c_str(), strTextNo.c_str(), strText);
    
     return iRes;
 }

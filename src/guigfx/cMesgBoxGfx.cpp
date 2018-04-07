@@ -144,7 +144,7 @@ void cMesgBoxGfx::ButCmdClicked(int iButID)
 /*! Show the message box
 // \param SDL_Surface* pScene_background :
 */
-int  cMesgBoxGfx::Show(SDL_Texture* pScene_background, LPCSTR lpsBut1_txt, LPCSTR lpsBut2_txt, LPCSTR lpsMsg_txt)
+int  cMesgBoxGfx::Show(SDL_Surface* pScene_background, LPCSTR lpsBut1_txt, LPCSTR lpsBut2_txt, LPCSTR lpsMsg_txt)
 {
 	m_iResult = MB_RES_YES;
 	m_bTerminated = FALSE;
@@ -170,14 +170,12 @@ int  cMesgBoxGfx::Show(SDL_Texture* pScene_background, LPCSTR lpsBut1_txt, LPCST
 	while (!m_bTerminated)
 	{
 		// background
-		//SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL); //SDL1.2
-		SDL_RenderCopy(m_psdlRenderer, pScene_background, NULL, NULL); // SDL 2.0
+		SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL);
 
 		// wait until the user click on button
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-
 			if (event.type == SDL_KEYDOWN)
 			{
 				if (event.key.keysym.sym == SDLK_RETURN)
@@ -212,18 +210,13 @@ int  cMesgBoxGfx::Show(SDL_Texture* pScene_background, LPCSTR lpsBut1_txt, LPCST
 				}
 			}
 		}
-
-
 		// the msg box
-		GFX_UTIL::DrawStaticSpriteEx(pShadowSrf, 0, 0, m_rctMsgBox.w, m_rctMsgBox.h, m_rctMsgBox.x,
-			m_rctMsgBox.y, m_pSurf_Bar);
+		GFX_UTIL::DrawStaticSpriteEx(pShadowSrf, 0, 0, m_rctMsgBox.w, m_rctMsgBox.h, m_rctMsgBox.x, m_rctMsgBox.y, m_pSurf_Bar);
 
 		// draw the text
 		int tx, ty;
 		int iXOffSet;
 		int iYOffset;
-
-
 		if (m_vctDataStrings.size() > 0)
 		{
 			int iYinitial = 10;

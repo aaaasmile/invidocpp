@@ -51,4 +51,4 @@ L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione 
 - durante il gioco non si vedono le carte
 - alpha in menu e dialogbox [DONE]
 - tasti nella toolbox del nome
-- message box non funziona il background e l'alpha
+- message box non funziona il background e l'alpha [DONE]
