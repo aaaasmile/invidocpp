@@ -1,5 +1,3 @@
-
-
 // cMenuMgr.cpp: implementation of the cMenuMgr class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -39,8 +37,6 @@ const SDL_Color cMenuMgr::staColor_ombre = { 87, 87, 87, 50 };
 const SDL_Color cMenuMgr::staColor_black= { 0, 0, 0 };
 const SDL_Color cMenuMgr::staColor_gray= { 128, 128, 128};
 
-
-
 ////////////////////////////////////////
 //       cMenuMgr
 /*! 
@@ -59,7 +55,6 @@ cMenuMgr::cMenuMgr(AppGfx* pApp, cInvidoGfx* pGfx)
     m_pScene_background = 0;
     m_bMouseInside = FALSE;
 }
-
 
 ////////////////////////////////////////
 //       ~cMenuMgr
@@ -104,6 +99,7 @@ void cMenuMgr::Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer)
     m_pMenuBox = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctPanel.w, m_rctPanel.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pMenuBox, NULL, SDL_MapRGBA(m_pScreen->format, 255, 0, 0, 0));
     //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); // SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pMenuBox, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pMenuBox, 127); //SDL 2.0
 
     // link to invido.it

@@ -1,4 +1,3 @@
-
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -12,8 +11,6 @@
 #include "SDL.h"
 #include "cInvidoCoreEnv.h"
 #include "CardSpec.h"
-
-
 
 //! class cCardGfx
 class cCardGfx  

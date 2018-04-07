@@ -41,6 +41,7 @@ void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_second
       fprintf (stderr, "fade: could not create the black Surface. (%s)\n", SDL_GetError ()) ;
       return ;
   }
+  SDL_SetSurfaceBlendMode(p_surf_black, SDL_BLENDMODE_BLEND);
   /* Fill the Surface with black */
   SDL_FillRect (p_surf_black, NULL, SDL_MapRGB (p_surf_screen->format, 0, 0, 0)) ;
   /* Should we make a copy of the Screen? */

@@ -42,6 +42,7 @@ void cBalloonGfx::Init(SDL_Rect& rct, SDL_Surface* pImage, TTF_Font* pFont)
 	m_pImageBall = pImage;
 
 	//SDL_SetAlpha(m_pImageBall, SDL_SRCALPHA, 80);
+	SDL_SetSurfaceBlendMode(m_pImageBall, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pImageBall, 80);
 
 	m_colCurrent = GFX_UTIL_COLOR::Black;
@@ -59,6 +60,7 @@ void cBalloonGfx::SetStyle(eStyle eVal, SDL_Surface* pImage)
 {
 	m_pImageArrow = pImage;
 	//SDL_SetAlpha(m_pImageArrow, SDL_SRCALPHA, 80);
+	SDL_SetSurfaceBlendMode(m_pImageArrow, SDL_BLENDMODE_BLEND); //SDL 2.0
 	SDL_SetSurfaceAlphaMod(m_pImageArrow, 80);
 	m_eStyle = eVal;
 

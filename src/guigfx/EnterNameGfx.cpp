@@ -82,6 +82,7 @@ void EnterNameGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontT
 	m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctOptBox.w, m_rctOptBox.h, 32, 0, 0, 0, 0);
 	SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 10, 100, 10, 0));
 	//SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 200); //SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_Bar, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 200); // SDL 2.0
 
 	SDL_Rect rctBt1;

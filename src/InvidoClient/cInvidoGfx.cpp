@@ -532,10 +532,13 @@ int cInvidoGfx::initDeck()
     m_SrcBack.w = m_iSymbolWidth;
 	m_SrcBack.h = m_iSymbolHeigth;
 
+	SDL_SetSurfaceBlendMode(m_pSymbols, SDL_BLENDMODE_BLEND);
+
     // black bar surface
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(m_pScreen->format, 0, 0, 0, 0));
     //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); // SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_Bar, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); //SDL 2.0
 
 	return 0;

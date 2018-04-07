@@ -80,18 +80,21 @@ void  cComboGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, i
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctButt.w, m_rctButt.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 255, 128, 30, 0));
     //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_Bar, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); //SDL 2.0
 
     // selected surface +/-
     m_pSurf_BoxSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctBoxUp.w, m_rctBoxUp.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_BoxSel, NULL, SDL_MapRGBA(pScreen->format, 200, 200, 130, 0));
     //SDL_SetAlpha(m_pSurf_BoxSel, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_BoxSel, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_BoxSel, 127); //SDL 2.0
 
     //unselected suface +/-
     m_pSurf_BoxUNSel = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctBoxUp.w, m_rctBoxUp.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_BoxUNSel, NULL, SDL_MapRGBA(pScreen->format, 255, 128, 30, 0));
     //SDL_SetAlpha(m_pSurf_BoxUNSel, SDL_SRCALPHA, 127); //SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_BoxUNSel, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_BoxUNSel, 127); //SDL 2.0
 
     m_pFontText = pFont;

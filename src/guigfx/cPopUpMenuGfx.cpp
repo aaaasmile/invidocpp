@@ -57,6 +57,7 @@ void cPopUpMenuGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont
     m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctMsgBox.w, m_rctMsgBox.h, 32, 0, 0, 0, 0);
     SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(pScreen->format, 40, 0, 0, 0));
     //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 125); //SDL 1.2
+	SDL_SetSurfaceBlendMode(m_pSurf_Bar, SDL_BLENDMODE_BLEND);
 	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 125); // SDL 2.0
 
     m_colCurrent = GFX_UTIL_COLOR::White;
