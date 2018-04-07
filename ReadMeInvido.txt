@@ -7,8 +7,12 @@ Lo scopo è quello di avere la stessa applicazione compilata con visual studio 2
 
 == SDL
 Versioni:
-SDL2_mixer-devel-2.0.2-VC
 SDL2-devel-2.0.8-VC
+SDL2_mixer-devel-2.0.2-VC
+SDL2_image-devel-2.0.3-VC
+SDL2_ttf-devel-2.0.14-VC
+
+Ho sempre usato tutte dll in versione x64.
 
 Nota:
 Ho messo tutti i files in include e lib senza distinguere le versioni.
@@ -28,12 +32,17 @@ Nel porting tutte le chiamate a
 SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 120);
 vanno sostituite con SDL_SetSurfaceAlphaMod
 
+== Codice cambiato durante il porting
+Ho tolto la console in quanto il porting su 2.0 era troppo oneroso e non era bella da vedere.
+Ho tolto tutti i riferimenti al gioco di rete così come allo scripting di python.
+
 = Short Key 
 Autoformat Code: CTRL + K + D
 Delete line: CTRL + L
 Compile: CTRL + F7
 
+== Runtime error in pnglib
+Der Prozedureinsprungpunkt "inflateValidate" wurde in der DLL "D:\Projects\from_sf_net_to_github\invidocpp\src\VisualStudio\x64\Debug\libpng16-16.dll" nicht gefunden. 
+L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione corretta. Va usata quella della SDL_Image a x64
+
 == TODO
-Sono arrivato al file gfx_util.cpp, che è l'ultimo della directory guigfx, la funzione ScreenShake sarebbe da completare, anche senza
-in invido non viene usata. 
--> guigfx è compile clean
