@@ -180,7 +180,7 @@ cMano::cMano()
 */
 void    cMano::NextAction()
 {
-    int iNumAct = m_deqNextAction.size();
+    size_t iNumAct = m_deqNextAction.size();
     if (iNumAct == 0)
     {
         // no action
@@ -891,7 +891,7 @@ void cMano::add_Action(int iPar_0, eFN_MANOACTION eAct)
 */
 void cMano::removeObsoleteActions()
 {
-    int iNumAct = m_deqNextAction.size();
+    size_t iNumAct = m_deqNextAction.size();
     for (int i = 0; i < iNumAct; i++)
     {
         cActionItem Action = m_deqNextAction[i];
@@ -912,7 +912,7 @@ void cMano::removeObsoleteActions()
 BOOL cMano::get_LastPendQuest(cPendQuestion& PendQues)
 {
     BOOL bRes = FALSE;
-    int iNumEle = m_deqPendQuestion.size();
+    size_t iNumEle = m_deqPendQuestion.size();
     if (iNumEle > 0)
     {
         PendQues = m_deqPendQuestion[iNumEle - 1];
@@ -930,7 +930,7 @@ BOOL cMano::get_LastPendQuest(cPendQuestion& PendQues)
 BOOL cMano::get_LastPendScoreQuest(cPendQuestion& PendQues)
 {
     BOOL bRes = FALSE;
-    int iNumEle = m_deqPendQuestion.size();
+    size_t iNumEle = m_deqPendQuestion.size();
     int iCurr = 0;
     while (iNumEle - iCurr > 0)
     {
@@ -955,7 +955,7 @@ BOOL cMano::get_LastPendScoreQuest(cPendQuestion& PendQues)
 */
 void cMano::remove_LastQuestion()
 {
-    int iNumEle = m_deqPendQuestion.size();
+    size_t iNumEle = m_deqPendQuestion.size();
     if (iNumEle > 0)
     {
         m_deqPendQuestion.pop_back();

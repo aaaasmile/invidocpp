@@ -12,23 +12,26 @@
 /* Fades the given surface in or out to the given screen within the given time
  If the image surface is the screen surface (pointer are equal), a copy is made
  first. We must do that because we are overwriting the Screen Surface. */
-void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_seconds, int b_fade_out) {
+void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_seconds, int b_fade_out, SDL_Renderer*  psdlRenderer) {
   /* Becomes the black surface */
   SDL_Surface* p_surf_black = NULL ;
+  SDL_Texture* pScreenTexture = SDL_CreateTextureFromSurface(psdlRenderer, p_surf_screen);
+
   /* Used when the Screen Surface equals the Image Surface */
   SDL_Surface* p_surf_screen_copy = NULL ;
   /* Used to calculate the steps to make a fade in the given time: */
   Uint32 ui_old_time, ui_curr_time, ui_time_ms ;
   float f_alpha ;
   /* Becomes flag to pass when creating a Surface */
-  Uint32 ui_flags = SDL_SRCALPHA ;
+  //Uint32 ui_flags = SDL_SRCALPHA ; //SDL 1.2
   /* Create the black surface in the format of the given screen */
-  if ((p_surf_screen->flags & SDL_HWSURFACE)) {
+ /* if ((p_surf_screen->flags & SDL_HWSURFACE)) {
     ui_flags |= SDL_HWSURFACE ;
   }
   else {
     ui_flags |= SDL_SWSURFACE ;
-  }
+  }*/
+  Uint32 ui_flags = SDL_SWSURFACE; //SDL 2.0
   if ((p_surf_black = SDL_CreateRGBSurface (ui_flags,
     p_surf_screen->w, p_surf_screen->h, 
     p_surf_screen->format->BitsPerPixel, 
@@ -72,13 +75,20 @@ void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_second
       /* Draw the image onto the screen */
       SDL_BlitSurface (p_surf_img, NULL, p_surf_screen, NULL) ;
       /* Draw the black surface onto the screen */
-      SDL_SetAlpha (p_surf_black, SDL_SRCALPHA, (Uint8) f_alpha) ;
+      //SDL_SetAlpha (p_surf_black, SDL_SRCALPHA, (Uint8) f_alpha) ;//SDL 1.2
+	  SDL_SetSurfaceAlphaMod(p_surf_black, (Uint8)f_alpha); // SDL 2.0
+
       SDL_BlitSurface (p_surf_black, NULL, p_surf_screen, NULL) ;
       /* Update the timer variables */
       ui_old_time = ui_curr_time ;
       ui_curr_time = SDL_GetTicks () ;
       /* Flip the screen Surface */
-      SDL_Flip (p_surf_screen) ;
+      //SDL_Flip (p_surf_screen) ; //SDL 1.2
+	  // SDL 2.0
+	  SDL_UpdateTexture(pScreenTexture, NULL, p_surf_screen->pixels, p_surf_screen->pitch);
+	  SDL_RenderCopy(psdlRenderer, pScreenTexture, NULL, NULL);
+	  SDL_RenderPresent(psdlRenderer);
+
       /* Calculate the next alpha value */
       f_alpha += 255 * ((float) (ui_curr_time - ui_old_time) / ui_time_ms) ;
     }
@@ -90,13 +100,20 @@ void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_second
       /* Draw the image onto the screen */
       SDL_BlitSurface (p_surf_img, NULL, p_surf_screen, NULL) ;
       /* Draw the black surface onto the screen */
-      SDL_SetAlpha (p_surf_black, SDL_SRCALPHA, (Uint8) f_alpha) ;
+      //SDL_SetAlpha (p_surf_black, SDL_SRCALPHA, (Uint8) f_alpha) ; // SDL 1.2
+	  SDL_SetSurfaceAlphaMod(p_surf_black, (Uint8)f_alpha); // SDL 2.0
+
       SDL_BlitSurface (p_surf_black, NULL, p_surf_screen, NULL) ;
       /* Update the timer variables */
       ui_old_time = ui_curr_time ;
       ui_curr_time = SDL_GetTicks () ;
       /* Flip the screen Surface */
-      SDL_Flip (p_surf_screen) ;
+      //SDL_Flip (p_surf_screen) ; //SDL 1.2
+	  // SDL 2.0
+	  SDL_UpdateTexture(pScreenTexture, NULL, p_surf_screen->pixels, p_surf_screen->pitch);
+	  SDL_RenderCopy(psdlRenderer, pScreenTexture, NULL, NULL);
+	  SDL_RenderPresent(psdlRenderer);
+
       /* Calculate the next alpha value */
       f_alpha -= 255 * ((float) (ui_curr_time - ui_old_time) / ui_time_ms) ;
     }
@@ -107,37 +124,5 @@ void fade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img, Uint32 ui_second
   if (p_surf_screen_copy != NULL) {
     SDL_FreeSurface (p_surf_screen_copy) ;
   }
-}
-
-/* Cross-Fades the given surfaces onto the given screen within the given time
- If the image surface is the screen surface (pointer are equal), a copy is made
- first. We must do that because we are overwriting the Screen Surface. */
-void crossFade (SDL_Surface* p_surf_screen, SDL_Surface* p_surf_img1, SDL_Surface* p_surf_img2, Uint32 ui_seconds) {
-  /* Used to calculate the steps to make a fade in the given time: */
-  Uint32 ui_old_time, ui_curr_time, ui_time_ms ;
-  float f_alpha ;
-  /* These are the steps to perform a cross-fade (looped):
-  1. Draw p_surf_img1 onto p_surf_screen, just an ordinary blit.
-  2. Increase the alpha value, based on the elapsed time since the previous loop-iteration.
-  3. Draw p_surf_img2 onto p_surf_screen in the current alpha value.*/  
-  ui_old_time = SDL_GetTicks () ;
-  ui_curr_time = ui_old_time ;
-  /* Convert the given time in seconds into miliseconds. */
-  ui_time_ms = ui_seconds * 1000 ;
-  f_alpha = 0.0 ;
-  /* Loop until the alpha value exceeds 255 (this is the maximum alpha value) */
-  while (f_alpha < 255.0) {
-    /* Draw the image onto the screen */
-    SDL_BlitSurface (p_surf_img1, NULL, p_surf_screen, NULL) ;
-    /* Draw the black surface onto the screen */
-    SDL_SetAlpha (p_surf_img2, SDL_SRCALPHA, (Uint8) f_alpha) ;
-    SDL_BlitSurface (p_surf_img2, NULL, p_surf_screen, NULL) ;
-    /* Update the timer variables */
-    ui_old_time = ui_curr_time ;
-    ui_curr_time = SDL_GetTicks () ;
-    /* Flip the screen Surface */
-    SDL_Flip (p_surf_screen) ;
-    /* Calculate the next alpha value */
-    f_alpha += 255 * ((float) (ui_curr_time - ui_old_time) / ui_time_ms) ;
-  }
+  SDL_DestroyTexture(pScreenTexture);
 }

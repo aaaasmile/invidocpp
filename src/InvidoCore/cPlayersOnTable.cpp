@@ -129,7 +129,7 @@ void  cPlayersOnTable::Create(cPlayer* pHmiPlayer, int iNumPlayers)
 */
 cPlayer*  cPlayersOnTable::GetPlayerToPlay(eSwitchPLayer eVal)
 {
-    long lNumPlayers = m_vctPlayers.size();
+    size_t lNumPlayers = m_vctPlayers.size();
     long lTemp = m_lCurrent;
 
     if (eVal == SWITCH_TO_NEXT)

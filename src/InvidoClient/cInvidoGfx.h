@@ -10,7 +10,6 @@
 #include <SDL_ttf.h>
 #include "cInvidoCoreEngine.h"
 #include "cCardGfx.h"
-#include <CON_console.h>
 #include "AlgPlayerInterface.h"
 
 
@@ -224,12 +223,6 @@ private:
     cCardGfx          m_CardsTable[NUM_CARDS_PLAYED];
     //! animation images
     SDL_Surface*      m_pAnImages[NUM_ANIMAGES];
-    //! console object
-    ConsoleInformation*   m_pConsole;
-    //! console rectangle
-	SDL_Rect              m_Con_rect;
-    //! show chat flag
-    bool                  m_bShowChat;
     //! player1 index
     int                   m_iPlayer1Index;
     //! opponent index

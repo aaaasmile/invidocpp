@@ -351,21 +351,6 @@
     <ClInclude Include="..\Include\SDL_vulkan.h">
       <Filter>Source Files\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\console\CON_console.h">
-      <Filter>Source Files\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\console\ConsoleCmdHand.h">
-      <Filter>Source Files\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\console\DT_drawtext.h">
-      <Filter>Source Files\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\console\internal.h">
-      <Filter>Source Files\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\console\split.h">
-      <Filter>Source Files\Console</Filter>
-    </ClInclude>
     <ClInclude Include="..\guigfx\cPopUpMenuGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
@@ -493,21 +478,6 @@
     </ClCompile>
     <ClCompile Include="..\InvidoClient\EngineApp.cpp">
       <Filter>Source Files\InvidoClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\console\CON_console.cpp">
-      <Filter>Source Files\Console</Filter>
-    </ClCompile>
-    <ClCompile Include="..\console\ConsoleCmdHand.cpp">
-      <Filter>Source Files\Console</Filter>
-    </ClCompile>
-    <ClCompile Include="..\console\DT_drawtext.cpp">
-      <Filter>Source Files\Console</Filter>
-    </ClCompile>
-    <ClCompile Include="..\console\internal.cpp">
-      <Filter>Source Files\Console</Filter>
-    </ClCompile>
-    <ClCompile Include="..\console\split.cpp">
-      <Filter>Source Files\Console</Filter>
     </ClCompile>
     <ClCompile Include="..\guigfx\cPopUpMenuGfx.cpp">
       <Filter>Source Files\guigfx</Filter>

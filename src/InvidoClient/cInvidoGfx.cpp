@@ -127,7 +127,6 @@ cInvidoGfx::cInvidoGfx(cEngineApp*  pApp)
 cInvidoGfx::~cInvidoGfx() 
 { 
     cleanup();
-    CON_Destroy(m_pConsole);
 }
 
 
@@ -159,6 +158,10 @@ void cInvidoGfx::cleanup()
         SDL_FreeSurface(m_pAlphaDisplay);
         m_pAlphaDisplay = NULL;
     }
+	if (m_pScreenTexture)
+	{
+		SDL_DestroyTexture(m_pScreenTexture);
+	}
    
 }
 
