@@ -69,8 +69,6 @@ OptionGfx::~OptionGfx()
 	delete m_pCheckShowFotoBack;
 }
 
-
-
 ////////////////////////////////////////
 //       Init
 /*!
@@ -81,7 +79,7 @@ OptionGfx::~OptionGfx()
 void OptionGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl, SDL_Renderer* pRenderer)
 {
 	ASSERT(pRect);
-	ASSERT(pScreen && m_pFontCtrl);
+	ASSERT(pScreen && pFontWinCtrl);
 	m_rctOptBox = *pRect;
 	m_pScreen = pScreen;
 	m_pFontText = pFontTxt;

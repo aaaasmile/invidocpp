@@ -1,5 +1,3 @@
-
-
 //EngineApp.cpp
 // Engine application for Invido game
 
@@ -27,13 +25,12 @@
 #include "OptionGfx.h"
 #include "EnterNameGfx.h"
 
-
 //#include "font.h"
 
 static const char* lpszIconRes = "data/images/icona_asso.bmp";
 // key is stored in regestry as HKU
 #ifdef WIN32
-static const char* lpszIniFileOptions = "Software\\BredaSoft\\InvidoClientSdl";
+static const char* lpszIniFileOptions = "Software\\Invido.it\\InvidoClientSdl";
 #else
 static const char* lpszIniFileOptions = "data/options.ini";
 #endif
@@ -46,7 +43,6 @@ static const char* lpszHelpFileName = "data/help/invido.pdf";
 
 
 cEngineApp* g_MainApp = 0;
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +123,7 @@ void cEngineApp::Init()
 			throw Error::Init(ErrBuff);
 		}
 	}
-	setVideoResolution();
+	intWindowAndRender();
 
 	m_pMusicManager = new cMusicManager;
 	m_pMusicManager->Init();
@@ -140,7 +136,7 @@ void cEngineApp::Init()
 	m_pLanString->SetLang((cLanguages::eLangId)g_Options.All.iLanguageID);
 
 	// caption
-	//SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	
+	//SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	//SDL 1.2
 	SDL_SetWindowTitle(m_pWindow, m_pLanString->GetCStringId(cLanguages::ID_INVIDO)); // SDL 2.0
 
 
@@ -423,21 +419,25 @@ void cEngineApp::ShowCredits()
 	LeaveMenu();
 }
 
-////////////////////////////////////////
-//       setVideoResolution
-/*! Set video resolution
-*/
-void cEngineApp::setVideoResolution()
+
+void cEngineApp::intWindowAndRender()
 {
 	if (m_pWindow != NULL)
 	{
-
 		SDL_DestroyWindow(m_pWindow);
 	}
-	SDL_CreateWindowAndRenderer(m_iScreenW, m_iScreenH, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_pWindow, &m_psdlRenderer); //SDL 2.0
-	if (m_pWindow == NULL || m_psdlRenderer == NULL)
+	//SDL_CreateWindowAndRenderer(m_iScreenW, m_iScreenH, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_pWindow, &m_psdlRenderer); //SDL 2.0
+	m_pWindow = SDL_CreateWindow("Invido", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_iScreenW, m_iScreenH, SDL_WINDOW_SHOWN);
+	if (m_pWindow == NULL)
 	{
-		fprintf(stderr, "Error setvideomode: %s\n", SDL_GetError());
+		fprintf(stderr, "Cannot create window: %s\n", SDL_GetError());
+		exit(1);
+	}
+	m_psdlRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED);
+
+	if (m_psdlRenderer == NULL)
+	{
+		fprintf(stderr, "Cannot create renderer: %s\n", SDL_GetError());
 		exit(1);
 	}
 	m_pScreen = SDL_CreateRGBSurface(0, m_iScreenW, m_iScreenH, 32,
@@ -452,8 +452,6 @@ void cEngineApp::setVideoResolution()
 
 }
 
-
-
 ////////////////////////////////////////
 //       hightScoreMenu
 /*! Shows the hight score menu
@@ -462,9 +460,6 @@ void cEngineApp::hightScoreMenu()
 {
 	// to do
 }
-
-
-
 
 
 ////////////////////////////////////////
@@ -506,10 +501,6 @@ int  cEngineApp::PlayGame()
 
 	return 0;
 }
-
-
-
-
 
 ////////////////////////////////////////
 //       ShowOptionsGeneral

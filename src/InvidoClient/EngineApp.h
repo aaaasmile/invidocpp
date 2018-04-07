@@ -55,7 +55,7 @@ public:
    
 private:
     void    mainMenu();
-    void    setVideoResolution();
+    void    intWindowAndRender();
     void    terminate();
     void    hightScoreMenu();
 	
