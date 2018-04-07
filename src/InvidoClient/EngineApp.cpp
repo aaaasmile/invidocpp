@@ -385,7 +385,7 @@ void cEngineApp::showEditUserName()
 	rctWin.y = (m_pScreen->h - rctWin.h) / 2;
 
 
-	Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk);
+	Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk,m_psdlRenderer);
 	Dlg.SetCaption(m_pLanString->GetStringId(cLanguages::ID_CHOOSENAME));
 	Dlg.Show(m_pSlash);
 
@@ -528,7 +528,7 @@ void cEngineApp::ShowOptionsGeneral()
 	rctOptionWin.y = (m_pScreen->h - rctOptionWin.h) / 2;
 
 
-	Options.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk);
+	Options.Init(&rctOptionWin, m_pScreen, m_pfontVera, m_pfontAriblk, m_psdlRenderer);
 	Options.SetCaption(m_pLanString->GetStringId(cLanguages::ID_OPT_CONTRL_GENERAL));
 	Options.Show(m_pSlash);
 

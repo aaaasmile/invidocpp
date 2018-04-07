@@ -31,16 +31,7 @@ public:
     {      
         int iPoints2 = 0;
         int iPoints1 = 0;
-        int iNumCards = o1.size();
-        /*
-        for (int i = 0; i  < iNumCards; i++)
-        {
-            for (int j = 0; j < iNumCards; j++)
-            {
-                o1[i]
-            }
-        }
-        */
+        size_t iNumCards = o1.size();
         if (iPoints1 >= iPoints2)
         {
             // no swap

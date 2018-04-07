@@ -18,7 +18,6 @@
 #include "cTipoDiMazzo.h"
 
 #include "cSettings.h"
-#include "ConsoleCmdHand.h" 
 
 #include "cButtonGfx.h"
 
@@ -103,7 +102,6 @@ cInvidoGfx::cInvidoGfx(cEngineApp*  pApp)
     {
         m_pAnImages[i] = 0;
     }
-    m_pConsole = 0;
     m_pMatchPoints = 0;
     m_pInvidoCore = 0;
     m_bPlayerCanPlay = FALSE;
@@ -190,9 +188,6 @@ void cInvidoGfx::drawStaticScene()
     // show score (leds and points)
     showCurrentScore();
 
-	CON_DrawConsole(m_pConsole);
-        // draw border console
-	drawBorderConsole();
 
     // draw command buttons
     for (int j = 0; j < NUMOFBUTTON; j++)
@@ -448,39 +443,6 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
         //SDL_SetColorKey(m_pAnImages[i], SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(m_pAnImages[i]->format, rr, gg, bb));// SDL 1.2
 		SDL_SetColorKey(m_pAnImages[i], TRUE, SDL_MapRGB(m_pAnImages[i]->format, rr, gg, bb)); // SDL 2.0
     }
-   
-    // console  stuff - BEGIN
-    if (m_pConsole == NULL)
-    {
-        int iWidthCon = 320;
-        int iHeightCon = 150;
-        m_Con_rect.x = m_pScreen->w - iWidthCon - 5;
-        m_Con_rect.y = m_pScreen->h - iHeightCon - 5;
-	    m_Con_rect.w = iWidthCon;
-        m_Con_rect.h = iHeightCon;
-        if((m_pConsole = CON_Init(lpszFontConsoleImg, m_pScreen, 0, m_Con_rect)) == NULL)
-        {
-            sprintf(ErrBuff, "Unable to load ConsoleFont image %s" , strFileName.c_str());
-            throw Error::Init(ErrBuff);
-        }
-
-        cConsoleCmdHandler* pCmdHand = new cConsoleCmdHandler(m_pScreen, this, m_pApp->GetLanguageMan(), m_pApp );
-
-        m_pConsole->pProxy = pCmdHand;
-        // command handler
-        CON_SetExecuteFunction(m_pConsole, staCommand_Handler);
-    
-        //out the list of commands
-        pCmdHand->ListCommands(m_pConsole);
-        pCmdHand->PrepPrompt(m_pConsole);
-        // flag set to show console
-    }
-    CON_BackImages_Pres(m_pConsole, m_pScene_background, m_Con_rect, 0,0 );
-
-    CON_Show(m_pConsole);
-    CON_Topmost(m_pConsole);
-
-    // console  stuff - END
     
     //SDL_EnableKeyRepeat(250,30); // SDL 1.2 
 	// TODO in sdl 2.0 in event.type == SDL_KEYDOWN && event.key.repeat == 0
@@ -491,7 +453,7 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
         SDL_Rect rctBt;
         rctBt.w = 120;
         rctBt.h = 28;
-        rctBt.y = m_Con_rect.y - rctBt.h - 20;
+        rctBt.y = m_pScreen->h - 155 - rctBt.h - 20;
         int iXButInit = m_pScreen->w - rctBt.w - 20;
     
         for (i = 0; i < NUMOFBUTTON; i++)
@@ -1065,11 +1027,14 @@ void cInvidoGfx::showOkMsgBox(LPCSTR strText)
     rctBox.x = (m_pScreen->w - rctBox.w)/2;
 
     // show a mesage box
-    MsgBox.Init(&rctBox, m_pScreen, m_pFontStatus, cMesgBoxGfx::MBOK); 
+    MsgBox.Init(&rctBox, m_pScreen, m_pFontStatus, cMesgBoxGfx::MBOK, m_psdlRenderer); 
     SDL_Surface* pCurrDisplay = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
+	SDL_Texture* pCurrDisplayTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, pCurrDisplay);
+
     SDL_BlitSurface(m_pScreen, NULL, pCurrDisplay, NULL);
-    MsgBox.Show(pCurrDisplay, "Ok", "", strText); 
+    MsgBox.Show(pCurrDisplayTexture, "Ok", "", strText);
     SDL_FreeSurface(pCurrDisplay);
+	SDL_DestroyTexture(pCurrDisplayTexture);
 }
 
 ////////////////////////////////////////
@@ -1168,12 +1133,16 @@ int  cInvidoGfx::showYesNoMsgBox(LPCSTR strText)
     rctBox.x = (m_pScreen->w - rctBox.w)/2;
 
     // show a mesage box
-    MsgBox.Init(&rctBox, m_pScreen, m_pFontStatus, cMesgBoxGfx::MB_YES_NO); 
+    MsgBox.Init(&rctBox, m_pScreen, m_pFontStatus, cMesgBoxGfx::MB_YES_NO, m_psdlRenderer); 
     SDL_BlitSurface(m_pScreen, NULL, m_pAlphaDisplay, NULL);
+
+	SDL_Texture* pAlphaDisplayTexture = SDL_CreateTextureFromSurface(m_psdlRenderer, m_pAlphaDisplay);
     
     STRING strTextYes = m_pLangMgr->GetStringId(cLanguages::ID_YES);
     STRING strTextNo = m_pLangMgr->GetStringId(cLanguages::ID_NO);
-    int iRes = MsgBox.Show(m_pAlphaDisplay, strTextYes.c_str(), strTextNo.c_str(), strText); 
+    int iRes = MsgBox.Show(pAlphaDisplayTexture, strTextYes.c_str(), strTextNo.c_str(), strText);
+
+	SDL_DestroyTexture(pAlphaDisplayTexture);
    
     return iRes;
 }
@@ -1244,18 +1213,10 @@ void cInvidoGfx::MatchLoop()
           m_bMatchTerminated == FALSE)
     {
 		uiFrame++;
-		
-
-        CON_DrawConsole(m_pConsole);
-        // draw border console
-		drawBorderConsole();
+       
 
         while(SDL_PollEvent(&event))
         {
-            // Send the event to the (topmost) console and go on if the consol could not handle the event 
-		    if(!CON_Events(&event))
-			    continue;
-
             switch(event.type)
             {
             case SDL_QUIT:
@@ -1289,23 +1250,14 @@ void cInvidoGfx::MatchLoop()
                 break;
             }
         }
-        /*
-        if (g_Settings->bMusicEnabled)
-        {
-            m_pApp->PlayGameMusic();
-        }
-        */
-       
+        
         uiNowTime = SDL_GetTicks();
 		if (uiNowTime > uiLast_time + FPS)
 		{
 			drawStaticScene();
             uiLast_time = uiNowTime;
 		}
-        
-
-        // actualize display
-		//SDL_Flip(m_pScreen);
+     
         // next action on the game
 		if ( m_DelayAction.CanStart() )
 		{
@@ -1313,94 +1265,13 @@ void cInvidoGfx::MatchLoop()
 		}
 		
 		// actualize display
-		//SDL_Flip(m_pScreen);
+		//SDL_Flip(m_pScreen); //SDL 1.2
 		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
 		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
 		SDL_RenderPresent(m_psdlRenderer);
-
-		/*
-		uiNowTime = SDL_GetTicks();
-		if (uiNowTime < uiLast_time + FPS)
-		{
-			SDL_Delay(uiLast_time + FPS - uiNowTime);
-		}
-		*/
-        
     }
 }
 
-
-
-////////////////////////////////////////
-//       drawBorderConsole
-/*! Draw a border around the console
-*/
-void cInvidoGfx::drawBorderConsole()
-{
-	int i;
-	SDL_Rect dest; 
-
-	// vertical lines
-	for (i = 4; i < m_Con_rect.h - 4; i += m_pAnImages[IMG_VERTICAL]->h)
-	{
-		dest.x = m_Con_rect.x - 2;
-		dest.y = m_Con_rect.y + i - 1;
-		dest.w = m_pAnImages[IMG_VERTICAL]->w;
-		dest.h = m_pAnImages[IMG_VERTICAL]->h; 
-
-		SDL_BlitSurface(m_pAnImages[IMG_VERTICAL], NULL, m_pScreen, &dest);
-		//graphics->drawImage(mVertical, 0, i);
-		
-		dest.x = m_Con_rect.x + m_Con_rect.w;
-		
-		//graphics->drawImage(mVertical, m_Con_rect.h-4, i);		
-		SDL_BlitSurface(m_pAnImages[IMG_VERTICAL], NULL, m_pScreen, &dest);
-	}
-
-	// horizontal
-	dest.w = m_pAnImages[IMG_HORIZONTAL]->w;
-	dest.h = m_pAnImages[IMG_HORIZONTAL]->h; 	
-	for (i = 4; i < m_Con_rect.w - 4; i += m_pAnImages[IMG_HORIZONTAL]->w)
-	{
-        dest.x = m_Con_rect.x + i - 1;
-		dest.y = m_Con_rect.y - 2;
-		//graphics->drawImage(mHorizontal, i, 0);
-        SDL_BlitSurface(m_pAnImages[IMG_HORIZONTAL], NULL, m_pScreen, &dest);
-
-        dest.y = m_Con_rect.y + m_Con_rect.h;
-        // graphics->drawImage(mHorizontal, i, getHeight()-4);		
-        SDL_BlitSurface(m_pAnImages[IMG_HORIZONTAL], NULL, m_pScreen, &dest);
-	}
-
-	
-	int iOff = 2;
-    dest.w = m_pAnImages[IMG_CORNER_UL]->w;
-	dest.h = m_pAnImages[IMG_CORNER_UL]->h; 	
-    dest.x = m_Con_rect.x - 2;
-	dest.y = m_Con_rect.y - 2 ;
-    SDL_BlitSurface(m_pAnImages[IMG_CORNER_UL], NULL, m_pScreen, &dest);
-
-    
-    dest.w = m_pAnImages[IMG_CORNER_UR]->w;
-	dest.h = m_pAnImages[IMG_CORNER_UR]->h; 	
-    dest.x = m_Con_rect.x +  m_Con_rect.w - iOff;
-	dest.y = m_Con_rect.y - iOff ;
-    SDL_BlitSurface(m_pAnImages[IMG_CORNER_UR], NULL, m_pScreen, &dest);
-    
-    dest.w = m_pAnImages[IMG_CORNER_DL]->w;
-	dest.h = m_pAnImages[IMG_CORNER_DL]->h; 	
-    dest.x = m_Con_rect.x - iOff;
-	dest.y = m_Con_rect.y + m_Con_rect.h - iOff ;
-    SDL_BlitSurface(m_pAnImages[IMG_CORNER_DL], NULL, m_pScreen, &dest);
-    
-    dest.w = m_pAnImages[IMG_CORNER_DR]->w;
-	dest.h = m_pAnImages[IMG_CORNER_DR]->h; 	
-    dest.x = m_Con_rect.x + m_Con_rect.w - iOff;
-	dest.y = m_Con_rect.y + m_Con_rect.h - iOff ;
-    SDL_BlitSurface(m_pAnImages[IMG_CORNER_DR], NULL, m_pScreen, &dest);
-    
-
-}
 
 
 ////////////////////////////////////////
@@ -1476,17 +1347,6 @@ void cInvidoGfx::drawPlayedCard(cCardGfx* pCard)
 	SDL_RenderPresent(m_psdlRenderer);
 }
 
-
-////////////////////////////////////////
-//       staCommand_Handler
-/*! Callback from console.Callback'console are handled in ConsoleCmdHand class.
-// \param ConsoleInformation *console : 
-// \param char* command : 
-*/
-void  cInvidoGfx::staCommand_Handler(ConsoleInformation *console, char* command)
-{
-    ((cConsoleCmdHandler*)(console->pProxy))->Command_Handler(console, command);
-}
 
 
 ////////////////////////////////////////
@@ -1808,7 +1668,7 @@ void cInvidoGfx::guiPlayerTurn(int iPlayer)
     
     if (g_Options.All.iVerbose > 5 )
     {
-        CON_Out(m_pConsole, "%s Player che deve giocare %d: %s", lpszCST_INFO, iPlayer, pPlayer->GetName());
+        TRACE("%s Player che deve giocare %d: %s", lpszCST_INFO, iPlayer, pPlayer->GetName());
     }
 }
 
@@ -2093,7 +1953,7 @@ void cInvidoGfx::ALG_Play()
 */
 void cInvidoGfx::ALG_Say( )
 {
-    CON_Out(m_pConsole, "%s %s", lpszCST_SU, m_pLangMgr->GetStringId(cLanguages::ID_CP_RISP1).c_str());
+    TRACE("%s %s", lpszCST_SU, m_pLangMgr->GetStringId(cLanguages::ID_CP_RISP1).c_str());
     enableCmds();
 }
 
@@ -2112,7 +1972,7 @@ void cInvidoGfx::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer SaySomeThing)
     {
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx) ;
         STRING lpsNameSay = m_Map_fb_Say[SaySomeThing];
-        CON_Out(m_pConsole, "%s %s %s %s:  %s", lpszCST_INFO, 
+        TRACE("%s %s %s %s:  %s", lpszCST_INFO, 
                     m_pLangMgr->GetStringId(cLanguages::ID_CP_PLAYER).c_str(), pPlayer->GetName(), 
                     m_pLangMgr->GetStringId(cLanguages::ID_CP_DICE).c_str(), lpsNameSay.c_str() );
         
@@ -2182,7 +2042,7 @@ void cInvidoGfx::ALG_PlayerHasPlayed(int iPlayerIx,  const CARDINFO* pCard)
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx) ;
         if (g_Options.All.iVerbose > 5 )
         {
-            CON_Out(m_pConsole, "%s %s ha giocato %s", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
+            TRACE("%s %s ha giocato %s", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
         }
         int iNumCardPlayed = m_pMatchPoints->GetCurrNumCardPlayed();
         if (iNumCardPlayed == 1   )
@@ -2299,7 +2159,7 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
         cPlayer* pPlayer = pTable->GetPlayerIndex(m_iPlayerThatHaveMarkup); 
 
         // Mano patada, tocca a
-        CON_Out(m_pConsole, "%s %s %s", lpszCST_INFO, 
+        TRACE("%s %s %s", lpszCST_INFO, 
                m_pLangMgr->GetStringId(cLanguages::ID_CP_MANOPATA).c_str(), pPlayer->GetName());
 
 
@@ -2313,7 +2173,7 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx) ;
 
         // Mano vinta da
-        CON_Out(m_pConsole, "%s %s %s", lpszCST_INFO,
+        TRACE( "%s %s %s", lpszCST_INFO,
              m_pLangMgr->GetStringId(cLanguages::ID_CP_MANOVINTA).c_str(), pPlayer->GetName());
 
         // animate mano end
@@ -2341,14 +2201,14 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
     if ( bIsPata )
     {
         // giocata patada
-        CON_Out(m_pConsole, "%s %s", lpszCST_INFO, 
+        TRACE("%s %s", lpszCST_INFO, 
                 m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAPATA).c_str());
         strMsgFinGiocata = m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAPATA);
     }
     else if ( pScore->IsGiocataMonte() )
     {
         // giocata a monte
-        CON_Out(m_pConsole, "%s %s", lpszCST_INFO,
+        TRACE("%s %s", lpszCST_INFO,
                 m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAMONTE).c_str());
         strMsgFinGiocata = m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAMONTE);
         bIsPata = TRUE;
@@ -2371,13 +2231,13 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
         cPlayer* pPlLoser = m_pInvidoCore->GetPlayer(iPlayLoser) ;
 
         // Giocata vinta da
-        CON_Out(m_pConsole, "%s %s %s (%s %d)", lpszCST_INFO, 
+        TRACE( "%s %s %s (%s %d)", lpszCST_INFO, 
             m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), 
             pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore() );
         sprintf(buffText, "%s \"%s\" (%s %d)", m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), pPlayer->GetName(),m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
         // punti
-        CON_Out(m_pConsole, "%s %s %s %d, %s %s %d", lpszCST_SCORE, pPlayer->GetName(), 
+        TRACE("%s %s %s %d, %s %s %d", lpszCST_SCORE, pPlayer->GetName(), 
                 m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetPointsPlayer(iPlayerIx),
                 pPlLoser->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetPointsPlayer(iPlayLoser));
 
@@ -2422,7 +2282,7 @@ void cInvidoGfx::ALG_MatchEnd(I_MatchScore* pScore)
          m_pLangMgr->GetStringId(cLanguages::ID_CP_VINCE).c_str(),
          pScore->GetPointsPlayer(iPlayerIx),  pScore->GetPointsPlayer(iPlayLoser));
 
-    CON_Out(m_pConsole, "%s %s", lpszCST_INFO, buff);
+    TRACE("%s %s", lpszCST_INFO, buff);
 
     drawStaticScene();
     
@@ -2441,7 +2301,7 @@ void cInvidoGfx::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
 {
     STRING lpsNamePoints = m_MapPunti[eNewScore];
     // Punteggio della giocata ora è:
-    CON_Out(m_pConsole, "%s %s: %s", lpszCST_INFO, 
+    TRACE("%s %s: %s", lpszCST_INFO, 
         m_pLangMgr->GetStringId(cLanguages::ID_CP_NOWPOINTS).c_str(), lpsNamePoints.c_str() );
 }
 
@@ -2456,7 +2316,7 @@ void cInvidoGfx::ALG_PLayerSaidFalse(int iPlayerIx)
     if (iPlayerIx == m_iPlayer1Index)
     {
         // Quello che hai chiamato non è corretto
-        CON_Out(m_pConsole, "%s, %s", lpszCST_SU,
+        TRACE("%s, %s", lpszCST_SU,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_BUIADA).c_str());
     }
 }

@@ -265,7 +265,7 @@ BOOL cAlgAdvancedPlayer::Cagna(int  lastNumChiamate)
     ASSERT(m_pCoreGame);
     BOOL res = FALSE;
     m_pCoreGame->GetAdmittedCommands(vct_cmd, m_iMyIndex); 
-    int iNumCmds = vct_cmd.size();
+    size_t iNumCmds = vct_cmd.size();
     if (iNumCmds > 0)
     {
         eSayPlayer eSay;
@@ -273,7 +273,7 @@ BOOL cAlgAdvancedPlayer::Cagna(int  lastNumChiamate)
         int iTry = 0;
         do
         {
-            int iRndIndex = CASO(iNumCmds);
+            size_t iRndIndex = CASO(iNumCmds);
             eSay = vct_cmd[iRndIndex];
             iTry++;
         }
@@ -988,7 +988,7 @@ void cAlgAdvancedPlayer::ALG_Say()
         return ;
     }
 
-    int iRndIndex;
+    size_t iRndIndex;
     VCT_COMMANDS vct_cmd;
     ASSERT(m_pCoreGame);
     
@@ -999,7 +999,7 @@ void cAlgAdvancedPlayer::ALG_Say()
     }
 
     m_pCoreGame->GetAdmittedCommands(vct_cmd, m_iMyIndex); 
-    int iNumCmds = vct_cmd.size();
+    size_t iNumCmds = vct_cmd.size();
     int iLoops = 0, i, maxpoints = 0, max_pos = 0, sum_points = 0, min_pos = 0;
     int min_points = 20;
     int arrPoints[NUM_CARDS_HAND] = {0,0,0};

@@ -121,7 +121,7 @@ void cMenuMgr::Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer)
     rctBt1.x = m_pScreen->w -  rctBt1.w  - 20;
     m_phomeUrl = new cLabelLinkGfx;
     m_phomeUrl->m_fncbClickEvent = MakeDelegate(this, &cMenuMgr::LabelClicked);
-    m_phomeUrl->Init(&rctBt1, m_pScreen,  m_pfont3, MYIDLABELURL); 
+    m_phomeUrl->Init(&rctBt1, m_pScreen,  m_pfont3, MYIDLABELURL, m_psdlRenderer); 
     m_phomeUrl->SetState(cLabelLinkGfx::INVISIBLE);
     m_phomeUrl->SetUrl(lpszUrlHome); 
     m_phomeUrl->SetWindowText(lpszMsgUrl);
@@ -134,7 +134,7 @@ void cMenuMgr::Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer)
     rctBt1.y = m_phomeUrl->m_rctButt.y - 20;
     rctBt1.x = m_phomeUrl->m_rctButt.x;
     m_pLabelVersion->m_fncbClickEvent = MakeDelegate(this, &cMenuMgr::LabelClicked);
-    m_pLabelVersion->Init(&rctBt1, m_pScreen,  m_pfont2, MYIDLABELVER); 
+    m_pLabelVersion->Init(&rctBt1, m_pScreen,  m_pfont2, MYIDLABELVER, m_psdlRenderer); 
     m_pLabelVersion->SetState(cLabelGfx::INVISIBLE);
     m_pLabelVersion->SetWindowText(lpszVersion);
     

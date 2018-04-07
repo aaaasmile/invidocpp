@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     // app name and set the directory on installed application
     std::string strAppName;
     strAppName = argv[0];
-    int iPos = strAppName.find_last_of('\\'); 
-    int iLen = strAppName.length(); 
+    size_t iPos = strAppName.find_last_of('\\'); 
+    size_t iLen = strAppName.length(); 
     std::string strDirname = strAppName.substr(0, iPos); 
     app.SetApplicationDir(strDirname);
     _chdir(strDirname.c_str() );

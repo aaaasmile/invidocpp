@@ -53,7 +53,7 @@ void  cGiocata::NewGiocata(long lPlayerIx)
 */
 void cGiocata::NextAction()
 {
-    int iNumAct = m_deqNextAction.size();
+    size_t iNumAct = m_deqNextAction.size();
     if (iNumAct == 0)
     {
         // no action

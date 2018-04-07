@@ -213,7 +213,7 @@ LONG RegistryKey::SetValue(const std::string& aString, LPCTSTR lpszValueName)
         NULL, 
         REG_SZ,
         (const unsigned char *)aString.c_str() , 
-        aString.size());
+        (DWORD)aString.size());
 }
 
 //RecurseDeleteKey is necessary because on NT RegDeleteKey doesn't work if the

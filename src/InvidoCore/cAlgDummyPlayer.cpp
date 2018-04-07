@@ -206,7 +206,7 @@ void cAlgDummyPlayer::ALG_Play()
         ASSERT(m_pCoreGame);
 
         m_pCoreGame->GetAdmittedCommands(vct_cmd, m_iMyIndex); 
-        int iNumCmds = vct_cmd.size();
+        size_t iNumCmds = vct_cmd.size();
         if (iNumCmds > 0)
         {
             eSayPlayer eSay;
@@ -214,7 +214,7 @@ void cAlgDummyPlayer::ALG_Play()
             int iTry = 0;
             do
             {
-                int iRndIndex = CASO(iNumCmds);
+                size_t iRndIndex = CASO(iNumCmds);
                 eSay = vct_cmd[iRndIndex];
                 iTry++;
             }
@@ -318,12 +318,12 @@ void cAlgDummyPlayer::ALG_Say()
         return ;
     }
 
-    int iRndIndex;
+    size_t iRndIndex;
     VCT_COMMANDS vct_cmd;
     ASSERT(m_pCoreGame);
 
     m_pCoreGame->GetAdmittedCommands(vct_cmd, m_iMyIndex); 
-    int iNumCmds = vct_cmd.size();
+    size_t iNumCmds = vct_cmd.size();
     if (iNumCmds > 0)
     {
         iRndIndex = CASO(iNumCmds);

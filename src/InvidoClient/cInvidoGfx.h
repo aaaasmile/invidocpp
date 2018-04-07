@@ -96,8 +96,6 @@ public:
     void InitInvidoVsCPU();
     //! Set app
     void SetMainApp(cEngineApp* pVal){m_pApp = pVal;}
-    //! show chat mode
-    void ShowChat(bool bVal){m_bShowChat = TRUE;}
     //! the player say something. Gui voice input.
     void INP_PlayerSay(eSayPlayer eSay);
     //! button click callback
@@ -153,7 +151,6 @@ private:
 	void    handleMouseMoveEvent(SDL_Event &event);
 	void    handleMouseUpEvent(SDL_Event &event);
     void    clickOnPlayerCard(int iIndex);
-    static void    staCommand_Handler(ConsoleInformation *console, char* command);
     void    showPlayerMarkup(int iPlayerIx);
     void    showManoScore(BOOL bIsPlayed, int iPlayerIx, BOOL bIsPata, int iManoNum);
     void    guiPlayerTurn(int iPlayer);

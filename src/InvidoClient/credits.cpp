@@ -329,7 +329,7 @@ int cCredits::Show(SDL_Surface* pScreen, SDL_Surface *pSurfTitle, SDL_Renderer* 
 	SDL_Texture *pScreenTexture = SDL_CreateTextureFromSurface(psdlRenderer, pScreen);
 
 	/* Clear window: */
-	fade (pScreen, pScreen, 2, 1) ;
+	fade (pScreen, pScreen, 2, 1, psdlRenderer) ;
 
 
 	/* Draw title: */
@@ -437,7 +437,7 @@ int cCredits::Show(SDL_Surface* pScreen, SDL_Surface *pSurfTitle, SDL_Renderer* 
     }
 	while (!done);
   
-	fade (pScreen, pScreen, 1, 1) ;
+	fade (pScreen, pScreen, 1, 1, psdlRenderer) ;
 	/* Return the chosen command: */
 	SDL_DestroyTexture(pScreenTexture);
 	return quit;

@@ -934,7 +934,7 @@ BOOL cMano::get_LastPendScoreQuest(cPendQuestion& PendQues)
     int iCurr = 0;
     while (iNumEle - iCurr > 0)
     {
-        int iIndexLast = iNumEle - iCurr - 1;
+        size_t iIndexLast = iNumEle - iCurr - 1;
         PendQues = m_deqPendQuestion[iIndexLast];
         
         if ( !PendQues.m_bIsAMonte )
