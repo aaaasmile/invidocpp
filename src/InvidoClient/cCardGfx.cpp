@@ -207,9 +207,8 @@ int cCardGfx::DrawCard(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
             m_bDrawReversed = FALSE;
         }
     }       
-	//return SDL_BlitSurface(m_pDeck, &SrcCard, s, &dest); // SDL 1.2
-	return SDL_RenderCopy(psdlRenderer, m_pDeck, &SrcCard, &dest); // SDL 2.0
-
+	return SDL_BlitSurface(m_pDeck, &SrcCard, pSurfDest, &dest);
+	
 }
 
 ////////////////////////////////////////

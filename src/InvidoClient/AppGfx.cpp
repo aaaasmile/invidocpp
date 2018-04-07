@@ -286,7 +286,7 @@ void AppGfx::terminate()
 	{
 		SDL_DestroyTexture(m_pScreenTexture);
 	}
-	
+
 	if (m_pSlash)
 	{
 		SDL_FreeSurface(m_pSlash);
@@ -383,7 +383,7 @@ void AppGfx::showEditUserName()
 	rctWin.y = (m_pScreen->h - rctWin.h) / 2;
 
 
-	Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk,m_psdlRenderer);
+	Dlg.Init(&rctWin, m_pScreen, m_pfontVera, m_pfontAriblk, m_psdlRenderer);
 	Dlg.SetCaption(m_pLanString->GetStringId(cLanguages::ID_CHOOSENAME));
 	Dlg.Show(m_pSlash);
 
@@ -489,7 +489,7 @@ int  AppGfx::PlayGame()
 	m_pMusicManager->StopMusic();
 
 	// load and initialize background
-	m_pInvidoGfx->Initialize(m_pScreen, m_psdlRenderer);
+	m_pInvidoGfx->Initialize(m_pScreen, m_psdlRenderer, m_pScreenTexture);
 	// init invido core stuff
 	m_pInvidoGfx->InitInvidoVsCPU();
 

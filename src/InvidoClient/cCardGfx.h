@@ -46,7 +46,7 @@ public:
     //! set card information
     void SetCardInfo(int iIndex, int iW, int iH);
     //! set deck sourface
-    void SetDeckSurface(SDL_Texture* pVal, int w, int h ){m_pDeck = pVal; m_iWidth = w; m_iHeight = h;}
+    void SetDeckSurface(SDL_Surface* pVal, int w, int h ){m_pDeck = pVal; m_iWidth = w; m_iHeight = h;}
     //! set deck simbol sourface
     void SetSymbSurf(SDL_Surface* pVal, int w, int h){m_pSymbols = pVal; m_iSymbWidth = w; m_iSmbHeight = h; }
     
@@ -88,7 +88,7 @@ public:
     //! state
     eState     State;
     //! complete deck image
-    SDL_Texture*      m_pDeck;
+	SDL_Surface*      m_pDeck;
     //! complete symbol sourface
     SDL_Surface*      m_pSymbols;
     //! z order

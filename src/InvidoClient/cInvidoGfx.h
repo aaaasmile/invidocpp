@@ -89,7 +89,7 @@ public:
 	cInvidoGfx(AppGfx*  pApp);
 	~cInvidoGfx();
     //! Initialize gfx
-	void Initialize(SDL_Surface *s, SDL_Renderer* pRender);
+	void Initialize(SDL_Surface *s, SDL_Renderer* pRender, SDL_Texture* pScreenTexture);
     //! match loop
     void MatchLoop();
     //! init invido 2 player vs cpu
@@ -157,7 +157,6 @@ private:
     void    showCurrentScore();
     void    showPointsPlayer(int iPlayerIx ,  VCT_INT& vct_Points);
     void    animGiocataEnd(int iPlayerIx, BOOL bIsPata);
-    void    drawBorderConsole();
     void    enableCmds();
     void    setCmdButton(int iButtonIndex, eSayPlayer eSay, LPCSTR strCaption);
     void    enableNumButtonsCmd(int iNumButt);
@@ -169,17 +168,17 @@ private:
     void    animateManoEnd(int iPlayerIx);
 
 private:
-    //! main surface
+    //! from AppGfx
 	SDL_Surface*      m_pScreen;
+	SDL_Renderer*     m_psdlRenderer;
+	SDL_Texture*      m_pScreenTexture;
+
     //! background surface
 	SDL_Surface*      m_pScene_background;
      //! suface to draw message box
     SDL_Surface*      m_pAlphaDisplay;
-	SDL_Renderer*     m_psdlRenderer;
-	SDL_Texture*      m_pScreenTexture;
-
     //! main deck image
-    SDL_Texture*      m_pDeck;
+	SDL_Surface*      m_pDeck;
     //! symbol surface
     SDL_Surface*      m_pSymbols;
     //! rect of back card

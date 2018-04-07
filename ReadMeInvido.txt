@@ -47,8 +47,11 @@ L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione 
 
 == TODO
 - background [DONE]
-- opzioni non scompare
-- durante il gioco non si vedono le carte
+- opzioni non scompare [DONE]
+- durante il gioco non si vedono le carte [DONE]
 - alpha in menu e dialogbox [DONE]
+- carte avversario back non si vedono
+- animazione iniziale non si vede
 - tasti nella toolbox del nome
 - message box non funziona il background e l'alpha [DONE]
+- message box con solo OK non è corretta
