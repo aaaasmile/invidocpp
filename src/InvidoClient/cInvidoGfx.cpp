@@ -575,7 +575,7 @@ void cInvidoGfx::createRegionsInit()
 */
 void cInvidoGfx::animateBeginGiocata()
 {
-
+	TRACE("animateBeginGiocata - begin\n");
 	Uint32 uiTickTot = 0;
 	Uint32 uiInitialTick = SDL_GetTicks();
 	Uint32 uiLast_time = uiInitialTick;
@@ -623,25 +623,12 @@ void cInvidoGfx::animateBeginGiocata()
 				bEnd = TRUE;
 			}
 
-			// move the cards in the hand
-			SDL_PumpEvents();
-			if (SDL_GetMouseState(NULL, NULL))
-			{
-				// stop the animation
-				drawStaticScene();
-				int iDel = 600 - uiTickTot;
-				if (iDel < 0)
-				{
-					iDel = 0;
-				}
-				m_DelayAction.CheckPoint(iDel, cDelayNextAction::CHANGE_AVAIL);
-				return;
-			}
 			// update card position
 			cardTmp[iManoNum].DrawCard(m_pScreen, m_psdlRenderer);
 		}
 		//SDL_Flip(m_pScreen); //SDL 1.2
 		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+		SDL_RenderClear(m_psdlRenderer);
 		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
 		SDL_RenderPresent(m_psdlRenderer);
 
@@ -654,6 +641,8 @@ void cInvidoGfx::animateBeginGiocata()
 			uiLast_time = uiNowTime;
 		}
 	} while (uiTickTot < 1000);
+
+	TRACE("animateBeginGiocata - end\n");
 
 	// restore begin scene
 	drawStaticScene();
@@ -1274,7 +1263,6 @@ void cInvidoGfx::clickOnPlayerCard(int iIndex)
 }
 
 
-
 ////////////////////////////////////////
 //       drawPlayedCard
 /*! Draw a card that was played
@@ -1665,10 +1653,7 @@ void cInvidoGfx::showCurrentScore()
 	GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, iX_end - iX1 + iBackOff,
 		iY_end - iY1 + iBackOff + 30, iX1 - iBackOff / 2, iY1 - iBackOff / 2, m_pSurf_Bar);
 
-	/*
-	GFX_UTIL::DrawStaticLine(m_pScreen, iX1, iY_oriz, iX_end, iY_oriz, GFX_UTIL_COLOR::White);
-	GFX_UTIL::DrawStaticLine(m_pScreen, iX_vertical, iY1, iX_vertical, iY_end, GFX_UTIL_COLOR::White);
-	*/
+	
 	SDL_Rect dest;
 
 	// vertical line
@@ -2050,6 +2035,7 @@ void cInvidoGfx::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard)
 */
 void cInvidoGfx::ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCards, int iPlayerIx)
 {
+	TRACE("ALG_NewGiocata\n");
 	m_bPlayerCanPlay = FALSE;
 
 	ASSERT(iNumOfCards == NUM_CARDS_HAND);
