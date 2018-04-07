@@ -1,11 +1,9 @@
-
-
 //cMano.cpp
 
 #include "StdAfx.h"
 
 #include "cMano.h"
-#include "cInvidoCoreEngine.h"
+#include "cInvidoCore.h"
 #include "cMatchPoints.h"
 #include "TraceService.h"
 

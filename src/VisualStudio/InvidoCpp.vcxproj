@@ -236,7 +236,7 @@
     <ClInclude Include="..\InvidoCore\cAlgDummyPlayer.h" />
     <ClInclude Include="..\InvidoCore\CardSpec.h" />
     <ClInclude Include="..\InvidoCore\cGiocata.h" />
-    <ClInclude Include="..\InvidoCore\cInvidoCoreEngine.h" />
+    <ClInclude Include="..\InvidoCore\cInvidoCore.h" />
     <ClInclude Include="..\InvidoCore\cInvidoCoreEnv.h" />
     <ClInclude Include="..\InvidoCore\cMano.h" />
     <ClInclude Include="..\InvidoCore\cMatchPoints.h" />
@@ -285,7 +285,7 @@
     <ClCompile Include="..\InvidoCore\cAlgDummyPlayer.cpp" />
     <ClCompile Include="..\InvidoCore\CardSpec.cpp" />
     <ClCompile Include="..\InvidoCore\cGiocata.cpp" />
-    <ClCompile Include="..\InvidoCore\cInvidoCoreEngine.cpp" />
+    <ClCompile Include="..\InvidoCore\cInvidoCore.cpp" />
     <ClCompile Include="..\InvidoCore\cMano.cpp" />
     <ClCompile Include="..\InvidoCore\cMatchPoints.cpp" />
     <ClCompile Include="..\InvidoCore\cMazzo.cpp" />

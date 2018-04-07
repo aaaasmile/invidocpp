@@ -1,11 +1,9 @@
-
-
 // cPartita.cpp
 
 #include "StdAfx.h"
 #include "cPartita.h"
 #include "cGiocata.h"
-#include "cInvidoCoreEngine.h"
+#include "cInvidoCore.h"
 #include "cInvidoCoreEnv.h"
 #include "cMatchPoints.h"
 

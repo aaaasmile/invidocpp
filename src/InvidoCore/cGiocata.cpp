@@ -4,7 +4,7 @@
 #include "StdAfx.h"
 #include "cGiocata.h"
 #include "cMano.h"
-#include "cInvidoCoreEngine.h"
+#include "cInvidoCore.h"
 #include "cMatchPoints.h"
 
 /////////////////////////////////////////////////////////////////////////////////////

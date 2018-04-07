@@ -3,7 +3,6 @@
 #include "StdAfx.h"
 #include "cPlayer.h"
 #include "cAlgDummyPlayer.h"
-#include "cAlgNetClientPlayer.h"
 #include "cAlgAdvancedPlayer.h"
 
 ////////////////////////////////////////////////////////////////
@@ -145,12 +144,6 @@ void    cPlayer::SetLevel(eGameLevel eNewLevel, I_ALG_Player* I_val)
             ASSERT(I_val);
             m_pIAlgorithm = I_val;
             break;
-
-        case REMOTE_LEVEL:
-            m_pIAlgorithm = new cAlgNetClientPlayer;
-            m_vctAlgToDestroy.push_back(m_pIAlgorithm);
-            break;
-
 
         default:
             ASSERT(0);

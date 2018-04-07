@@ -136,8 +136,6 @@ enum eGameLevel
     HMI       = 4,
     //! tester python
     TEST_PYTHON,
-    //! remote
-    REMOTE_LEVEL,
     //! server level
     SERVER_LEVEL
 };

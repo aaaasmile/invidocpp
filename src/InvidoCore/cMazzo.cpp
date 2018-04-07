@@ -1,11 +1,9 @@
-
-
 // cMazzo.cpp
 
 #include "StdAfx.h"
 #include <win_type_global.h>
 #include "cMazzo.h"
-#include "cInvidoCoreEngine.h"
+#include "cInvidoCore.h"
 #include "cSettings.h"
 
 

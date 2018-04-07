@@ -45,9 +45,6 @@
     <ClInclude Include="..\InvidoCore\cGiocata.h">
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoCore\cInvidoCoreEngine.h">
-      <Filter>Source Files\InvidoCore</Filter>
-    </ClInclude>
     <ClInclude Include="..\InvidoCore\cInvidoCoreEnv.h">
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
@@ -429,6 +426,9 @@
     <ClInclude Include="..\guigfx\cProgressBarGfx.h">
       <Filter>Source Files\guigfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\InvidoCore\cInvidoCore.h">
+      <Filter>Source Files\InvidoCore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -441,9 +441,6 @@
       <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoCore\cGiocata.cpp">
-      <Filter>Source Files\InvidoCore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\InvidoCore\cInvidoCoreEngine.cpp">
       <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoCore\cMano.cpp">
@@ -556,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="..\guigfx\cProgressBarGfx.cpp">
       <Filter>Source Files\guigfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoCore\cInvidoCore.cpp">
+      <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
