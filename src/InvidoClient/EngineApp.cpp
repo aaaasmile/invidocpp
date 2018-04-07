@@ -42,7 +42,7 @@ static const char* lpszCreditsTitle = "data/images/titlecredits.png";
 static const char* lpszHelpFileName = "data/help/invido.pdf";
 
 
-cEngineApp* g_MainApp = 0;
+AppGfx* g_MainApp = 0;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ cEngineApp* g_MainApp = 0;
 //       cEngineApp
 /*! constructor
 */
-cEngineApp::cEngineApp()
+AppGfx::AppGfx()
 {
 	m_pWindow = NULL;
 	m_psdlRenderer = NULL;
@@ -79,7 +79,7 @@ cEngineApp::cEngineApp()
 //       ~cEngineApp
 /*! destructor
 */
-cEngineApp::~cEngineApp()
+AppGfx::~AppGfx()
 {
 	terminate();
 }
@@ -89,7 +89,7 @@ cEngineApp::~cEngineApp()
 //       loadProfile
 /*! Load profiles in g_Options
 */
-void cEngineApp::loadProfile()
+void AppGfx::loadProfile()
 {
 	SpaceInvidoSettings::GetProfile(lpszIniFileOptions);
 }
@@ -99,7 +99,7 @@ void cEngineApp::loadProfile()
 //       writeProfile
 /*! Write profiles g_Options in ini file
 */
-void cEngineApp::writeProfile()
+void AppGfx::writeProfile()
 {
 	SpaceInvidoSettings::WriteProfile(lpszIniFileOptions);
 }
@@ -108,7 +108,7 @@ void cEngineApp::writeProfile()
 //       Init
 /*! Init application
 */
-void cEngineApp::Init()
+void AppGfx::Init()
 {
 	// load settings from the registry
 	loadProfile();
@@ -212,7 +212,7 @@ void cEngineApp::Init()
 //       loadSplash
 /*! load splash screen
 */
-void cEngineApp::loadSplash()
+void AppGfx::loadSplash()
 {
 	// load background
 	//SDL_Surface *Temp;
@@ -251,14 +251,14 @@ void cEngineApp::loadSplash()
 //       drawSplash
 /*!
 */
-void cEngineApp::drawSplash()
+void AppGfx::drawSplash()
 {
 	SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL);
 	//SDL_Flip(m_pScreen); // SDL 1.2
 	updateScreenTexture();
 }
 
-void cEngineApp::updateScreenTexture()
+void AppGfx::updateScreenTexture()
 {
 	// SDL 2.0
 	SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); //SDL 2.0
@@ -272,7 +272,7 @@ void cEngineApp::updateScreenTexture()
 //       terminate
 /*! Terminate stuff
 */
-void cEngineApp::terminate()
+void AppGfx::terminate()
 {
 	writeProfile();
 
@@ -319,7 +319,7 @@ void cEngineApp::terminate()
 //       MainLoop
 /*! Main loop
 */
-void cEngineApp::MainLoop()
+void AppGfx::MainLoop()
 {
 	bool bquit = false;
 
@@ -373,7 +373,7 @@ void cEngineApp::MainLoop()
 //       showEditUserName
 /*! Show a dialogbox to change the user name
 */
-void cEngineApp::showEditUserName()
+void AppGfx::showEditUserName()
 {
 	EnterNameGfx Dlg;
 	SDL_Rect rctWin;
@@ -395,7 +395,7 @@ void cEngineApp::showEditUserName()
 //       ShowHelp
 /*! Show help menu
 */
-void cEngineApp::ShowHelp()
+void AppGfx::ShowHelp()
 {
 	//std::string strFileName = lpszHelpFileName;
 	//ShellExecute(0, "open", strFileName.c_str() , 0, 0, SW_SHOWNORMAL);	
@@ -413,7 +413,7 @@ void cEngineApp::ShowHelp()
 //       ShowCredits
 /*! Show credits screen
 */
-void cEngineApp::ShowCredits()
+void AppGfx::ShowCredits()
 {
 	cCredits aCred(m_pfontVera);
 
@@ -423,7 +423,7 @@ void cEngineApp::ShowCredits()
 }
 
 
-void cEngineApp::intWindowAndRender()
+void AppGfx::intWindowAndRender()
 {
 	if (m_pWindow != NULL)
 	{
@@ -459,7 +459,7 @@ void cEngineApp::intWindowAndRender()
 //       hightScoreMenu
 /*! Shows the hight score menu
 */
-void cEngineApp::hightScoreMenu()
+void AppGfx::hightScoreMenu()
 {
 }
 
@@ -468,7 +468,7 @@ void cEngineApp::hightScoreMenu()
 //       LeaveMenu
 /*! Leave the current menu
 */
-void   cEngineApp::LeaveMenu()
+void   AppGfx::LeaveMenu()
 {
 	drawSplash();
 
@@ -479,7 +479,7 @@ void   cEngineApp::LeaveMenu()
 //       PlayGame
 /*! Play the game vs cpu
 */
-int  cEngineApp::PlayGame()
+int  AppGfx::PlayGame()
 {
 	if (g_Options.All.strPlayerName == "Anonimo")
 	{
@@ -508,7 +508,7 @@ int  cEngineApp::PlayGame()
 //       ShowOptionsGeneral
 /*! Show the option general control
 */
-void cEngineApp::ShowOptionsGeneral()
+void AppGfx::ShowOptionsGeneral()
 {
 	OptionGfx Options;
 

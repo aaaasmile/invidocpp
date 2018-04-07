@@ -40,7 +40,7 @@ const unsigned int CRD_XSYMBOL	=	1;
 const unsigned int CRD_OSYMBOL	=	2;
 const unsigned int CRD_HSYMBOL	=	3;
 
-class cEngineApp;
+class AppGfx;
 class cInvidoCore;
 class cTipoDiMazzo;
 class cButtonGfx;
@@ -86,7 +86,7 @@ public:
         NUMOFBUTTON = 6
     };
 
-	cInvidoGfx(cEngineApp*  pApp);
+	cInvidoGfx(AppGfx*  pApp);
 	~cInvidoGfx();
     //! Initialize gfx
 	void Initialize(SDL_Surface *s, SDL_Renderer* pRender);
@@ -95,7 +95,7 @@ public:
     //! init invido 2 player vs cpu
     void InitInvidoVsCPU();
     //! Set app
-    void SetMainApp(cEngineApp* pVal){m_pApp = pVal;}
+    void SetMainApp(AppGfx* pVal){m_pApp = pVal;}
     //! the player say something. Gui voice input.
     void INP_PlayerSay(eSayPlayer eSay);
     //! button click callback
@@ -197,7 +197,7 @@ private:
      //! invido core game
     cInvidoCore*      m_pInvidoCore;
     //! Engine app pointer
-    cEngineApp*       m_pApp;
+    AppGfx*       m_pApp;
     //! drag flag
     bool              m_bStartdrag;
     //! card width

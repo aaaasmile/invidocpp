@@ -47,7 +47,7 @@ const SDL_Color cMenuMgr::staColor_gray= { 128, 128, 128};
 // \param cEngineApp* pApp : 
 // \param cInvidoGfx* pGfx : 
 */
-cMenuMgr::cMenuMgr(cEngineApp* pApp, cInvidoGfx* pGfx)
+cMenuMgr::cMenuMgr(AppGfx* pApp, cInvidoGfx* pGfx)
 {
     m_pApp = pApp;
     m_pfont1 = 0;

@@ -79,7 +79,7 @@ void fnEffectTer(int iCh)
 //       cInvidoGfx
 /*! constructor
 */
-cInvidoGfx::cInvidoGfx(cEngineApp*  pApp)
+cInvidoGfx::cInvidoGfx(AppGfx*  pApp)
 {
 	m_pScene_background = 0;
     m_pFontText = 0;

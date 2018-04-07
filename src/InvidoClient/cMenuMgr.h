@@ -13,7 +13,7 @@
 #include <sdl.h>
 #include <SDL_ttf.h>
 
-class cEngineApp;
+class AppGfx;
 class cInvidoGfx;
 class cLanguages;
 class cLabelLinkGfx;
@@ -45,7 +45,7 @@ public:
         MYIDLABELVER = 1
     };
 
-	cMenuMgr(cEngineApp* pApp, cInvidoGfx* pGfx);
+	cMenuMgr(AppGfx* pApp, cInvidoGfx* pGfx);
 	virtual ~cMenuMgr();
     //! Init
     void   Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer);
@@ -78,7 +78,7 @@ private:
 
 private:
     //! engine app
-    cEngineApp*      m_pApp;
+    AppGfx*      m_pApp;
     //! get strings on differnt languages
     cLanguages*      m_pLanString;
     //! menu font

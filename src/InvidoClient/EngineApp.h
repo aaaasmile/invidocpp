@@ -17,11 +17,11 @@ class cMusicManager;
 class cMenuMgr;
 
 //! class cEngineApp
-class cEngineApp
+class AppGfx
 {
 public:
-    cEngineApp();
-    ~cEngineApp();
+    AppGfx();
+    ~AppGfx();
 
     //! init stuff
     void    Init();

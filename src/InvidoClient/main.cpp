@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
 
     
-    cEngineApp app;
+    AppGfx app;
 
     // app name and set the directory on installed application
     std::string strAppName;

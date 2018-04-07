@@ -17,7 +17,7 @@
 #include "InvidoInfoComm.h"
 #include "cProgressBarGfx.h"
 
-extern cEngineApp* g_MainApp;
+extern AppGfx* g_MainApp;
 
 static const char* stalpszUSER = "USER";
 static const char* stalpszCPUDEFAULT = "CPU_DEFAULT";

@@ -15,7 +15,7 @@
 #include "cMusicManager.h"
 #include "cSettings.h"
 
-extern cEngineApp TheApp;
+extern AppGfx TheApp;
 
 static const char* lpszMusicDir = "data/music";
 static const char* lpszVoiceIgSubDir = "/voci/ig";
