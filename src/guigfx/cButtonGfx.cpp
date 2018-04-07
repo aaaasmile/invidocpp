@@ -92,7 +92,7 @@ void   cButtonGfx::SetState(eSate eVal)
 /*! 
 // \param SDL_Event &event : 
 */
-void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
+void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -127,7 +127,7 @@ void   cButtonGfx::MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cButtonGfx::MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
+void   cButtonGfx::MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (m_eState == VISIBLE && m_bIsEnabled)
     {
@@ -270,12 +270,11 @@ void cButtonGfx::drawBtAsBitmap(SDL_Surface*  pScreen)
 // \param SDL_Surface* pScreen : 
 // \param SDL_Surface* pScene_background : 
 */
-void   cButtonGfx::RedrawButton(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture)
+void   cButtonGfx::RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture)
 {
     if (pScene_background)
     {
-        //SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); // SDL 1.2
-		SDL_RenderCopy(m_psdlRenderer, pScene_background, &m_rctButt, &m_rctButt); //SDL 2.0
+        SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); 
     }
     DrawButton(pScreen);
     //SDL_Flip(pScreen); // SDL 1.2

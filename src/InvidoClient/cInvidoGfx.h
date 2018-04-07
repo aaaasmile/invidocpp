@@ -172,7 +172,7 @@ private:
     //! main surface
 	SDL_Surface*      m_pScreen;
     //! background surface
-	SDL_Texture*      m_pScene_background;
+	SDL_Surface*      m_pScene_background;
      //! suface to draw message box
     SDL_Surface*      m_pAlphaDisplay;
 	SDL_Renderer*     m_psdlRenderer;

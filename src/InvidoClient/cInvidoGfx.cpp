@@ -133,7 +133,7 @@ void cInvidoGfx::cleanup()
     
     if (m_pScene_background)
     {
-		SDL_DestroyTexture(m_pScene_background);
+		SDL_FreeSurface(m_pScene_background);
         m_pScene_background = NULL;
     }
 
@@ -199,8 +199,7 @@ void cInvidoGfx::drawStaticScene()
 	SDL_RenderClear(m_psdlRenderer);
 	if (m_pScene_background)
 	{
-		//SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); //SDL 1.2
-		SDL_RenderCopy(m_psdlRenderer, m_pScene_background, NULL, NULL);
+		SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL);
 	}
 	SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
 	SDL_RenderPresent(m_psdlRenderer);
@@ -376,7 +375,6 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
     std::string strFileName;
 
    	// load background
-	SDL_Surface *Temp;
     if (g_Options.All.bFotoBack)
     {
         
@@ -389,18 +387,14 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
             sprintf(ErrBuff, "Unable to load %s background image" , strFileName.c_str());
             throw Error::Init(ErrBuff);
         }
-        Temp = IMG_LoadJPG_RW(srcBack);
-        //m_pScene_background = SDL_DisplayFormat(Temp); //SDL 1.2
+		m_pScene_background = IMG_LoadJPG_RW(srcBack);
     }
     else
     {
         // use a default green surface 
-		Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
-        SDL_FillRect(Temp, NULL, SDL_MapRGBA(m_pScreen->format, 0, 80, 0, 0));
+		m_pScene_background = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
+        SDL_FillRect(m_pScene_background, NULL, SDL_MapRGBA(m_pScreen->format, 0, 80, 0, 0));
     }
-
-	m_pScene_background = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp); //SDL 2.0
-	SDL_FreeSurface(Temp);
 
     // create stack regions
     createRegionsInit();
@@ -477,7 +471,6 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
     m_pAlphaDisplay = SDL_CreateRGBSurface(SDL_SWSURFACE, m_pScreen->w, m_pScreen->h, 32, 0, 0, 0, 0);
     
 }
-
 
 ////////////////////////////////////////
 //       initDeck
@@ -1087,17 +1080,6 @@ int cInvidoGfx::loadCardPac()
     if (!temp) 
         return NULL;
 
-    //if(SDL_WasInit(SDL_INIT_VIDEO)!=0)     
-    //{
-    //    // converte l'immagine al formato video scelto
-    //    //surfCards = SDL_DisplayFormat(temp); //SDL 1.2      // we are in game
-		
-    //    // setta il pixel trasparente
-    //    
-    //}
-
-	
-
 	//SDL_SetColorKey(textureCards, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(textureCards->format, 0, 128, 0)); // SDL 1.2
 	SDL_SetColorKey(temp, TRUE, SDL_MapRGB(temp->format, 0, 128, 0)); // SDL 2.0
 
@@ -1142,7 +1124,6 @@ int  cInvidoGfx::showYesNoMsgBox(LPCSTR strText)
 }
 
 
-
 ////////////////////////////////////////
 //       InitInvidoVsCPU
 /*! Init the 2 players invido game: player against CPU
@@ -1185,14 +1166,11 @@ void cInvidoGfx::InitInvidoVsCPU()
 void cInvidoGfx::MatchLoop()
 {
     Mix_ChannelFinished(fnEffectTer);
-
     // a new match is being started
     m_pInvidoCore->NewMatch();
-    
     // draw the static scene
     drawStaticScene();
 
-    
     SDL_Event event;
     int done = 0;
 	Uint32 uiLast_time;
@@ -1872,15 +1850,12 @@ void cInvidoGfx::setCmdButton(int iButtonIndex, eSayPlayer eSay, LPCSTR strCapti
         m_pbtArrayCmd[iButtonIndex]->SetWindowText(strCaption);
         m_CmdDet[iButtonIndex] = eSay;
         m_pbtArrayCmd[iButtonIndex]->RedrawButton(m_pScreen, m_pScene_background, m_pScreenTexture);
-        
     }
     else
     {
         ASSERT(0);
     }
 }
-
-
 
 ////////////////////////////////////////
 //       ButCmdClicked

@@ -47,11 +47,11 @@ public:
     //! set window text
     void   SetWindowText(LPCSTR strCaption){m_strButText = strCaption;}
     //! mouse move event
-    void   MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture);
+    void   MouseMove(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! mouse up
     void   MouseUp(SDL_Event &event);
     //! mouse down
-    void   MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture);
+    void   MouseDown(SDL_Event &event, SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! draw the button 
     void   DrawButton(SDL_Surface*  pScreen);
     //! enable the button
@@ -59,7 +59,7 @@ public:
     //! set button state
     void   SetState(eSate eVal);
     //! redraw the button
-    void   RedrawButton(SDL_Surface* pScreen, SDL_Texture* pScene_background, SDL_Texture* pScreenTexture);
+    void   RedrawButton(SDL_Surface* pScreen, SDL_Surface* pScene_background, SDL_Texture* pScreenTexture);
     //! set a button type (bitmap or text)
     void   SetButtonType(eType eTypevalue){m_eButType = eTypevalue;}
     //! set bitmap surfaces
