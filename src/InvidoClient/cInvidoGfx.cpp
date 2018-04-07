@@ -57,10 +57,6 @@ static const char* lpszCST_INFO = "[INFO]";
 static const char* lpszCST_SCORE = "[SCORE]"; 
 static const char* lpszCST_SU = "[SU]";
 
-
-// console font
-extern TTF_Font*	      g_pConsFontText;
-
 //invido core
 cInvidoCore*  g_pInvidoCore;
 
@@ -411,7 +407,6 @@ void cInvidoGfx::Initialize(SDL_Surface *s, SDL_Renderer* pRender)
 
     m_pFontStatus = m_pApp->GetFontAriblk();
     m_pFontText = m_pApp->GetFontVera(); 
-    g_pConsFontText = m_pFontText;
 
     // load images for animation stuff
     int rr = 0;
