@@ -12,7 +12,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <string>
-#include "Lang_Gen.h"
+#include "Languages.h"
 #include "cHightScoreMgr.h"
 #include "cMusicManager.h"
 #include "cSettings.h"

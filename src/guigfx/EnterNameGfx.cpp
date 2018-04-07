@@ -13,7 +13,7 @@
 #include "cComboGfx.h"
 #include "cSettings.h"
 #include "AppGfx.h"
-#include "Lang_Gen.h"
+#include "Languages.h"
 #include "cMusicManager.h"
 #include "cInvidoCoreEnv.h"
 #include "InvidoInfoComm.h"

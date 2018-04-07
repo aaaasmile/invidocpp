@@ -393,9 +393,6 @@
     <ClInclude Include="..\InvidoClient\FastDelegate.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoClient\lang_gen.h">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClInclude>
     <ClInclude Include="..\InvidoClient\regkey.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
@@ -427,6 +424,9 @@
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
     <ClInclude Include="..\InvidoClient\AppGfx.h">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\InvidoClient\Languages.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
   </ItemGroup>
@@ -521,9 +521,6 @@
     <ClCompile Include="..\InvidoClient\fading.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\InvidoClient\lang_gen.cpp">
-      <Filter>Source Files\InvidoClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\InvidoClient\regkey.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
@@ -555,6 +552,9 @@
       <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoClient\AppGfx.cpp">
+      <Filter>Source Files\InvidoClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\InvidoClient\Languages.cpp">
       <Filter>Source Files\InvidoClient</Filter>
     </ClCompile>
   </ItemGroup>

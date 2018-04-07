@@ -5,7 +5,7 @@
 #define __CTIPODIMAZZO__H_
 
 #include <string>
-#include "Lang_Gen.h"
+#include "Languages.h"
 
 
 //! class cTipoDiMazzo 

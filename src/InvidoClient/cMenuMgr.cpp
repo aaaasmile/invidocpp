@@ -16,7 +16,7 @@
 #include "cMenuMgr.h"
 #include "AppGfx.h"
 #include "cMenuMgr.h"
-#include "Lang_Gen.h"
+#include "Languages.h"
 #include "gfx_util.h"
 
 #include "cLabelLinkGfx.h"

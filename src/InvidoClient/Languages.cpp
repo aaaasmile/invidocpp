@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "win_type_global.h"
-#include "Lang_Gen.h"
+#include "Languages.h"
 #include <assert.h>
 
 // NOTA: questo file viene generato e modificato manualmente

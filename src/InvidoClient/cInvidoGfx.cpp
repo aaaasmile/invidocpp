@@ -23,7 +23,7 @@
 
 #include <time.h>
 
-#include "Lang_Gen.h"
+#include "Languages.h"
 #include "cBalloonGfx.h"
 #include "cMesgBoxGfx.h"
 #include "cMusicManager.h"

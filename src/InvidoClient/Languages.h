@@ -1,4 +1,4 @@
-// Lang_Gen.h 
+// Languages.h 
 
 #ifndef   __LANGUAG_GEN_HEAD_H_
 #define   __LANGUAG_GEN_HEAD_H_  
