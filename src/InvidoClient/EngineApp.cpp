@@ -104,8 +104,6 @@ void cEngineApp::writeProfile()
 	SpaceInvidoSettings::WriteProfile(lpszIniFileOptions);
 }
 
-
-
 ////////////////////////////////////////
 //       Init
 /*! Init application
@@ -217,7 +215,7 @@ void cEngineApp::Init()
 void cEngineApp::loadSplash()
 {
 	// load background
-	SDL_Surface *Temp;
+	//SDL_Surface *Temp;
 	if (g_Options.All.bUseSplashJpg)
 	{
 
@@ -231,18 +229,20 @@ void cEngineApp::loadSplash()
 			sprintf(ErrBuff, "Unable to load %s background image\n", strFileName.c_str());
 			throw Error::Init(ErrBuff);
 		}
-		Temp = IMG_LoadJPG_RW(srcBack);
+		//Temp = IMG_LoadJPG_RW(srcBack);
+		m_pSlash = IMG_LoadJPG_RW(srcBack);
 		//m_pSlash = SDL_DisplayFormat(Temp); //SDL 1.2
 	}
 	else
 	{
 		int w, h;
 		SDL_GetWindowSize(m_pWindow, &w, &h);
-		Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
-		SDL_FillRect(Temp, NULL, SDL_MapRGBA(Temp->format, 0, 80, 0, 0));
+		//Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
+		m_pSlash = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
+		SDL_FillRect(m_pSlash, NULL, SDL_MapRGBA(m_pSlash->format, 0, 80, 0, 0));
 	}
-	m_pSlash = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp);
-	SDL_FreeSurface(Temp);
+	//m_pSlash = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp);
+	//SDL_FreeSurface(Temp);
 
 }
 
@@ -253,10 +253,17 @@ void cEngineApp::loadSplash()
 */
 void cEngineApp::drawSplash()
 {
-	//SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL); // SDL 1.2
+	SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL);
 	//SDL_Flip(m_pScreen); // SDL 1.2
+	updateScreenTexture();
+}
+
+void cEngineApp::updateScreenTexture()
+{
+	// SDL 2.0
+	SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); //SDL 2.0
 	SDL_RenderClear(m_psdlRenderer);
-	SDL_RenderCopy(m_psdlRenderer, m_pSlash, NULL, NULL); // SDL 2.0
+	SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
 	SDL_RenderPresent(m_psdlRenderer);
 }
 
@@ -280,16 +287,16 @@ void cEngineApp::terminate()
 	{
 		SDL_DestroyTexture(m_pScreenTexture);
 	}
-	/*
+	
 	if (m_pSlash)
 	{
 		SDL_FreeSurface(m_pSlash);
 		m_pSlash = 0;
-	}*/ // SDL 1.2
-	if (m_pSlash)
-	{
-		SDL_DestroyTexture(m_pSlash); // SDL 2.0
 	}
+	//if (m_pSlash)
+	//{
+	//	SDL_DestroyTexture(m_pSlash); // SDL 2.0
+	//}
 
 	if (m_pTitleCredits)
 	{
@@ -357,11 +364,7 @@ void cEngineApp::MainLoop()
 
 		// actualize display
 		//SDL_Flip(m_pScreen); // SDL 1.2
-		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch);
-		SDL_RenderClear(m_psdlRenderer);
-		SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
-		SDL_RenderPresent(m_psdlRenderer);
-
+		updateScreenTexture();
 	}
 }
 
@@ -458,7 +461,6 @@ void cEngineApp::intWindowAndRender()
 */
 void cEngineApp::hightScoreMenu()
 {
-	// to do
 }
 
 

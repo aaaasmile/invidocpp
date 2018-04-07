@@ -54,17 +54,16 @@ public:
     
    
 private:
-    void    mainMenu();
     void    intWindowAndRender();
     void    terminate();
     void    hightScoreMenu();
 	
-    void    initInvido2Player();
     void    loadProfile();
     void    writeProfile();
     void    drawSplash();
     void    loadSplash();
     void    showEditUserName();
+	void    updateScreenTexture();
    
 private:
 	SDL_Surface*      m_pScreen;
@@ -72,7 +71,7 @@ private:
 	SDL_Window*       m_pWindow;
 	SDL_Renderer*     m_psdlRenderer;
     //! splash surface
-    SDL_Texture*      m_pSlash;
+	SDL_Surface*      m_pSlash;
     //! title credits
     SDL_Surface*      m_pTitleCredits;
     //! screen width

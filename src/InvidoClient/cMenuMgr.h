@@ -52,7 +52,7 @@ public:
     //! menu root handler
     void   HandleRootMenu();
     //! set background
-    void   SetBackground(SDL_Texture* pVal){m_pScene_background = pVal;}
+    void   SetBackground(SDL_Surface* pVal){m_pScene_background = pVal;}
     //! label callback
     void   LabelClicked(int iButID);
 
@@ -101,7 +101,7 @@ private:
     //! menu panel 
     SDL_Surface*     m_pSurf_Bar;
     //! background
-    SDL_Texture*     m_pScene_background;
+	SDL_Surface*     m_pScene_background;
 
     //! rect of the menu
     SDL_Rect         m_rctPanel;   

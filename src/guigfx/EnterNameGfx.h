@@ -37,7 +37,7 @@ public:
     //! init control
     void Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontTxt, TTF_Font* pFontWinCtrl, SDL_Renderer* psdlRenderer);
     //! shows the control
-    void Show(SDL_Texture* pScene_background);
+    void Show(SDL_Surface* pScene_background);
     //! button click callback
     void ButCmdClicked(int iButID);
     //! set caption text

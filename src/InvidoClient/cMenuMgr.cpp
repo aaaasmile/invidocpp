@@ -227,9 +227,7 @@ void cMenuMgr::fillRect(int x0, int y0, int width, int height, Uint32 color)
 */
 void cMenuMgr::drawBackground()
 {
-    //SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); //SDL 1.2
-	SDL_RenderCopy(m_psdlRenderer, m_pScene_background, NULL, NULL); // SDL 2.0
-
+    SDL_BlitSurface(m_pScene_background, NULL, m_pScreen, NULL); 
 
 	m_iSx = m_pScreen->clip_rect.w;
 	m_iDebx = m_iSx / 6;

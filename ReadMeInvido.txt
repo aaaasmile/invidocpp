@@ -46,3 +46,6 @@ Der Prozedureinsprungpunkt "inflateValidate" wurde in der DLL "D:\Projects\from_
 L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione corretta. Va usata quella della SDL_Image a x64
 
 == TODO
+- background
+- opzioni non scompare
+- durante il gioco non si vedono le carte

@@ -113,7 +113,7 @@ void EnterNameGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFontT
 /*! Shows the option window
 // \param SDL_Surface* pScene_background :
 */
-void EnterNameGfx::Show(SDL_Texture* pScene_background)
+void EnterNameGfx::Show(SDL_Surface* pScene_background)
 {
 	int iRes = 0;
 	m_bTerminated = FALSE;
@@ -145,8 +145,7 @@ void EnterNameGfx::Show(SDL_Texture* pScene_background)
 	while (!m_bTerminated)
 	{
 		// background
-		//SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL); //SDL 1.2
-		SDL_RenderCopy(m_psdlRenderer, pScene_background, NULL, NULL); // SDL 2.0
+		SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL);
 
 		// wait until the user click on button
 		SDL_Event event;
