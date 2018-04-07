@@ -55,7 +55,7 @@ cMenuMgr::cMenuMgr(AppGfx* pApp, cInvidoGfx* pGfx)
     m_pInvidoGfx = pGfx;
     m_ifocus_valuesM_A = 0;
     m_pLanString = 0;
-    m_pSurf_Bar = 0;
+    m_pMenuBox = 0;
     m_pScene_background = 0;
     m_bMouseInside = FALSE;
 }
@@ -67,10 +67,10 @@ cMenuMgr::cMenuMgr(AppGfx* pApp, cInvidoGfx* pGfx)
 */
 cMenuMgr::~cMenuMgr()
 {
-    if (m_pSurf_Bar)
+    if (m_pMenuBox)
     {
-        SDL_FreeSurface(m_pSurf_Bar);
-        m_pSurf_Bar = NULL;
+        SDL_FreeSurface(m_pMenuBox);
+        m_pMenuBox = NULL;
     }
     delete m_phomeUrl;
     delete m_pLabelVersion;
@@ -101,10 +101,10 @@ void cMenuMgr::Init(SDL_Surface *pScreen, SDL_Renderer* pRenderer)
     m_pfont2 = m_pApp->GetFontVera(); 
     m_pLanString = m_pApp->GetLanguageMan();
     
-    m_pSurf_Bar = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctPanel.w, m_rctPanel.h, 32, 0, 0, 0, 0);
-    SDL_FillRect(m_pSurf_Bar, NULL, SDL_MapRGBA(m_pScreen->format, 255, 0, 0, 0));
+    m_pMenuBox = SDL_CreateRGBSurface(SDL_SWSURFACE, m_rctPanel.w, m_rctPanel.h, 32, 0, 0, 0, 0);
+    SDL_FillRect(m_pMenuBox, NULL, SDL_MapRGBA(m_pScreen->format, 255, 0, 0, 0));
     //SDL_SetAlpha(m_pSurf_Bar, SDL_SRCALPHA, 127); // SDL 1.2
-	SDL_SetSurfaceAlphaMod(m_pSurf_Bar, 127); //SDL 2.0
+	SDL_SetSurfaceAlphaMod(m_pMenuBox, 127); //SDL 2.0
 
     // link to invido.it
     m_pfont3 = TTF_OpenFont(lpszIniFontVera, 11);
@@ -239,7 +239,7 @@ void cMenuMgr::drawBackground()
 	
     // don't invert, because content overwrite header
     // content
-    GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, m_rctPanel.w, m_rctPanel.h, m_rctPanel.x, m_rctPanel.y, m_pSurf_Bar);
+    GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, m_rctPanel.w, m_rctPanel.h, m_rctPanel.x, m_rctPanel.y, m_pMenuBox);
 
     // header bar
     fillRect(m_iDebx, m_iDeby-2, m_iSx - m_iDebx*2, 38, c_redfg);

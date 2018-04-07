@@ -99,7 +99,7 @@ private:
     int              m_iSx;
     int              m_iSy;
     //! menu panel 
-    SDL_Surface*     m_pSurf_Bar;
+    SDL_Surface*     m_pMenuBox;
     //! background
 	SDL_Surface*     m_pScene_background;
 

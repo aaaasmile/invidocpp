@@ -232,17 +232,6 @@ void inline GFX_UTIL::SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	}
 }
 
-
-////////////////////////////////////////
-//       DrawString
-/*!
-// \param SDL_Surface *screen :
-// \param const char* tmp :
-// \param int x :
-// \param int y :
-// \param SDL_Color color :
-// \param TTF_Font* customfont :
-*/
 void GFX_UTIL::DrawString(SDL_Surface *screen, const char* tmp, int x, int y,
 	SDL_Color color, TTF_Font* customfont)
 {
@@ -254,17 +243,7 @@ void GFX_UTIL::DrawString(SDL_Surface *screen, const char* tmp, int x, int y,
 }
 
 
-////////////////////////////////////////
-//       DrawStaticSpriteEx
-/*! Draw a sprite on the screen
-// \param int src_x :
-// \param int src_y :
-// \param int src_dx :
-// \param int src_dy :
-// \param int dst_x :
-// \param int dst_y :
-// \param SDL_Surface* sprite : sprite to be drawn
-*/
+
 void GFX_UTIL::DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int src_dx, int src_dy,
 	int dst_x, int dst_y, SDL_Surface* sprite)
 {
@@ -274,16 +253,6 @@ void GFX_UTIL::DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int
 }
 
 
-////////////////////////////////////////
-//       DrawStaticLine
-/*! Draw a line
-// \param SDL_Surface *screen :
-// \param int x0 :
-// \param int y0 :
-// \param int x1 :
-// \param int y1 :
-// \param SDL_Color color :
-*/
 void GFX_UTIL::DrawStaticLine(SDL_Surface *screen, int x0, int y0, int x1, int y1,
 	SDL_Color color)
 {
