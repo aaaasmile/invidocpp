@@ -973,7 +973,7 @@ void cAlgAdvancedPlayer::ALG_MatchEnd(I_MatchScore* pScore)
 
 ////////////////////////////////////////
 //       ALG_Say
-/*! Algorithm is invited to responce
+/*! Algorithm is invited to respond
 */
 void cAlgAdvancedPlayer::ALG_Say()
 {
@@ -982,7 +982,7 @@ void cAlgAdvancedPlayer::ALG_Say()
     int lastNumChiamate = m_iNumChiamateInGiocata;
     if (m_OpponentSay == AMONTE && m_sayMyRisp == NO)
     {
-        // a monte was called and i was responsed NO, don't change idea
+        // a monte was called and it was responded NO, don't change idea
         Chiama( m_sayMyRisp, lastNumChiamate);
         m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R1");
         return ;
@@ -1213,105 +1213,110 @@ void cAlgAdvancedPlayer::ALG_Say()
             }
         }
         else if(curr_mano == 1 && maxpoints <= pointsFirstCard &&  pointsFirstCard < 11 && m_iPlayerOnTurn == m_iOppIndex)
-        {
-            if(CASO(10) > 4)
-            {
-                if(!ChiamaAMonte(lastNumChiamate))
-                {
-                    Chiama( VADOVIA, lastNumChiamate);
-                    m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19G1");
-                }
-            }
-            else
-            {
-                Chiama( VADOVIA, lastNumChiamate);
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19G2");
-            }
-        }
-        else if(curr_mano == 2 && (maxpoints <  pointsFirstCard || (pointsFirstCard == -1 && maxpoints < 11)) && m_iNumManiWon == 0 )
-        {
-            if(CASO(10) > 4)
-            {
-                if(!ChiamaAMonte(lastNumChiamate))
-                {
-                    Chiama( VADOVIA, lastNumChiamate);
-                    m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19E1");
-                }
-            }
-            else
-            {
-                Chiama( VADOVIA, lastNumChiamate);
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19E2");
-            }
-        }
-        else if((m_iNumManiWon == 1 || m_bLastManoPatada) && m_bIamCalledPoints)
-        {
-            Chiama( GIOCA, lastNumChiamate);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19D");
-        }
-        else if(curr_mano == 1 && pointsFirstCard == -1 && maxpoints >= 30)
-        {
-            Chiama( GIOCA, lastNumChiamate);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R19H");
-        }
-        else if(curr_mano == 2 && m_iNumManiWon == 0 && maxpoints < 12 && m_iPlayerOnTurn == m_iOppIndex)
-        {
-            if(!ChiamaAMonte(lastNumChiamate))
-            {
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R12B");
-                Chiama( VADOVIA, lastNumChiamate);
-            }
-            else
-            {
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R12C");
-            }
-        }
-        else
-        {
-            if(CASO(10) > 5)
-            {
-                Chiama( GIOCA, lastNumChiamate);
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R11A");
-            }
-            else if(CASO(10) > 4)
-            {
-                if(!ChiamaAMonte(lastNumChiamate))
-                {
-                    Chiama( GIOCA, lastNumChiamate);
-                    m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R11C");
-                }
-                else
-                {
-                    m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R11B");
-                }
-            }
-            else
-            {
-                Chiama( VADOVIA, lastNumChiamate);
-                m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R12A");
-            }
-        }
-    } // fine chiamate punti
-    else if(m_OpponentSay == AMONTE)
-    {
-        if(curr_mano == 1 && pointsFirstCard == 13 && m_iPlayerOnTurn != m_iMyIndex)
-        {
-            Chiama( NO, lastNumChiamate);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R20No");
-        }
-        else if(pointsFirstCard > maxpoints && m_iNumManiWon == 0 && 
-                m_iPlayerOnTurn == m_iMyIndex)
-        {
-            Chiama( VABENE, lastNumChiamate);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R13");
-        }
-        else if(((maxpoints < 10 && m_iNumManiWon == 0) ||
-            (sum_points < 15 && m_iNumManiWon == 0))
-            && m_iPlayerOnTurn == m_iMyIndex)
-        {
-            Chiama( VABENE, lastNumChiamate);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG] Say R14");
-        }
+		{
+		if (CASO(10) > 4)
+		{
+			if (!ChiamaAMonte(lastNumChiamate))
+			{
+				Chiama(VADOVIA, lastNumChiamate);
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19G1");
+			}
+		}
+		else
+		{
+			Chiama(VADOVIA, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19G2");
+		}
+		}
+		else if (curr_mano == 2 && (maxpoints < pointsFirstCard || (pointsFirstCard == -1 && maxpoints < 11)) && m_iNumManiWon == 0)
+		{
+			if (CASO(10) > 4)
+			{
+				if (!ChiamaAMonte(lastNumChiamate))
+				{
+					Chiama(VADOVIA, lastNumChiamate);
+					m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19E1");
+				}
+			}
+			else
+			{
+				Chiama(VADOVIA, lastNumChiamate);
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19E2");
+			}
+		}
+		else if ((m_iNumManiWon == 1 || m_bLastManoPatada) && m_bIamCalledPoints)
+		{
+			Chiama(GIOCA, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19D");
+		}
+		else if (curr_mano == 1 && pointsFirstCard == -1 && maxpoints >= 30)
+		{
+			Chiama(GIOCA, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R19H");
+		}
+		else if (curr_mano == 2 && m_iNumManiWon == 0 && maxpoints < 12 && m_iPlayerOnTurn == m_iOppIndex)
+		{
+			if (!ChiamaAMonte(lastNumChiamate))
+			{
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R12B");
+				Chiama(VADOVIA, lastNumChiamate);
+			}
+			else
+			{
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R12C");
+			}
+		}
+		else
+		{
+			if (CASO(10) > 5)
+			{
+				Chiama(GIOCA, lastNumChiamate);
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R11A");
+			}
+			else if (CASO(10) > 4)
+			{
+				if (!ChiamaAMonte(lastNumChiamate))
+				{
+					Chiama(GIOCA, lastNumChiamate);
+					m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R11C");
+				}
+				else
+				{
+					m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R11B");
+				}
+			}
+			else
+			{
+				Chiama(VADOVIA, lastNumChiamate);
+				m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R12A");
+			}
+		}
+	} // fine chiamate punti
+	else if (m_OpponentSay == AMONTE)
+	{
+		if (curr_mano == 1 && pointsFirstCard == 13 && m_iPlayerOnTurn != m_iMyIndex)
+		{
+			Chiama(NO, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R20No");
+		}
+		else if (pointsFirstCard > maxpoints && m_iNumManiWon == 0 &&
+			m_iPlayerOnTurn == m_iMyIndex)
+		{
+			Chiama(VABENE, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R13");
+		}
+		else if (((maxpoints < 10 && m_iNumManiWon == 0) ||
+			(sum_points < 15 && m_iNumManiWon == 0))
+			&& m_iPlayerOnTurn == m_iMyIndex)
+		{
+			Chiama(VABENE, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say R14");
+		}
+		else if ((m_iPlayerOnTurn != m_iMyIndex) && (curr_mano == 3) && (pointsFirstCard < 10) && (maxpoints == 0))
+		{
+			Chiama(VABENE, lastNumChiamate);
+			m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say Va bene carta bassa giocata terza mano");
+		}
         else if(curr_mano == 3 && pointsFirstCard == -1 && maxpoints < 9)
         {
             Chiama( VABENE, lastNumChiamate);

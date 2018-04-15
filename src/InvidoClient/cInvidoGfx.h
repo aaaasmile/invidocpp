@@ -78,6 +78,7 @@ public:
 		IMG_LED_REDON,
         IMG_CANELA_OBL,
         IMG_BALLOON,
+		IMG_BALL_ARROW_UP,
         NUM_ANIMAGES
     };
     //! other constants

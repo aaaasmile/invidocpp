@@ -50,7 +50,8 @@ static const char* lpszaImage_filenames[cInvidoGfx::NUM_ANIMAGES] =
 	"data/images/LedOnBlue.bmp",
 	"data/images/LedOnRed.bmp",
 	"data/images/canela_obl.bmp",
-	"data/images/balloon.pcx"
+	"data/images/balloon_body.pcx",
+	"data/images/balloon_up.pcx"
 };
 
 static const char* lpszCST_INFO = "[INFO]";
@@ -293,6 +294,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
 	destWIN.h = m_pAnImages[IMG_BALLOON]->h;
 	m_pbalGfx = new cBalloonGfx;
 	m_pbalGfx->Init(destWIN, m_pAnImages[IMG_BALLOON], m_pFontStatus, 200);
+	m_pbalGfx->SetStyle(cBalloonGfx::ARROW_UP, m_pAnImages[IMG_BALL_ARROW_UP]);
 
 	// music manager
 	m_pMusicMgr = m_pApp->GetMusicManager();
