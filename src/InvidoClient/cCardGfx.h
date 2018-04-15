@@ -57,13 +57,13 @@ public:
     //! copy model but not the position
     void CopyButNoPosition(cCardGfx* pModel);
     //! draw a card
-    int  DrawCard(SDL_Surface *s, SDL_Renderer* psdlRenderer);
+    int  DrawCard(SDL_Surface *pSurfDest);
     //! draw symbol
-    int  DrawSymbol(SDL_Surface *s);
+    int  DrawSymbol(SDL_Surface *pSurfDest);
     //! draw card backside
-    int  DrawCardBack( SDL_Surface *s);
+    int  DrawCardBack( SDL_Surface *pSurfDest);
     //! draw card, symbol or nothing, depend on the state
-    int  DrawGeneric(SDL_Surface *s, SDL_Renderer* psdlRenderer);
+    int  DrawGeneric(SDL_Surface *pSurfDest);
     //! start to draw a card reversed
     void StartShowReversed();
 

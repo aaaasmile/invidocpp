@@ -398,7 +398,7 @@ void cInvidoGfx::renderCard(cCardGfx* pCard)
 	}
 	else if (pCard->State == cCardGfx::CSW_ST_VISIBLE)
 	{
-		pCard->DrawCard(m_pScreen, m_psdlRenderer);
+		pCard->DrawCard(m_pScreen);
 	}
 	else if (pCard->State == cCardGfx::CSW_ST_BACK)
 	{
@@ -622,7 +622,7 @@ void cInvidoGfx::animateBeginGiocata()
 			}
 
 			// update card position
-			cardTmp[iManoNum].DrawCard(m_pScreen, m_psdlRenderer);
+			cardTmp[iManoNum].DrawCard(m_pScreen);
 		}
 		//SDL_Flip(m_pScreen); //SDL 1.2
 		SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
@@ -730,7 +730,7 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
 			cardTmp[iCardPlayedIndex].m_iY += cardTmp[iCardPlayedIndex].m_iVy;
 
 			// update card position
-			cardTmp[iCardPlayedIndex].DrawCard(m_pAlphaDisplay, m_psdlRenderer);
+			cardTmp[iCardPlayedIndex].DrawCard(m_pAlphaDisplay);
 		}
 		if (!bPhase1_X && cardTmp[1].m_iX <= cardTmp[0].m_iX)
 		{
@@ -963,7 +963,7 @@ int cInvidoGfx::animateCards()
 				yspeed = int(-yspeed * BOUNCE);
 			}
 
-			cardGfx.DrawCard(m_pScreen, m_psdlRenderer);
+			cardGfx.DrawCard(m_pScreen);
 			//SDL_Flip(m_pScreen); //SDL 1.2
 			SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
 			SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);

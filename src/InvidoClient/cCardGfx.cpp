@@ -151,7 +151,7 @@ void cCardGfx::CopyButNoPosition(cCardGfx* pModel)
 /*! Draw a card on the surface s
 // \param SDL_Surface *s : destination surface
 */
-int cCardGfx::DrawCard(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
+int cCardGfx::DrawCard(SDL_Surface *pSurfDest)
 {
 	ASSERT(m_pDeck);
     ASSERT(pSurfDest);
@@ -217,7 +217,7 @@ int cCardGfx::DrawCard(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
 // \param SDL_Surface *s : destination surface
 // \param nSymbol: symbol number
 */
-int cCardGfx::DrawSymbol( SDL_Surface *s)
+int cCardGfx::DrawSymbol( SDL_Surface *pSurfDest)
 {
     ASSERT(m_pSymbols);
 
@@ -237,7 +237,7 @@ int cCardGfx::DrawSymbol( SDL_Surface *s)
 
     //SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 120);//SDL 1.2
 	SDL_SetSurfaceAlphaMod(m_pSymbols, 120); // SDL 2.0
-    SDL_BlitSurface(m_pSymbols, &SrcCard, s, &dest);
+    SDL_BlitSurface(m_pSymbols, &SrcCard, pSurfDest, &dest);
     return 0;
 }
 
@@ -246,9 +246,9 @@ int cCardGfx::DrawSymbol( SDL_Surface *s)
 /*! Draw the back site of the card
 // \param SDL_Surface *s : destination surface
 */
-int cCardGfx::DrawCardBack( SDL_Surface *s)
+int cCardGfx::DrawCardBack( SDL_Surface *pSurfDest)
 {
-	ASSERT(s);
+	ASSERT(pSurfDest);
     ASSERT(m_pSymbols);
 	SDL_Rect dest;
 	dest.x = m_iX;
@@ -260,8 +260,8 @@ int cCardGfx::DrawCardBack( SDL_Surface *s)
     SrcCard.w = m_iWidth;
     SrcCard.h = m_iHeight;
     //SDL_SetAlpha (m_pSymbols, SDL_SRCALPHA, 255); //SDL1.2
-	SDL_SetSurfaceAlphaMod(m_pSymbols, 255); // SDL 2.0
-	return SDL_BlitSurface(m_pSymbols, &SrcCard, s, &dest);
+	SDL_SetSurfaceAlphaMod(m_pSymbols, 254); // SDL 2.0 il valore 255 mette invisebile
+	return SDL_BlitSurface(m_pSymbols, &SrcCard, pSurfDest, &dest);
 }
 
 
@@ -269,7 +269,7 @@ int cCardGfx::DrawCardBack( SDL_Surface *s)
 //       DrawGeneric
 /*! Draw card, symbol or nothing, depend on the state
 */
-int cCardGfx::DrawGeneric(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
+int cCardGfx::DrawGeneric(SDL_Surface *pSurfDest)
 {
     int iRetVal = 0;
     if (this->State == cCardGfx::CSW_ST_INVISIBLE)
@@ -282,7 +282,7 @@ int cCardGfx::DrawGeneric(SDL_Surface *pSurfDest, SDL_Renderer* psdlRenderer)
     }
     else if (this->State == cCardGfx::CSW_ST_VISIBLE)
     {
-        iRetVal = this->DrawCard( pSurfDest, psdlRenderer);
+        iRetVal = this->DrawCard( pSurfDest);
     }
     else if (this->State == cCardGfx::CSW_ST_BACK)
     {
