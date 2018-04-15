@@ -232,26 +232,27 @@ void cAlgAdvancedPlayer::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay)
     m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]Player %d has said %s\n", iPlayerIx, lpsNameSay ); 
     if (iPlayerIx == m_iOppIndex)
     {
+		// Avversario ha parlato
         if(eSay > PARTIDA)
         {
-            // risposta
-            m_sayOppRisp = eSay;
+            m_sayOppRisp = eSay; // Risposta alla chiamata
         }
         else
         {
+			// avversario ha chiamato dei punti
             m_OpponentSay = eSay;
         }
     }
     else if (iPlayerIx == m_iMyIndex)
     {
+		// Algoritmo ha parlato
         if(eSay > PARTIDA)
         {
-            // risposta
-            m_sayMyRisp = eSay;
+            m_sayMyRisp = eSay; // Risposta alla chiamata
         }
         else
         {
-            // chiamata punti
+            // chiamata a punti
             m_MyLastSay = eSay;
             m_bIamCalledPoints = TRUE;
         }
@@ -1396,6 +1397,7 @@ void cAlgAdvancedPlayer::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
         }
     }
 }
+
 
 void cAlgAdvancedPlayer::ALG_PlayerSaidWrong(int iPlayerIx)
 {
