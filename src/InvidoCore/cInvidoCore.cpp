@@ -548,7 +548,7 @@ void  cInvidoCore::NtyPlayerSayBuiada(int iPlayerIx)
 		// notify all players that a player says something not correct
 		if (m_vctAlgPlayer[i])
 		{
-			m_vctAlgPlayer[i]->ALG_PLayerSaidFalse(iPlayerIx);
+			m_vctAlgPlayer[i]->ALG_PlayerSaidWrong(iPlayerIx);
 		}
 
 	}

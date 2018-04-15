@@ -82,8 +82,8 @@ public:
     virtual void ALG_Say();
     //! giocata score changed
     virtual void ALG_GicataScoreChange(eGiocataScoreState eNewScore);
-    //! player said somithing false
-    virtual void ALG_PLayerSaidFalse(int iPlayerIx);
+    //! player said something wrong
+    virtual void ALG_PlayerSaidWrong(int iPlayerIx);
 
 private:
 	CARDINFO* PlayAsFirst();

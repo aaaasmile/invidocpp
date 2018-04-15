@@ -91,7 +91,7 @@ public:
     //! giocata score changed
     virtual void ALG_GicataScoreChange(eGiocataScoreState eNewScore) = 0;
     //! player has said something not correct
-    virtual void ALG_PLayerSaidFalse(int iPlayerIx) = 0;
+    virtual void ALG_PlayerSaidWrong(int iPlayerIx) = 0;
 };
 
 // Interface tracer

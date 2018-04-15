@@ -1397,13 +1397,7 @@ void cAlgAdvancedPlayer::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
     }
 }
 
-
-////////////////////////////////////////
-//       ALG_PLayerSaidFalse
-/*! player said somithing false
-// \param int iPlayerIx : 
-*/
-void cAlgAdvancedPlayer::ALG_PLayerSaidFalse(int iPlayerIx)
+void cAlgAdvancedPlayer::ALG_PlayerSaidWrong(int iPlayerIx)
 {
 }
 

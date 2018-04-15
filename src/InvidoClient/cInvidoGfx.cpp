@@ -2248,12 +2248,7 @@ void cInvidoGfx::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
 }
 
 
-////////////////////////////////////////
-//       ALG_PLayerSaidFalse
-/*!
-// \param int iPlayerIx :
-*/
-void cInvidoGfx::ALG_PLayerSaidFalse(int iPlayerIx)
+void cInvidoGfx::ALG_PlayerSaidWrong(int iPlayerIx)
 {
 	if (iPlayerIx == m_iPlayer1Index)
 	{
@@ -2262,8 +2257,6 @@ void cInvidoGfx::ALG_PLayerSaidFalse(int iPlayerIx)
 			m_pLangMgr->GetStringId(cLanguages::ID_CP_BUIADA).c_str());
 	}
 }
-
-
 
 ////////////////////////////////////////
 //       INP_PlayerSay
