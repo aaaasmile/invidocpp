@@ -46,14 +46,14 @@ Der Prozedureinsprungpunkt "inflateValidate" wurde in der DLL "D:\Projects\from_
 L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione corretta. Va usata quella della SDL_Image a x64
 
 == TODO
+- tasti nella toolbox del nome
+- message box con solo OK non è corretta, manca l'alpha.
+- popup tasto destro per la giocata "vado dentro"
 - background [DONE]
 - opzioni non scompare [DONE]
 - durante il gioco non si vedono le carte [DONE]
 - alpha in menu e dialogbox [DONE]
-- carte avversario back non si vedono
-- animazione iniziale non si vede
-- tasti nella toolbox del nome
+- carte avversario back non si vedono [DONE]
+- animazione iniziale non si vede [DONE]
 - message box non funziona il background e l'alpha [DONE]
-- message box con solo OK non è corretta, manca l'alpha.
-- usa cBalloonGfx::SetStyle per l'arrow in alto del ballon (vedi il tressette in quanto manca l'arrow image)
-- popup tasto destro per la giocata "vado dentro"
+- usa cBalloonGfx::SetStyle per l'arrow in alto del ballon (vedi il tressette in quanto manca l'arrow image) [DONE]
