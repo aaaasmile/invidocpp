@@ -36,7 +36,7 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ITA][ID_ENGLISH] = "Inglese";
 	m_matStringsLang[LANG_ITA][ID_DIALETMN] = "Dialetto Bredese";
 	m_matStringsLang[LANG_ITA][ID_ITALIANO] = "Italiano";
-	m_matStringsLang[LANG_ITA][ID_ANONIM] = "Anonimo";
+	m_matStringsLang[LANG_ITA][ID_ANONIM] = "Remigiu";
 	m_matStringsLang[LANG_ITA][ID_PUSHBUTTON] = "Premi un tasto";
 	m_matStringsLang[LANG_ITA][ID_CMD_UNKNOWN] = "Comando non riconosciuto";
 	m_matStringsLang[LANG_ITA][ID_CMD_HELP] = "Comandi che puoi usare:";

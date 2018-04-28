@@ -154,10 +154,28 @@ void   cEditGfx::TextInput(SDL_Event &event)
 		char buff[MAX_TEXT_LENGTH];
 		//fprintf(stderr, "Keyboard: text input \"%s\"\n", event.text.text);
 		if (SDL_strlen(m_strButText.c_str()) + SDL_strlen(event.text.text) < m_iMaxLen) {
-			SDL_strlcpy(buff, m_strButText.c_str(), sizeof(buff));
-			SDL_strlcat(buff, event.text.text, sizeof(buff));
-			m_strButText = buff;
-			m_iCarLogPos = (UINT)m_strButText.length();
+			//SDL_strlcpy(buff, m_strButText.c_str(), sizeof(buff));
+			//SDL_strlcat(buff, event.text.text, sizeof(buff));
+			//m_strButText = buff;
+			//m_iCarLogPos = (UINT)m_strButText.length();
+			SDL_strlcpy(buff, event.text.text, sizeof(buff));
+			STRING strBegText = "";
+			if (m_iCarLogPos > 0)
+			{
+				strBegText = m_strButText.substr(0, m_iCarLogPos);
+			}
+			STRING strEndText = "";
+			if (m_iCarLogPos < m_strButText.length())
+			{
+				strEndText = m_strButText.substr(m_iCarLogPos, m_strButText.length());
+			}
+			STRING strNew = buff;
+			m_strButText = strBegText + strNew + strEndText;
+			m_iCarLogPos++;
+			if (m_iCarLogPos >= m_strButText.length())
+			{
+				m_iCarLogPos = (UINT)m_strButText.length();
+			}
 		}
 	}
 }
@@ -172,12 +190,6 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 	if (m_eState != SELECTED)
 		return;
 
-	// SDL 2.0 use SDL_TEXTINPUT
-	/*int c = event.key.keysym.unicode;
-	SDL_Keycode key = event.key.keysym.sym;
-	if (key >= SDLK_KP0 && key <= SDLK_KP9) {
-		c = 48 + key - SDLK_KP0;
-	}*/
 	SDL_Keycode key = event.key.keysym.sym;
 	if (key == SDLK_LEFT)
 	{
@@ -230,23 +242,7 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 		} while (1);
 
 	}
-	/*if (m_iCarLogPos > 0) //SDLK_BACKSPACE SDL 1.2
-	{
-		m_iCarLogPos--;
-		if (m_iCarLogPos <= 0)
-		{
-			m_iCarLogPos = 0;
-		}
 
-		STRING strBegText = m_strButText.substr(0, m_iCarLogPos);
-		STRING strEndText = "";
-		if (m_iCarLogPos < m_strButText.length())
-		{
-			strEndText = m_strButText.substr(m_iCarLogPos+1, m_strButText.length());
-		}
-		m_strButText = strBegText + strEndText;
-	}*/
-	//else if (key >= SDLK_RSHIFT && key <= SDLK_COMPOSE || // SDL 1.2
 	else if (key >= SDLK_RSHIFT ||
 		key == SDLK_TAB || key == SDLK_RETURN || key == SDLK_ESCAPE ||
 		key == SDLK_DELETE)

@@ -480,12 +480,6 @@ void   AppGfx::LeaveMenu()
 */
 int  AppGfx::PlayGame()
 {
-	if (g_Options.All.strPlayerName == "Anonimo")
-	{
-		// default name, show  a dialogbox to set the name
-		showEditUserName();
-	}
-
 	m_pMusicManager->StopMusic();
 
 	// load and initialize background
@@ -497,7 +491,6 @@ int  AppGfx::PlayGame()
 	m_pInvidoGfx->MatchLoop();
 
 	// game terminated
-
 	LeaveMenu();
 
 	return 0;

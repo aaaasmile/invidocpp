@@ -52,7 +52,7 @@ InvidoSettings::SubAll::SubAll()
 	bFotoBack = 1;
 	bUseSplashJpg = 1;
 	iAniSpeedLevel = 2;
-	strPlayerName = "Anonimo";
+	strPlayerName = "Remigiu";
 }
 
 void SpaceInvidoSettings::WriteProfile(const char* strKeyRoot)
@@ -122,7 +122,7 @@ void SpaceInvidoSettings::GetProfile(const char* strKeyRoot)
 			g_Options.All.bFotoBack = RegKey.getRegDWordValue(1, lpszSubAllbFotoBack);
 			g_Options.All.bUseSplashJpg = RegKey.getRegDWordValue(1, lpszSubAllbUseSplashJpg);
 			g_Options.All.iAniSpeedLevel = RegKey.getRegDWordValue(2, lpszSubAlliAniSpeedLevel);
-			g_Options.All.strPlayerName = RegKey.getRegStringValue("Anonimo", lpszSubAllstrPlayerName);
+			g_Options.All.strPlayerName = RegKey.getRegStringValue("Remigiu", lpszSubAllstrPlayerName);
 		}
 		else
 		{

@@ -72,7 +72,7 @@ void cPlayer::Create()
 {
     CardSpec emptyCard;
     m_eKind = PT_LOCAL;
-    strcpy(m_pPlayerName,"Anonimo");
+    strcpy(m_pPlayerName,"Remigiu");
    
     m_iIndex = NOT_VALID_INDEX ;
     m_eLevel = DUMMY;
