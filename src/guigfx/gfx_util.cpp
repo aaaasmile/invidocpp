@@ -232,17 +232,16 @@ void inline GFX_UTIL::SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	}
 }
 
-void GFX_UTIL::DrawString(SDL_Surface *screen, const char* tmp, int x, int y,
+void GFX_UTIL::DrawString(SDL_Surface *screen, const char* strText, int x, int y,
 	SDL_Color color, TTF_Font* customfont)
 {
 	int tx, ty;
-	TTF_SizeText(customfont, tmp, &tx, &ty);
-	SDL_Surface* s = TTF_RenderText_Blended(customfont, tmp, color);
-	GFX_UTIL::DrawStaticSpriteEx(screen, 0, 0, tx, ty, x, y, s);
-	SDL_FreeSurface(s);
+	TTF_SizeText(customfont, strText, &tx, &ty);
+	//SDL_Surface* s = TTF_RenderText_Blended(customfont, tmp, color);
+	SDL_Surface* surFont = TTF_RenderUTF8_Blended(customfont, strText, color);
+	GFX_UTIL::DrawStaticSpriteEx(screen, 0, 0, tx, ty, x, y, surFont);
+	SDL_FreeSurface(surFont);
 }
-
-
 
 void GFX_UTIL::DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int src_dx, int src_dy,
 	int dst_x, int dst_y, SDL_Surface* sprite)
@@ -251,7 +250,6 @@ void GFX_UTIL::DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int
 	SDL_Rect dst_rec = { dst_x, dst_y, 0, 0 };
 	SDL_BlitSurface(sprite, &src_rec, screen, &dst_rec);
 }
-
 
 void GFX_UTIL::DrawStaticLine(SDL_Surface *screen, int x0, int y0, int x1, int y1,
 	SDL_Color color)
@@ -275,38 +273,15 @@ void GFX_UTIL::DrawStaticLine(SDL_Surface *screen, int x0, int y0, int x1, int y
 }
 
 
-////////////////////////////////////////
-//       DrawRect
-/*! Draw a rectangle
-// \param SDL_Surface *screen :
-// \param int x :
-// \param int y :
-// \param int dx :
-// \param int dy :
-// \param SDL_Color c :
-*/
-void GFX_UTIL::DrawRect(SDL_Surface *screen, int x, int y, int dx, int dy, SDL_Color c)
+void GFX_UTIL::DrawRect(SDL_Surface *screen, int x, int y, int dx, int dy, SDL_Color color)
 {
-	DrawStaticLine(screen, x, y, dx, y, c);
-	DrawStaticLine(screen, x, y, x, dy, c);
-	DrawStaticLine(screen, dx, y, dx, dy, c);
-	DrawStaticLine(screen, x, dy, dx, dy, c);
+	DrawStaticLine(screen, x, y, dx, y, color);
+	DrawStaticLine(screen, x, y, x, dy, color);
+	DrawStaticLine(screen, dx, y, dx, dy, color);
+	DrawStaticLine(screen, x, dy, dx, dy, color);
 }
 
 
-
-////////////////////////////////////////
-//       DrawStaticBrokenLine
-/*!
-// \param SDL_Surface *screen :
-// \param int x0 :
-// \param int y0 :
-// \param int x1 :
-// \param int y1 :
-// \param const SDL_Color *color1 :
-// \param const SDL_Color *color2 :
-// \param int break_size :
-*/
 void GFX_UTIL::DrawStaticBrokenLine(SDL_Surface *screen, int x0, int y0, int x1, int y1,
 	const SDL_Color *color1, const SDL_Color *color2, int break_size)
 {

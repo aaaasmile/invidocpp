@@ -70,6 +70,10 @@ public:
     //! set the numeric only flag
     void   SetNumericOnly(BOOL bVal){m_bOnlyNum = bVal;}
 
+private:
+	size_t FindCaretPosInBuffer();
+	size_t FindLastLogicalPos();
+
 public:
     //! button state
     eSate         m_eState;
@@ -99,7 +103,7 @@ private:
     //! show caret flag
     BOOL            m_bShowCaret;
     //! caret logical position
-    UINT            m_iCarLogPos;
+    size_t            m_iCarLogPos;
     //! numeric input mask flag
     BOOL            m_bOnlyNum;
 	UINT			m_iMaxLen;

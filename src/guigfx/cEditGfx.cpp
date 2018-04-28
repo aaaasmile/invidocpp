@@ -43,14 +43,11 @@ cEditGfx::~cEditGfx()
 void  cEditGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, int iButID, SDL_Renderer* psdlRenderer)
 {
 	m_rctButt = *pRect;
-
 	m_pFontText = pFont;
-
 	m_colCurrent = GFX_UTIL_COLOR::White;
 	m_colBorder = m_colCurrent;
 	m_iButID = iButID;
 	m_psdlRenderer = psdlRenderer;
-
 }
 
 
@@ -152,31 +149,89 @@ void   cEditGfx::TextInput(SDL_Event &event)
 	{
 		char buff[MAX_TEXT_LENGTH];
 		if (SDL_strlen(m_strButText.c_str()) + SDL_strlen(event.text.text) < m_iMaxLen) {
-			if (m_iCarLogPos >= m_strButText.length())
+			size_t lastLogPos = FindLastLogicalPos();
+			if (m_iCarLogPos >= lastLogPos)
 			{
-				m_iCarLogPos = (UINT)m_strButText.length();
+				m_iCarLogPos = lastLogPos;
 			}
 			SDL_strlcpy(buff, event.text.text, sizeof(buff));
 			STRING strBegText = "";
-			if (m_iCarLogPos > 0)
+			size_t caretInBuffer = FindCaretPosInBuffer();
+			if (caretInBuffer > 0)
 			{
-				strBegText = m_strButText.substr(0, m_iCarLogPos);
+				strBegText = m_strButText.substr(0, caretInBuffer);
 			}
 			STRING strEndText = "";
-			if (m_iCarLogPos < m_strButText.length())
+			if (caretInBuffer < m_strButText.length())
 			{
-				strEndText = m_strButText.substr(m_iCarLogPos, m_strButText.length());
+				strEndText = m_strButText.substr(caretInBuffer, m_strButText.length());
 			}
 			STRING strNew = buff;
 			m_strButText = strBegText + strNew + strEndText;
-			m_iCarLogPos++;
-			if (m_iCarLogPos >= m_strButText.length())
+			m_iCarLogPos ++;
+			lastLogPos = FindLastLogicalPos();
+			if (m_iCarLogPos >= lastLogPos)
 			{
-				m_iCarLogPos = (UINT)m_strButText.length();
+				m_iCarLogPos = lastLogPos;
 			}
 		}
 	}
 }
+
+size_t cEditGfx::FindCaretPosInBuffer()
+{
+	size_t res = 0;
+	if (m_strButText.length() == 0)
+	{
+		return 0;
+	}
+	do {
+		if ((m_strButText[res] & 0x80) == 0x00)
+		{
+			/* One byte */
+			res++;
+		}
+		if ((m_strButText[res] & 0xC0) == 0x80)
+		{
+			/* Byte from the multibyte sequence */
+			res++;
+		}
+		else if ((m_strButText[res] & 0xC0) == 0xC0)
+		{
+			/* First byte of multibyte sequence */
+		}
+		if (res == m_iCarLogPos) {
+			break;
+		}
+	} while (res < m_strButText.length());
+	
+	return res;
+}
+
+size_t cEditGfx::FindLastLogicalPos()
+{
+	size_t res = 0;
+	do {
+		if ((m_strButText[res] & 0x80) == 0x00)
+		{
+			/* One byte */
+			res++;
+		}
+		if ((m_strButText[res] & 0xC0) == 0x80)
+		{
+			/* Byte from the multibyte sequence */
+			res++;
+		}
+		else if ((m_strButText[res] & 0xC0) == 0xC0)
+		{
+			/* First byte of multibyte sequence */
+		}
+		
+	} while (res < m_strButText.length());
+
+	return res + 1;
+}
+
 
 ////////////////////////////////////////
 //       KeyDown
@@ -214,43 +269,45 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 		}
 		bool doBreak = true;
 		bool delOneByte = false;
+		int jumpSeq = 0;
 		do {
 			if (textlen == 0 || m_iCarLogPos < 1)
 			{
 				break;
 			}
-			if ((m_strButText[m_iCarLogPos - 1] & 0x80) == 0x00)
+			size_t caretInBuff = FindCaretPosInBuffer();
+			if ((m_strButText[caretInBuff - 1] & 0x80) == 0x00)
 			{
 				/* One byte */
 				delOneByte = true;
 			}
-			else if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0x80)
+			if ((m_strButText[caretInBuff - 1] & 0xC0) == 0x80)
 			{
 				/* Byte from the multibyte sequence */
-				delOneByte = true;
+				//delOneByte = true;
+				jumpSeq++;
 				doBreak = false;
 			}
-			else if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0xC0)
+			if ((m_strButText[caretInBuff - 1] & 0xC0) == 0xC0)
 			{
 				/* First byte of multibyte sequence */
 				delOneByte = true;
 			}
 			if (delOneByte)
 			{
-				STRING strBeg = m_strButText.substr(0, m_iCarLogPos - 1);
+				STRING strBeg = m_strButText.substr(0, caretInBuff - 1);
 				STRING strEnd = "";
-				if (m_iCarLogPos < m_strButText.length()) {
-					strEnd = m_strButText.substr(m_iCarLogPos, m_strButText.length() - 1);
+				if (caretInBuff < m_strButText.length()) {
+					strEnd = m_strButText.substr(caretInBuff + jumpSeq, m_strButText.length() - 1);
 				}
 				m_strButText = strBeg + strEnd;
+				m_iCarLogPos--;
+				if (m_iCarLogPos <= 0) {
+					m_iCarLogPos = 0;
+					doBreak = true;
+				}
 			}
-
-
-			m_iCarLogPos--;
-			if (m_iCarLogPos <= 0) {
-				m_iCarLogPos = 0;
-				doBreak = true;
-			}
+			
 			if (doBreak)
 				break;
 		} while (1);
@@ -324,7 +381,6 @@ void   cEditGfx::DrawControl(SDL_Surface*  pScreen)
 				{
 					if (m_bShowCaret)
 					{
-
 						// show caret
 						int txSubString = 0;
 						if (m_iCarLogPos > 0)
