@@ -6,6 +6,8 @@
 #include "cEditGfx.h"
 #include "gfx_util.h"
 
+#define MAX_TEXT_LENGTH 256
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -149,10 +151,13 @@ void   cEditGfx::TextInput(SDL_Event &event)
 	}
 	else
 	{
+		char buff[MAX_TEXT_LENGTH];
 		//fprintf(stderr, "Keyboard: text input \"%s\"\n", event.text.text);
-
 		if (SDL_strlen(m_strButText.c_str()) + SDL_strlen(event.text.text) < m_iMaxLen) {
-			m_strButText += event.text.text;
+			SDL_strlcpy(buff, m_strButText.c_str(), sizeof(buff));
+			SDL_strlcat(buff, event.text.text, sizeof(buff));
+			m_strButText = buff;
+			m_iCarLogPos = (UINT)m_strButText.length();
 		}
 	}
 }
@@ -177,9 +182,9 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 	if (key == SDLK_LEFT)
 	{
 		m_iCarLogPos--;
-		if (m_iCarLogPos <= 0)
+		if (m_iCarLogPos <= 1)
 		{
-			m_iCarLogPos = 0;
+			m_iCarLogPos = 1;
 		}
 	}
 	else if (key == SDLK_RIGHT)
@@ -193,28 +198,33 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 	else if (key == SDLK_BACKSPACE)
 	{
 		size_t textlen = SDL_strlen(m_strButText.c_str());
-
+		if (m_iCarLogPos == 0)
+		{
+			m_iCarLogPos = (UINT)m_strButText.length();
+		}
 		do {
 			if (textlen == 0)
 			{
 				break;
 			}
-			if ((m_strButText[textlen - 1] & 0x80) == 0x00)
+			if ((m_strButText[m_iCarLogPos - 1] & 0x80) == 0x00)
 			{
 				/* One byte */
-				m_strButText[textlen - 1] = 0x00;
+				m_strButText[m_iCarLogPos - 1] = 0x00;
+				m_iCarLogPos--;
 				break;
 			}
-			if ((m_strButText[textlen - 1] & 0xC0) == 0x80)
+			if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0x80)
 			{
 				/* Byte from the multibyte sequence */
-				m_strButText[textlen - 1] = 0x00;
-				textlen--;
+				m_strButText[m_iCarLogPos - 1] = 0x00;
+				m_iCarLogPos--;
 			}
-			if ((m_strButText[textlen - 1] & 0xC0) == 0xC0)
+			if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0xC0)
 			{
 				/* First byte of multibyte sequence */
-				m_strButText[textlen - 1] = 0x00;
+				m_strButText[m_iCarLogPos - 1] = 0x00;
+				m_iCarLogPos--;
 				break;
 			}
 		} while (1);

@@ -47,8 +47,9 @@ L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione 
 
 == TODO
 - tasti nella toolbox del nome
-- message box con solo OK non è corretta, manca l'alpha.
 - popup tasto destro per la giocata "vado dentro"
+- setup
+- message box con solo OK non è corretta, manca l'alpha. (Ma, forse è meglio senza alpha)
 - background [DONE]
 - opzioni non scompare [DONE]
 - durante il gioco non si vedono le carte [DONE]

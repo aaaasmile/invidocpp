@@ -245,13 +245,12 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT)
+			switch (event.type)
 			{
+			case SDL_QUIT:
 				m_bTerminated = TRUE;
 				break;
-			}
-			if (event.type == SDL_KEYDOWN)
-			{
+			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_RETURN)
 				{
 					// confirm the dialog
@@ -263,20 +262,17 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 					// escape character
 					ButCmdClicked(MYIDCANCEL);
 					break;
-
 				}
 				else
 				{
 					// submitt the key on the child controls
 					m_pEditName->KeyDown(event);
 				}
-			}
-			if (event.type == SDL_MOUSEMOTION)
-			{
-
-			}
-			if (event.type == SDL_MOUSEBUTTONUP)
-			{
+				break;
+			case SDL_TEXTINPUT:
+				m_pEditName->TextInput(event);
+				break;
+			case SDL_MOUSEBUTTONUP:
 				m_pBtCancel->MouseUp(event);
 				m_pBtOK->MouseUp(event);
 				m_pCheckMusic->MouseUp(event);
@@ -284,10 +280,8 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 				m_pEditName->MouseUp(event);
 				m_pComboLang->MouseUp(event);
 				m_pCheckShowFotoBack->MouseUp(event);
-			}
-			if (event.type == SDL_MOUSEBUTTONDOWN)
-			{
-
+			default:
+				break;
 			}
 		}
 
@@ -315,7 +309,6 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 		// text header
 		GFX_UTIL::DrawString(pShadowSrf, m_strHeaderText.c_str(), rectHeader.x + 10,
 			rectHeader.y, GFX_UTIL_COLOR::White, m_pFontCtrl);
-
 
 		// draw buttons
 		m_pBtOK->DrawButton(pShadowSrf);
