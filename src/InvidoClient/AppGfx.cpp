@@ -133,7 +133,6 @@ void AppGfx::Init()
 	m_pLanString->SetLang((cLanguages::eLangId)g_Options.All.iLanguageID);
 
 	// caption
-	//SDL_WM_SetCaption(m_pLanString->GetCStringId(cLanguages::ID_INVIDO) ,NULL);	//SDL 1.2
 	SDL_SetWindowTitle(m_pWindow, m_pLanString->GetCStringId(cLanguages::ID_INVIDO)); // SDL 2.0
 
 
@@ -144,11 +143,8 @@ void AppGfx::Init()
 		sprintf(ErrBuff, "Icon not found");
 		throw Error::Init(ErrBuff);
 	}
-	//SDL_SetColorKey(psIcon, SDL_SRCCOLORKEY|SDL_RLEACCEL, SDL_MapRGB(psIcon->format, 0, 128, 0)); //SDL 1.2
 	SDL_SetColorKey(psIcon, TRUE, SDL_MapRGB(psIcon->format, 0, 128, 0)); // SDL 2.0
 
-	//SDL_WM_SetIcon(psIcon, NULL); //SDL 1.2
-	//HICON  hicon = LoadIcon(hAppInstance, MAKEINTRESOURCE(IDI_ICON1)); //SDL 1.2
 	SDL_SetWindowIcon(m_pWindow, psIcon); // SDL 2.0
 
 	// font TTF
@@ -214,7 +210,6 @@ void AppGfx::Init()
 void AppGfx::loadSplash()
 {
 	// load background
-	//SDL_Surface *Temp;
 	if (g_Options.All.bUseSplashJpg)
 	{
 
@@ -228,21 +223,15 @@ void AppGfx::loadSplash()
 			sprintf(ErrBuff, "Unable to load %s background image\n", strFileName.c_str());
 			throw Error::Init(ErrBuff);
 		}
-		//Temp = IMG_LoadJPG_RW(srcBack);
 		m_pSlash = IMG_LoadJPG_RW(srcBack);
-		//m_pSlash = SDL_DisplayFormat(Temp); //SDL 1.2
 	}
 	else
 	{
 		int w, h;
 		SDL_GetWindowSize(m_pWindow, &w, &h);
-		//Temp = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
 		m_pSlash = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
 		SDL_FillRect(m_pSlash, NULL, SDL_MapRGBA(m_pSlash->format, 0, 80, 0, 0));
 	}
-	//m_pSlash = SDL_CreateTextureFromSurface(m_psdlRenderer, Temp);
-	//SDL_FreeSurface(Temp);
-
 }
 
 
@@ -253,7 +242,6 @@ void AppGfx::loadSplash()
 void AppGfx::drawSplash()
 {
 	SDL_BlitSurface(m_pSlash, NULL, m_pScreen, NULL);
-	//SDL_Flip(m_pScreen); // SDL 1.2
 	updateScreenTexture();
 }
 
@@ -292,11 +280,7 @@ void AppGfx::terminate()
 		SDL_FreeSurface(m_pSlash);
 		m_pSlash = 0;
 	}
-	//if (m_pSlash)
-	//{
-	//	SDL_DestroyTexture(m_pSlash); // SDL 2.0
-	//}
-
+	
 	if (m_pTitleCredits)
 	{
 		SDL_FreeSurface(m_pTitleCredits);
@@ -362,7 +346,6 @@ void AppGfx::MainLoop()
 		}
 
 		// actualize display
-		//SDL_Flip(m_pScreen); // SDL 1.2
 		updateScreenTexture();
 	}
 }
@@ -396,14 +379,11 @@ void AppGfx::showEditUserName()
 */
 void AppGfx::ShowHelp()
 {
-	//std::string strFileName = lpszHelpFileName;
-	//ShellExecute(0, "open", strFileName.c_str() , 0, 0, SW_SHOWNORMAL);	
 #ifdef WIN32
 	std::string strFileName = lpszHelpFileName;
 	STRING strCompleteHelpPath = m_strApplicationDir + "\\" + strFileName;
 	::ShellExecute(NULL, TEXT("open"), strCompleteHelpPath.c_str(), 0, 0, SW_SHOWNORMAL);
 #endif
-
 	LeaveMenu();
 }
 
@@ -428,7 +408,6 @@ void AppGfx::intWindowAndRender()
 	{
 		SDL_DestroyWindow(m_pWindow);
 	}
-	//SDL_CreateWindowAndRenderer(m_iScreenW, m_iScreenH, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_pWindow, &m_psdlRenderer); //SDL 2.0
 	m_pWindow = SDL_CreateWindow("Invido", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_iScreenW, m_iScreenH, SDL_WINDOW_SHOWN);
 	if (m_pWindow == NULL)
 	{

@@ -21,7 +21,6 @@ cEditGfx::cEditGfx()
 	m_pSurf_Bar = 0;
 	m_bShowCaret = FALSE;
 	m_iCarLogPos = 0;
-	//SDL_EnableUNICODE(1); // SDL 1.2 in SDL 2.0 is gone
 	m_bOnlyNum = FALSE;
 	m_iMaxLen = 256;
 }
@@ -152,12 +151,11 @@ void   cEditGfx::TextInput(SDL_Event &event)
 	else
 	{
 		char buff[MAX_TEXT_LENGTH];
-		//fprintf(stderr, "Keyboard: text input \"%s\"\n", event.text.text);
 		if (SDL_strlen(m_strButText.c_str()) + SDL_strlen(event.text.text) < m_iMaxLen) {
-			//SDL_strlcpy(buff, m_strButText.c_str(), sizeof(buff));
-			//SDL_strlcat(buff, event.text.text, sizeof(buff));
-			//m_strButText = buff;
-			//m_iCarLogPos = (UINT)m_strButText.length();
+			if (m_iCarLogPos >= m_strButText.length())
+			{
+				m_iCarLogPos = (UINT)m_strButText.length();
+			}
 			SDL_strlcpy(buff, event.text.text, sizeof(buff));
 			STRING strBegText = "";
 			if (m_iCarLogPos > 0)
@@ -214,31 +212,47 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 		{
 			m_iCarLogPos = (UINT)m_strButText.length();
 		}
+		bool doBreak = true;
+		bool delOneByte = false;
 		do {
-			if (textlen == 0)
+			if (textlen == 0 || m_iCarLogPos < 1)
 			{
 				break;
 			}
 			if ((m_strButText[m_iCarLogPos - 1] & 0x80) == 0x00)
 			{
 				/* One byte */
-				m_strButText[m_iCarLogPos - 1] = 0x00;
-				m_iCarLogPos--;
-				break;
+				delOneByte = true;
 			}
-			if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0x80)
+			else if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0x80)
 			{
 				/* Byte from the multibyte sequence */
-				m_strButText[m_iCarLogPos - 1] = 0x00;
-				m_iCarLogPos--;
+				delOneByte = true;
+				doBreak = false;
 			}
-			if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0xC0)
+			else if ((m_strButText[m_iCarLogPos - 1] & 0xC0) == 0xC0)
 			{
 				/* First byte of multibyte sequence */
-				m_strButText[m_iCarLogPos - 1] = 0x00;
-				m_iCarLogPos--;
-				break;
+				delOneByte = true;
 			}
+			if (delOneByte)
+			{
+				STRING strBeg = m_strButText.substr(0, m_iCarLogPos - 1);
+				STRING strEnd = "";
+				if (m_iCarLogPos < m_strButText.length()) {
+					strEnd = m_strButText.substr(m_iCarLogPos, m_strButText.length() - 1);
+				}
+				m_strButText = strBeg + strEnd;
+			}
+
+
+			m_iCarLogPos--;
+			if (m_iCarLogPos <= 0) {
+				m_iCarLogPos = 0;
+				doBreak = true;
+			}
+			if (doBreak)
+				break;
 		} while (1);
 
 	}
@@ -248,51 +262,6 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 		key == SDLK_DELETE)
 	{
 		// ignore key
-	}
-	else
-	{
-		// SDL 1.2
-		//BOOL bContinue = TRUE;
-		//// check mask
-		//if (m_bOnlyNum)
-		//{
-		//	if (key < SDLK_0 || key > SDLK_9)
-		//	{
-		//		// not a num key, reject it
-		//		bContinue = FALSE;
-		//	}
-		//}
-		//if (bContinue)
-		//{
-		//	// a key used to build the text
-		//	UINT ch;
-		//	if ((event.key.keysym.unicode & 0xFF80) == 0) {
-		//		ch = event.key.keysym.unicode & 0x7F;
-		//	}
-		//	else {
-		//		//An international character..
-		//		ch = event.key.keysym.unicode;
-		//	}
-		//	char strBuff[2] = { '\0','\0' };
-		//	strBuff[0] = ch; //event.key.keysym.sym;
-		//	STRING strBegText = "";
-		//	if (m_iCarLogPos > 0)
-		//	{
-		//		strBegText = m_strButText.substr(0, m_iCarLogPos);
-		//	}
-		//	STRING strEndText = "";
-		//	if (m_iCarLogPos < m_strButText.length())
-		//	{
-		//		strEndText = m_strButText.substr(m_iCarLogPos, m_strButText.length());
-		//	}
-		//	STRING strNew = strBuff;
-		//	m_strButText = strBegText + strNew + strEndText;
-		//	m_iCarLogPos++;
-		//	if (m_iCarLogPos >= m_strButText.length())
-		//	{
-		//		m_iCarLogPos = m_strButText.length();
-		//	}
-		//}
 	}
 }
 
@@ -333,8 +302,6 @@ void   cEditGfx::DrawControl(SDL_Surface*  pScreen)
 	{
 		if (m_bIsEnabled)
 		{
-
-			//GFX_UTIL::DrawStaticSpriteEx(pScreen, 0, 0, m_rctButt.w, m_rctButt.h, m_rctButt.x, m_rctButt.y, m_pSurf_Bar);
 			int tx, ty;
 			TTF_SizeText(m_pFontText, m_strButText.c_str(), &tx, &ty);
 			int iXOffSet = XOFFSET;
@@ -343,17 +310,11 @@ void   cEditGfx::DrawControl(SDL_Surface*  pScreen)
 			GFX_UTIL::DrawString(pScreen, m_strButText.c_str(), m_rctButt.x + iXOffSet,
 				m_rctButt.y + iYOffset, m_colCurrent, m_pFontText);
 
-
 			// draw border
 			GFX_UTIL::DrawRect(pScreen, m_rctButt.x - 1, m_rctButt.y - 1, m_rctButt.x + m_rctButt.w + 1,
 				m_rctButt.y + m_rctButt.h + 1, GFX_UTIL_COLOR::Gray);
 			GFX_UTIL::DrawRect(pScreen, m_rctButt.x - 2, m_rctButt.y - 2, m_rctButt.x + m_rctButt.w + 2,
 				m_rctButt.y + m_rctButt.h + 2, GFX_UTIL_COLOR::Black);
-			/*
-			GFX_UTIL::DrawRect(pScreen, m_rctButt.x, m_rctButt.y, m_rctButt.x +  m_rctButt.w,
-								m_rctButt.y + m_rctButt.h , m_colBorder);
-								*/
-								//drawRect(m_rctButt.x, m_rctButt.y, m_rctButt.w, m_rctButt.y, staColor_white);
 
 			if (m_eState == SELECTED)
 			{
@@ -398,19 +359,13 @@ void   cEditGfx::DrawControl(SDL_Surface*  pScreen)
 				}
 
 			}
-
-
-			//ASSERT(m_strButText != "-");
 		}
 		else
 		{
-			// button disabled 
-			// TO DO
+			// control disabled 
 		}
 	}
 }
-
-
 
 ////////////////////////////////////////
 //       RedrawButton
@@ -422,11 +377,9 @@ void   cEditGfx::RedrawButton(SDL_Surface* pScreen, SDL_Texture* pScene_backgrou
 {
 	if (pScene_background)
 	{
-		//SDL_BlitSurface(pScene_background, &m_rctButt, pScreen, &m_rctButt); //SDL 1.2
 		SDL_RenderCopy(m_psdlRenderer, pScene_background, &m_rctButt, &m_rctButt); //SDL 2.0
 	}
 	DrawControl(pScreen);
-	//SDL_Flip(pScreen); //SDL 1.2
 	// SDL 2.0
 	SDL_UpdateTexture(pScreenTexture, NULL, pScreen->pixels, pScreen->pitch);
 	SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
