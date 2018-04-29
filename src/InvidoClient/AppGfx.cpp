@@ -38,7 +38,7 @@ static const char* lpszIniFontVera = "data/font/vera.ttf";
 static const char* lpszImageDir = "data/images/";
 static const char* lpszImageSplash = "modify_01.jpg";
 static const char* lpszCreditsTitle = "data/images/titlecredits.png";
-static const char* lpszHelpFileName = "data/help/invido.pdf";
+static const char* lpszHelpFileName = "data/help/invido-guida.pdf";
 
 
 AppGfx* g_MainApp = 0;
