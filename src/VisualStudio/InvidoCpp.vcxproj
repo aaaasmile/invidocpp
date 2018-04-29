@@ -253,6 +253,7 @@
     <ClInclude Include="..\InvidoCore\myexception.h" />
     <ClInclude Include="..\InvidoCore\save_utility.h" />
     <ClInclude Include="..\InvidoCore\TraceService.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\guigfx\cBalloonGfx.cpp" />
@@ -302,6 +303,9 @@
     <None Include="..\Include\SDL_config.h.cmake" />
     <None Include="..\Include\SDL_config.h.in" />
     <None Include="..\Include\SDL_config_macosx.h.orig" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="InvidoCpp.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

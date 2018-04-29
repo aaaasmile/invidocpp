@@ -429,6 +429,9 @@
     <ClInclude Include="..\InvidoClient\InvidoSettings.h">
       <Filter>Source Files\InvidoClient</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
@@ -568,5 +571,10 @@
     <None Include="..\Include\SDL_config_macosx.h.orig">
       <Filter>Source Files\Include</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="InvidoCpp.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
