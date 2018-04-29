@@ -14,6 +14,8 @@ src/VisualStudio/x64/Debug/vc140.idb
 src/VisualStudio/x64/Debug/vc140.idb
 src/VisualStudio/x64/Debug/*.*
 src/VisualStudio/x64/Debug/*
+deploy/out_for_setup/*.*
+deploy/out_for_setup/*
 *.idb
 *.log
 *.tlog
