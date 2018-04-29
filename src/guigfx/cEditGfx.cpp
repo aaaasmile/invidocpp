@@ -181,7 +181,7 @@ void   cEditGfx::TextInput(SDL_Event &event)
 
 size_t cEditGfx::FindCaretPosInBuffer()
 {
-	if (m_strButText.length() == 0)
+	if (m_strButText.length() == 0 || m_iCarLogPos == 0)
 	{
 		return 0;
 	}
@@ -200,10 +200,13 @@ size_t cEditGfx::FindCaretPosInBuffer()
 		else if ((m_strButText[posInBuffer] & 0xC0) == 0xC0)
 		{
 			/* First byte of multibyte sequence */
-			logicalCharCount++; // TODO: il caret nel buffer è alla fine della sequenza, non all'inizio
+			logicalCharCount++; 
+		}
+		if (logicalCharCount > m_iCarLogPos) {
+			break;
 		}
 		posInBuffer++;
-	} while ((posInBuffer < m_strButText.length()) || (logicalCharCount == m_iCarLogPos));
+	} while (posInBuffer < m_strButText.length());
 	
 	return posInBuffer;
 }
@@ -302,10 +305,10 @@ void   cEditGfx::KeyDown(SDL_Event &event)
 			caretInBuff--;
 			if (delOneByte)
 			{
-				STRING strBeg = m_strButText.substr(0, caretInBuff - 1);
+				STRING strBeg = m_strButText.substr(0, caretInBuff);
 				STRING strEnd = "";
 				if (caretInBuff < m_strButText.length()) {
-					strEnd = m_strButText.substr(caretInBuff + jumpSeq, m_strButText.length() - 1);
+					strEnd = m_strButText.substr(caretInBuff + 1 + jumpSeq, m_strButText.length() - 1);
 				}
 				m_strButText = strBeg + strEnd;
 				m_iCarLogPos--;
