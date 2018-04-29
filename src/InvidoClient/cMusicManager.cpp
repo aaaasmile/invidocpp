@@ -41,7 +41,7 @@ static const char* lpszaSound_filenames[cMusicManager::NUM_OF_SOUNDS] =
     "data/music/voci/ig/vavia.ogg",
     "data/music/voci/ig/vuvia_n.ogg"
     */
-    "data/music/mand_intro.ogg",
+    "data/music/wolmer-invido.ogg",
     //"data/music/fiera_est.mid"
 
 };
