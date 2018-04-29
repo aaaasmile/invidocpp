@@ -200,7 +200,7 @@ size_t cEditGfx::FindCaretPosInBuffer()
 		else if ((m_strButText[posInBuffer] & 0xC0) == 0xC0)
 		{
 			/* First byte of multibyte sequence */
-			logicalCharCount++;
+			logicalCharCount++; // TODO: il caret nel buffer è alla fine della sequenza, non all'inizio
 		}
 		posInBuffer++;
 	} while ((posInBuffer < m_strButText.length()) || (logicalCharCount == m_iCarLogPos));
