@@ -307,6 +307,9 @@
   <ItemGroup>
     <ResourceCompile Include="InvidoCpp.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\out\data\images\icona_asso.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
