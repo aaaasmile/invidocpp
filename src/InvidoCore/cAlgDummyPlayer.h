@@ -1,5 +1,3 @@
-
-
 // cAlgDummyPlayer.h: interface for the cAlgDummyPlayer class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -40,6 +38,7 @@ public:
     virtual void ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCards, int iPlayerIx) ;
     //! player has played a card
     virtual void ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) ;
+    virtual void ALG_PlayerHasVadoDentro(int iPlayerIx);
     //! player has said something
     virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay) ;
     //! player have to play notification

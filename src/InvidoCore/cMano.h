@@ -117,7 +117,7 @@ public:
     //! on mano player say something
     BOOL    Player_Say(int iPlayerIx, eSayPlayer eSay);
     // player play a card
-    BOOL    Player_Play(int iPlayerIx);
+    BOOL    Player_Play(int iPlayerIx, BOOL vadoDentro);
     //! reset a mano
     void    Reset();
     //! next action
@@ -139,7 +139,7 @@ private:
     void    handleVaBene(int iPlayerIx);
     void    handle_ScoreCalled(int iPlayerIx, eSayPlayer eSay);
     void    handle_MonteCall(int iPlayerIx, eSayPlayer eSay);
-    void    handle_CallMore(int iPlayerIx);
+    void    handle_CallMoreOrInvido(int iPlayerIx);
     void    handle_CallNo(int iPlayerIx);
     void    add_Action(int iPlayerIx, eFN_MANOACTION eAct);
     BOOL    get_LastPendQuest(cPendQuestion& PendQues);

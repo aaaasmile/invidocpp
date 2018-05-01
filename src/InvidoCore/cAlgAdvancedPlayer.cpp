@@ -165,6 +165,14 @@ void cAlgAdvancedPlayer::ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCa
     }
 }
 
+void cAlgAdvancedPlayer::ALG_PlayerHasVadoDentro(int iPlayerIx)
+{
+    if (iPlayerIx == m_iMyIndex)
+    {
+        // TODO: l'idea è quella di ritrovare la carta con la quale si è andati dentro e poi di chiamare ALG_PlayerHasPlayed
+        ASSERT(0);
+    }
+}
 
 ////////////////////////////////////////
 //       ALG_PlayerHasPlayed

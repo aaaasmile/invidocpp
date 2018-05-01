@@ -1211,7 +1211,13 @@ void cInvidoGfx::handleMouseDownEvent(SDL_Event &event)
                     showPopUpCallMenu(m_aPlayerCards[iIndexCardSelected].cardSpec, event.button.x, event.button.y, &eSay);
                     if (eSay != NOTHING)
                     {
-                        // Todo
+                        if (eSay == VADODENTRO)
+                        {
+                            vadoDentro(iIndexCardSelected);
+                        }
+                        else {
+                            INP_PlayerSay(eSay);
+                        }
                     }
                     // stop search other cards
                     break;
@@ -1287,6 +1293,16 @@ void cInvidoGfx::clickOnPlayerCard(int iIndex)
     if (m_bPlayerCanPlay && (m_aPlayerCards[iIndex].State == cCardGfx::CSW_ST_VISIBLE))
     {
         m_pInvidoCore->Player_playCard(PLAYER_ME, m_aPlayerCards[iIndex].cardSpec.GetCardInfo());
+        m_bPlayerCanPlay = FALSE;
+    }
+}
+
+void cInvidoGfx::vadoDentro(int cardIx)
+{
+    TRACE("Card vado dentro %d\n", cardIx);
+    if (m_bPlayerCanPlay && (m_aPlayerCards[cardIx].State == cCardGfx::CSW_ST_VISIBLE))
+    {
+        m_pInvidoCore->Player_vaDentro(PLAYER_ME, m_aPlayerCards[cardIx].cardSpec.GetCardInfo());
         m_bPlayerCanPlay = FALSE;
     }
 }
@@ -1931,6 +1947,12 @@ void cInvidoGfx::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer SaySomeThing)
     {
         enableCmds();
     }
+}
+
+void cInvidoGfx::ALG_PlayerHasVadoDentro(int iPlayerIx)
+{
+    // TODO
+    ASSERT(0);
 }
 
 

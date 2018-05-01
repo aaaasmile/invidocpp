@@ -45,7 +45,7 @@ public:
     //!provides a player 
     cPlayer*           GetPlayer(int iIndex){return m_PlayersOnTable.GetPlayerIndex(iIndex);}
     //! error message, somithing was wrong
-    void               RaiseError( const std::string &errorMsg); 
+    void               RaiseError( const std::string &errorMsg);
     //! provides the number of players
     int                GetNumOfPlayers(){return m_lNumPlayers;}
     //! provides match points object
@@ -113,6 +113,7 @@ public:
     BOOL      Player_saySomething(int iPlayerIx, eSayPlayer eSay );
     //! card is played from a player
     BOOL      Player_playCard(int iPlayerIx, const CARDINFO* pCardInfo);
+    BOOL      Player_vaDentro(int iPlayerIx, const CARDINFO* pCardInfo);
     //! provides admitted commands
     void      GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
     void      GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
@@ -121,6 +122,7 @@ public:
 
 private:
     CardSpec*    isCardInPlayerHand(int iPlayerIx, const CARDINFO* pCardInfo);
+    CardSpec*    checkValidCardPlayed(int iPlayerIx, const CARDINFO * pCardInfo);
     void         resetCardInfoPlayers();
     BOOL         resetCard(int iPlayerIx, CARDINFO* pCardInfo);
     
@@ -147,7 +149,7 @@ private:
     cGiocata                  m_Giocata;
     //! mano
     cMano                     m_Mano;
-    //! algorith players
+    //! players algorithm
     I_ALG_Player*             m_vctAlgPlayer[MAX_NUM_PLAYER];
     //! points handler in match
     cMatchPoints              m_MatchPoints;

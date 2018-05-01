@@ -127,6 +127,11 @@ void cAlgDummyPlayer::ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCards
     }
 }
 
+void cAlgDummyPlayer::ALG_PlayerHasVadoDentro(int iPlayerIx)
+{
+    ASSERT(0);
+}
+
 
 ////////////////////////////////////////
 //       ALG_PlayerHasPlayed
@@ -161,7 +166,6 @@ void cAlgDummyPlayer::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard)
     }
     else
     {
-        // oponent play
         m_OpponentSay = VABENE;
     }
 }

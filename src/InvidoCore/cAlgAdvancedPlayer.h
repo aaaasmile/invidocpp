@@ -1,8 +1,5 @@
 
 // cAlgAdvancedPlayer.h: interface for the cAlgAdvancedPlayer class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_cAlgAdvancedPlayer_H__C00C987D_219F_4552_893D_1A67CCACCC8D__INCLUDED_)
 #define AFX_cAlgAdvancedPlayer_H__C00C987D_219F_4552_893D_1A67CCACCC8D__INCLUDED_
 
@@ -68,6 +65,7 @@ public:
     virtual void ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCards, int iPlayerIx) ;
     //! player has played a card
     virtual void ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) ;
+    virtual void ALG_PlayerHasVadoDentro(int iPlayerIx);
     //! player has said something
     virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay) ;
     //! player have to play notification

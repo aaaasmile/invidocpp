@@ -18,6 +18,7 @@ public:
     virtual BOOL Player_saySomething(int iPlayerIx, eSayPlayer eSay ) = 0;
     //! player play a card
     virtual BOOL Player_playCard(int iPlayerIx, const CARDINFO* pCardInfo) = 0;
+    virtual BOOL Player_vaDentro(int iPlayerIx, const CARDINFO* pCardInfo) = 0;
     //! player abandon the game
     virtual void  AbandonGame(int iPlayerIx) = 0;
     //! provides admitted commands
@@ -76,6 +77,7 @@ public:
     virtual void ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCards, int iPlayerIx) = 0;
     //! player has played a card
     virtual void ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) = 0;
+    virtual void ALG_PlayerHasVadoDentro(int iPlayerIx) = 0;
     //! player has said something
     virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay) = 0;
     //! player have to play notification

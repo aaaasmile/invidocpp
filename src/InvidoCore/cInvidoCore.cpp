@@ -236,7 +236,7 @@ void  cInvidoCore::NextAction()
 */
 CardSpec* cInvidoCore::isCardInPlayerHand(int iPlayerIx, const CARDINFO* pCardInfo)
 {
-	CardSpec* bRet = NULL;
+	CardSpec* pCardSpecRes = NULL;
 	ASSERT(pCardInfo);
 	ASSERT(iPlayerIx >= 0 && iPlayerIx < MAX_NUM_PLAYER);
 
@@ -248,12 +248,12 @@ CardSpec* cInvidoCore::isCardInPlayerHand(int iPlayerIx, const CARDINFO* pCardIn
 		int iPlayerPosIx = iPlayerIx * NUM_CARDS_HAND + i;
 		if (m_aCardInfo[iPlayerPosIx] == myCard)
 		{
-			bRet = &m_aCardInfo[iPlayerPosIx];
+			pCardSpecRes = &m_aCardInfo[iPlayerPosIx];
 			break;
 		}
 	}
 
-	return bRet;
+	return pCardSpecRes;
 }
 
 
@@ -567,6 +567,59 @@ void cInvidoCore::RaiseError(const std::string &errorMsg)
 }
 
 
+CardSpec* cInvidoCore::checkValidCardPlayed(int iPlayerIx, const CARDINFO* pCardInfo)
+{
+    CardSpec cardUndef;
+    if (cardUndef.GetCardIndex() == pCardInfo->byIndex)
+    {
+        ASSERT(0);
+    }
+
+    CardSpec* pCardplayed = isCardInPlayerHand(iPlayerIx, pCardInfo);
+    
+    return pCardplayed;
+}
+
+BOOL cInvidoCore::Player_vaDentro(int iPlayerIx, const CARDINFO* pCardInfo)
+{
+    CardSpec* pCardplayed = checkValidCardPlayed(iPlayerIx, pCardInfo);
+    if (pCardplayed == NULL)
+    {
+        return FALSE;
+    }
+    
+    BOOL bRes = FALSE;
+    // change mano state
+    if (m_Mano.Player_Play(iPlayerIx, TRUE))
+    {
+        // next player is on game
+        m_pPlHaveToPlay = m_PlayersOnTable.GetPlayerToPlay(cPlayersOnTable::SWITCH_TO_NEXT);
+
+        // update match points
+        int ixCardVaDentro = 3;
+        CARDINFO cardVadodentro; // quattro di bastoni, carta sempre perdente
+        cardVadodentro.byIndex = ixCardVaDentro; 
+        strncpy(cardVadodentro.CardName, g_CardsNameX[ixCardVaDentro].c_str(), NUM_BYTE_NAME);
+        cardVadodentro.eSuit = BASTONI;
+
+        m_MatchPoints.PlayerPlay(iPlayerIx, &cardVadodentro);
+
+        for (int i = 0; i < m_lNumPlayers; i++)
+        {
+            // notify all players that a card was played
+            if (m_vctAlgPlayer[i])
+            {
+                m_vctAlgPlayer[i]->ALG_PlayerHasVadoDentro(iPlayerIx);
+            }
+        }
+
+        // reset info about played card
+        resetCard(iPlayerIx, pCardplayed->GetCardInfo());
+        bRes = TRUE;
+    }
+    return bRes;
+}
+
 ////////////////////////////////////////
 //       Player_playCard
 /*! A player have played a card, terminate a hand or the game or simply wait for the next action in the hand.
@@ -576,22 +629,15 @@ void cInvidoCore::RaiseError(const std::string &errorMsg)
 */
 BOOL  cInvidoCore::Player_playCard(int iPlayerIx, const CARDINFO* pCardInfo)
 {
-	BOOL bRes = FALSE;
-	CardSpec cardUndef;
-	if (cardUndef.GetCardIndex() == pCardInfo->byIndex)
-	{
-		ASSERT(0);
-	}
+    CardSpec* pCardplayed = checkValidCardPlayed(iPlayerIx, pCardInfo);
+    if (pCardplayed == NULL)
+    {
+        return FALSE;
+    }
 
-	CardSpec* pCardplayed = isCardInPlayerHand(iPlayerIx, pCardInfo);
-	if (pCardplayed == NULL)
-	{
-		// this is a programming error. Don't admit hmi to play cards that not are in hand
-		//ASSERT(0);
-		return FALSE;
-	}
+    BOOL bRes = FALSE;
 	// change mano state
-	if (m_Mano.Player_Play(iPlayerIx))
+	if (m_Mano.Player_Play(iPlayerIx, FALSE))
 	{
 		// next player is on game
 		m_pPlHaveToPlay = m_PlayersOnTable.GetPlayerToPlay(cPlayersOnTable::SWITCH_TO_NEXT);
@@ -606,7 +652,6 @@ BOOL  cInvidoCore::Player_playCard(int iPlayerIx, const CARDINFO* pCardInfo)
 			{
 				m_vctAlgPlayer[i]->ALG_PlayerHasPlayed(iPlayerIx, pCardplayed->GetCardInfo());
 			}
-
 		}
 
 		// reset info about played card

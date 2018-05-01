@@ -121,7 +121,8 @@ public:
     //! player has played a card
     virtual void ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) ;
     //! player has said something
-    virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay) ;
+    virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay);
+    virtual void ALG_PlayerHasVadoDentro(int iPlayerIx);
     //! player have to play notification
     virtual void ALG_Play() ;
     //! mano end notification
@@ -151,6 +152,7 @@ private:
 	void    handleMouseMoveEvent(SDL_Event &event);
 	void    handleMouseUpEvent(SDL_Event &event);
     void    clickOnPlayerCard(int iIndex);
+    void    vadoDentro(int cardIx);
     void    showPlayerMarkup(int iPlayerIx);
     void    showManoScore(BOOL bIsPlayed, int iPlayerIx, BOOL bIsPata, int iManoNum);
     void    guiPlayerTurn(int iPlayer);
