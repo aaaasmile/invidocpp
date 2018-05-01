@@ -140,7 +140,6 @@ public:
 private:
     int     animateCards();
     void    drawStaticScene();
-    void    renderChatPlayers();
     int     initDeck();
     int     loadCardPac();
     void    createRegionsInit();
@@ -159,8 +158,8 @@ private:
     void    showPointsPlayer(int iPlayerIx ,  VCT_INT& vct_Points);
     void    animGiocataEnd(int iPlayerIx, BOOL bIsPata);
     void    enableCmds();
-    void    setCmdButton(int iButtonIndex, eSayPlayer eSay, LPCSTR strCaption);
-    void    enableNumButtonsCmd(int iNumButt);
+    void    setCmdButton(size_t iButtonIndex, eSayPlayer eSay, LPCSTR strCaption);
+    void    enableOnlyCmdButtons(size_t iNumButt);
     void    renderPlayerName(int iPlayerIx);
     void    cleanup();
     void    animateBeginGiocata();

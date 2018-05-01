@@ -1,9 +1,6 @@
-
-
 // CardSpec.cpp
 #include "StdAfx.h"
 #include "CardSpec.h"
-
 
 
 ////////////////////////////////////////
