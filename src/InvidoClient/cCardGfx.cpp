@@ -165,7 +165,7 @@ int cCardGfx::DrawCard(SDL_Surface *pSurfDest)
 	if(nCdIndex > NUM_CARDS_MAZZBRI) 
     {
         nCdIndex = NUM_CARDS_MAZZBRI - 1;
-        ASSERT(0)
+        ASSERT(0); // attemp to draw an invalid card
     }
 
 	int iSegnoIx = nCdIndex / 10;

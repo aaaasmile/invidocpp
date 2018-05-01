@@ -695,8 +695,11 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
             cardTmp[iCardPlayedIndex].m_iX += cardTmp[iCardPlayedIndex].m_iVx;
             cardTmp[iCardPlayedIndex].m_iY += cardTmp[iCardPlayedIndex].m_iVy;
 
-            // update card position
-            cardTmp[iCardPlayedIndex].DrawCard(m_pAlphaDisplay);
+            if (cardTmp[iCardPlayedIndex].State == cCardGfx::CSW_ST_VISIBLE)
+            {
+                // update card position
+                cardTmp[iCardPlayedIndex].DrawCard(m_pAlphaDisplay);
+            }
         }
         if (!bPhase1_X && cardTmp[1].m_iX <= cardTmp[0].m_iX)
         {
@@ -1237,7 +1240,7 @@ void cInvidoGfx::showPopUpCallMenu(CardSpec&   cardClicked, int iX, int iY, eSay
     *peSay = NOTHING;
     VCT_COMMANDS vct_cmd;
     ASSERT(m_pInvidoCore);
-    m_pInvidoCore->GetMoreCommands(vct_cmd, m_iPlayer1Index);
+    m_pInvidoCore->GetMoreCommands(vct_cmd, m_PlayerGuiIndex);
     vct_cmd.push_back(NOTHING);
 
     size_t iNumCmdsAval = vct_cmd.size();
@@ -1302,9 +1305,25 @@ void cInvidoGfx::vadoDentro(int cardIx)
     TRACE("Card vado dentro %d\n", cardIx);
     if (m_bPlayerCanPlay && (m_aPlayerCards[cardIx].State == cCardGfx::CSW_ST_VISIBLE))
     {
+        m_CardVadoDentroIndex = cardIx;
         m_pInvidoCore->Player_vaDentro(PLAYER_ME, m_aPlayerCards[cardIx].cardSpec.GetCardInfo());
         m_bPlayerCanPlay = FALSE;
     }
+}
+
+void cInvidoGfx::renderScreen()
+{
+    SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
+    SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
+    SDL_RenderPresent(m_psdlRenderer);
+}
+
+void cInvidoGfx::drawVadoDentroCard(cCardGfx* pCard)
+{
+    drawStaticScene();
+    pCard->SetSymbolTocard(cCardGfx::SYMBOL_BRISCNET, m_iCardWidth, m_iCardHeight, m_pScreen);
+    renderCard(pCard);
+    renderScreen();
 }
 
 ////////////////////////////////////////
@@ -1331,10 +1350,8 @@ void cInvidoGfx::drawPlayedCard(cCardGfx* pCard)
     renderCard(&m_CardsTable[iIndexToUse]);
     pCard->SetSymbolTocard(cCardGfx::SYMBOL_BRISCNET, m_iCardWidth, m_iCardHeight, m_pScreen);
     renderCard(pCard);
-
-    SDL_UpdateTexture(m_pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); // sdl 2.0
-    SDL_RenderCopy(m_psdlRenderer, m_pScreenTexture, NULL, NULL);
-    SDL_RenderPresent(m_psdlRenderer);
+    renderScreen();
+    
 }
 
 ////////////////////////////////////////
@@ -1787,7 +1804,7 @@ void cInvidoGfx::enableCmds()
 {
     VCT_COMMANDS vct_cmd;
     ASSERT(m_pInvidoCore);
-    m_pInvidoCore->GetAdmittedCommands(vct_cmd, m_iPlayer1Index);
+    m_pInvidoCore->GetAdmittedCommands(vct_cmd, m_PlayerGuiIndex);
 
     // reset button to default strings
     size_t iNumCmd = vct_cmd.size();
@@ -1859,7 +1876,7 @@ void cInvidoGfx::ButCmdClicked(int iButID)
     {
         // first 6 ids are say commands buttons
         eSayPlayer eSay = m_CmdDet[iButID];
-        if (m_pInvidoCore->Player_saySomething(m_iPlayer1Index, eSay))
+        if (m_pInvidoCore->Player_saySomething(m_PlayerGuiIndex, eSay))
         {
             // said something admitted
             //disable all buttons
@@ -1900,7 +1917,7 @@ void cInvidoGfx::NtfyTermEff(int iCh)
 */
 void cInvidoGfx::ALG_Play()
 {
-    guiPlayerTurn(m_iPlayer1Index);
+    guiPlayerTurn(m_PlayerGuiIndex);
     enableCmds();
 }
 
@@ -1951,8 +1968,18 @@ void cInvidoGfx::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer SaySomeThing)
 
 void cInvidoGfx::ALG_PlayerHasVadoDentro(int iPlayerIx)
 {
-    // TODO
-    ASSERT(0);
+    if (iPlayerIx == m_PlayerGuiIndex && m_CardVadoDentroIndex >= 0 && m_CardVadoDentroIndex < NUM_CARDS_HAND)
+    {
+        if (m_aPlayerCards[m_CardVadoDentroIndex].State == cCardGfx::CSW_ST_VISIBLE)
+        {
+            TRACE("card played %s\n", m_aPlayerCards[m_CardVadoDentroIndex].cardSpec.GetName());
+
+            drawVadoDentroCard(&m_aPlayerCards[m_CardVadoDentroIndex]);
+       
+        }
+        m_DelayAction.CheckPoint(600, cDelayNextAction::NOCHANGE);
+    }
+  
 }
 
 
@@ -2017,7 +2044,7 @@ void cInvidoGfx::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard)
             m_DelayAction.CheckPoint(600, cDelayNextAction::NOCHANGE);
         }
     }
-    else if (iPlayerIx == m_iPlayer1Index)
+    else if (iPlayerIx == m_PlayerGuiIndex)
     {
         // card was played correctly
         for (int iIndex = 0; !bFound && iIndex < NUM_CARDS_HAND; iIndex++)
@@ -2172,13 +2199,13 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
         CHAR buffText[512];
 
         int iPlayLoser;
-        if (iPlayerIx == m_iPlayer1Index)
+        if (iPlayerIx == m_PlayerGuiIndex)
         {
             iPlayLoser = m_iOpponentIndex;
         }
         else
         {
-            iPlayLoser = m_iPlayer1Index;
+            iPlayLoser = m_PlayerGuiIndex;
         }
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
         cPlayer* pPlLoser = m_pInvidoCore->GetPlayer(iPlayLoser);
@@ -2213,13 +2240,13 @@ void cInvidoGfx::ALG_MatchEnd(I_MatchScore* pScore)
 
     int iPlayerIx = pScore->GetMatchWinner();
     int iPlayLoser;
-    if (iPlayerIx == m_iPlayer1Index)
+    if (iPlayerIx == m_PlayerGuiIndex)
     {
         iPlayLoser = m_iOpponentIndex;
     }
     else
     {
-        iPlayLoser = m_iPlayer1Index;
+        iPlayLoser = m_PlayerGuiIndex;
     }
     cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
     cPlayer* pPlLoser = m_pInvidoCore->GetPlayer(iPlayLoser);
@@ -2257,7 +2284,7 @@ void cInvidoGfx::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
 
 void cInvidoGfx::ALG_PlayerSaidWrong(int iPlayerIx)
 {
-    if (iPlayerIx == m_iPlayer1Index)
+    if (iPlayerIx == m_PlayerGuiIndex)
     {
         // Quello che hai chiamato non è corretto
         TRACE("%s, %s", lpszCST_SU,
@@ -2272,7 +2299,7 @@ void cInvidoGfx::ALG_PlayerSaidWrong(int iPlayerIx)
 */
 void cInvidoGfx::INP_PlayerSay(eSayPlayer eSay)
 {
-    m_pInvidoCore->Player_saySomething(m_iPlayer1Index, eSay);
+    m_pInvidoCore->Player_saySomething(m_PlayerGuiIndex, eSay);
 }
 
 

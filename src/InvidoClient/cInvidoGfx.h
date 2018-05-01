@@ -109,7 +109,7 @@ public:
 //Interface I_ALG_Player (callback functions from core invido engine)
     virtual void ALG_SetCoreInterface(I_CORE_Game* pCore){}
     //! set player index
-    virtual void ALG_SetPlayerIndex(int iIndex) {m_iPlayer1Index = iIndex;}
+    virtual void ALG_SetPlayerIndex(int iIndex) {m_PlayerGuiIndex = iIndex;}
     //! set opponent index
     virtual void ALG_SetOpponentIndex(int iIndex, int iOpponentNr){m_iOpponentIndex = iIndex ;}
     //! set associate index
@@ -153,6 +153,8 @@ private:
 	void    handleMouseUpEvent(SDL_Event &event);
     void    clickOnPlayerCard(int iIndex);
     void    vadoDentro(int cardIx);
+    void    renderScreen();
+    void    drawVadoDentroCard(cCardGfx * pCard);
     void    showPlayerMarkup(int iPlayerIx);
     void    showManoScore(BOOL bIsPlayed, int iPlayerIx, BOOL bIsPata, int iManoNum);
     void    guiPlayerTurn(int iPlayer);
@@ -221,10 +223,12 @@ private:
     cCardGfx          m_CardsTable[NUM_CARDS_PLAYED];
     //! animation images
     SDL_Surface*      m_pAnImages[NUM_ANIMAGES];
-    //! player1 index
-    int                   m_iPlayer1Index;
+    //! player gui index
+    int                   m_PlayerGuiIndex;
     //! opponent index
     int                   m_iOpponentIndex;
+    //! index card vado dentro
+    int                   m_CardVadoDentroIndex;
     //! map dei nomi dei punteggi
     MAP_SCORE             m_MapPunti;
     //! map names of player calls for buttons

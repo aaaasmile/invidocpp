@@ -801,7 +801,6 @@ void  cInvidoCore::Script_MatchEnd()
 	m_Partita.Reset();
 	m_Giocata.Reset();
 	m_Mano.Reset();
-
 }
 
 
