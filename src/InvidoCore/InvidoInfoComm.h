@@ -39,7 +39,8 @@ enum eSayPlayer
     CHIAMADIPIU = 8,
     NO = 9,
     VADODENTRO = 10,
-    GIOCA = 11
+    GIOCA = 11,
+    NOTHING = 12
 };
 
 //! giocata score state

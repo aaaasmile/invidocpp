@@ -338,7 +338,6 @@ void OptionGfx::Show(SDL_Surface* pScene_background)
 
 		//render the dialogbox
 		SDL_BlitSurface(pShadowSrf, NULL, m_pScreen, NULL);
-		//SDL_Flip(m_pScreen); // SDL 1.2
 		SDL_UpdateTexture(pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch);
 		SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
 		SDL_RenderPresent(m_psdlRenderer);

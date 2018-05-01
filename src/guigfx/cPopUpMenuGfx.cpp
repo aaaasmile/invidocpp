@@ -68,11 +68,10 @@ void cPopUpMenuGfx::Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont
 /*! Show the message box
 // \param SDL_Surface* pScene_background : 
 */
-void  cPopUpMenuGfx::Show(SDL_Texture* pScene_background)
+void  cPopUpMenuGfx::Show(SDL_Surface* pScene_background)
 {
     if (m_vctDataStrings.size() == 0)
     {
-        // nothing to show
         return;
     }
 
@@ -125,9 +124,8 @@ void  cPopUpMenuGfx::Show(SDL_Texture* pScene_background)
     while (!m_bTerminated)
     {
         // background
-        //SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL); //SDL 1.2
-		SDL_RenderCopy(m_psdlRenderer, pScene_background, NULL, NULL); // SDL 2.0
-
+        SDL_BlitSurface(pScene_background, NULL, pShadowSrf, NULL);
+		
         // wait until the user click on button
         SDL_Event event;
 	    while (SDL_PollEvent(&event)) 
@@ -217,7 +215,6 @@ void  cPopUpMenuGfx::Show(SDL_Texture* pScene_background)
                             m_rctMsgBox.y + m_rctMsgBox.h , m_colCurrent);
         
         SDL_BlitSurface(pShadowSrf, NULL, m_pScreen, NULL);
-        //SDL_Flip(m_pScreen); //SDL 1.2
 		SDL_UpdateTexture(pScreenTexture, NULL, m_pScreen->pixels, m_pScreen->pitch); //SDL 2.0
 		SDL_RenderCopy(m_psdlRenderer, pScreenTexture, NULL, NULL);
 		SDL_RenderPresent(m_psdlRenderer);

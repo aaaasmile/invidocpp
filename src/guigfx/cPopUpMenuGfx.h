@@ -1,4 +1,3 @@
-
 //cPopUpMenuGfx.h
 
 #ifndef C_POPUPMENUGFX_H__
@@ -20,7 +19,7 @@ public:
 	//! init the msgbox
 	void   Init(SDL_Rect* pRect, SDL_Surface*  pScreen, TTF_Font* pFont, SDL_Renderer* pRenderer);
 	//! show the message box
-	void   Show(SDL_Texture* pScene_background);
+	void   Show(SDL_Surface* pScene_background);
 	//! add a line in the combo
 	void   AddLineText(LPCSTR strLine);
 	//! provides the selected index

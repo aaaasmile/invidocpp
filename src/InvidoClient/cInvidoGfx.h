@@ -166,7 +166,7 @@ private:
     void    showOkMsgBox(LPCSTR strText);
     int     showYesNoMsgBox(LPCSTR strText);
     void    animateManoEnd(int iPlayerIx);
-
+    void    showPopUpCallMenu(CardSpec&   cardClicked, int iX, int iY, eSayPlayer* peSay);
 private:
     //! from AppGfx
 	SDL_Surface*      m_pScreen;
