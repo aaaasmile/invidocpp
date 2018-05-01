@@ -639,8 +639,7 @@ void cMano::giocata_Go_Amonte(int iPlayerIx)
 */
 void cMano::handle_CallMoreOrInvido(int iPlayerIx)
 {
-    // TODO
-    ASSERT(0);
+    // Nothing to do here
 }
 
 

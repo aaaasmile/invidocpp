@@ -180,6 +180,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_id_EchoSay[CHIAMADIPIU] = cMusicManager::SND_IG_CHIAMAPIU;
     m_Map_id_EchoSay[NO] = cMusicManager::SND_IG_NO;
     m_Map_id_EchoSay[GIOCA] = cMusicManager::SND_IG_GIOCA;
+    m_Map_id_EchoSay[CHIAMA] = cMusicManager::SND_IG_BORTOLO;
     //sound synth opponent
     m_Map_idSynth_Say[AMONTE] = cMusicManager::SND_WAV_SYF_MONTE;
     m_Map_idSynth_Say[INVIDO] = cMusicManager::SND_WAV_SYF_INVIDO;
@@ -190,6 +191,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_idSynth_Say[VABENE] = cMusicManager::SND_WAV_SYF_VABENE;
     m_Map_idSynth_Say[VADOVIA] = cMusicManager::SND_WAV_SYF_VUVIA;
     m_Map_idSynth_Say[CHIAMADIPIU] = cMusicManager::SND_WAV_SYF_CHIADIPIU;
+    
     m_Map_idSynth_Say[NO] = cMusicManager::SND_WAV_SYF_NO;
     m_Map_idSynth_Say[GIOCA] = cMusicManager::SND_WAV_SYF_GIOCA;
 
@@ -1218,8 +1220,17 @@ void cInvidoGfx::handleMouseDownEvent(SDL_Event &event)
                         {
                             vadoDentro(iIndexCardSelected);
                         }
-                        else {
+                        else 
+                        {
                             INP_PlayerSay(eSay);
+                            if (g_Options.All.bMyCallEcho)
+                            {
+                                int iMusId = m_Map_id_EchoSay[eSay];
+                                if (m_pMusicMgr->PlayEffect(iMusId))
+                                {
+                                    m_DelayAction.CheckPoint(2260, cDelayNextAction::CHANGE_AVAIL);
+                                }
+                            }
                         }
                     }
                     // stop search other cards
@@ -1945,6 +1956,7 @@ void cInvidoGfx::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer SaySomeThing)
 
     if (iPlayerIx == m_iOpponentIndex)
     {
+        // viene solo ripetuta la voce dell'avversario. Quella del giocatore è in echo
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
         STRING lpsNameSay = m_Map_fb_Say[SaySomeThing];
         TRACE("%s %s %s %s:  %s", lpszCST_INFO,

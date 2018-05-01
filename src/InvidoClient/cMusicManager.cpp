@@ -20,30 +20,7 @@ static const char* lpszMusicDir = "data/music";
 static const char* lpszVoiceIgSubDir = "/voci/ig";
 static const char* lpszaSound_filenames[cMusicManager::NUM_OF_SOUNDS] = 
 {
-    /*
-    "data/music/voci/ig/chiamadipiu.ogg",
-    "data/music/voci/ig/foerajeuq_n.ogg",
-    "data/music/voci/ig/invido_long.ogg",
-    "data/music/voci/ig/invido_n.ogg",
-    "data/music/voci/ig/invido_secco.ogg",
-    "data/music/voci/ig/monte_a.ogg",
-    "data/music/voci/ig/monte_n.ogg",
-    "data/music/voci/ig/no_bortolo.ogg",
-    "data/music/voci/ig/no_fronte.ogg",
-    "data/music/voci/ig/no_n.ogg",
-    "data/music/voci/ig/partida_n.ogg",
-    "data/music/voci/ig/trasmas_long.ogg",
-    "data/music/voci/ig/trasmas_n.ogg",
-    "data/music/voci/ig/trasmasnoef_b.ogg",
-    "data/music/voci/ig/trasmasnoef_n.ogg",
-    "data/music/voci/ig/vabene_jeuga.ogg",
-    "data/music/voci/ig/vabene_jeugaonly.ogg",
-    "data/music/voci/ig/vavia.ogg",
-    "data/music/voci/ig/vuvia_n.ogg"
-    */
-    "data/music/wolmer-invido.ogg",
-    //"data/music/fiera_est.mid"
-
+    "data/music/wolmer-invido.ogg"
 };
 
 static const char* lpszaEffects_filenames[cMusicManager::NUM_OF_WAV] = 
@@ -72,6 +49,7 @@ static const char* lpszaEffects_filenames[cMusicManager::NUM_OF_WAV] =
     "data/music/voci/ig/trasmasnoef_n_4bit.wav",
     "data/music/voci/ig/vabene_4bit.wav",
     "data/music/voci/ig/vuvia_n_4bit.wav",
+    "data/music/voci/ig/no_bortolo_4bit.wav",
     //other wav
     "data/music/effects/click_4bit.wav"
 };

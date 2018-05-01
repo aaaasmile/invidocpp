@@ -17,38 +17,14 @@
 class cMusicManager  
 {
 public:
-    enum
+    enum // music
     {
-        /*
-        // DON'T change the position or change the load sequence
-        SND_IG_CHIAMAPIU = 0,
-        SND_IG_FUORIGIOCO,
-        SND_IG_INV_LONG,
-        SND_IG_INV_NORM,
-        SND_IG_INV_SECCO,
-        SND_IG_MONTE_AMUNT,
-        SND_IG_MONTE_NORM,
-        SND_IG_NO_BORTOLO,
-        SND_IG_NO_FRONTE,
-        SND_IG_NO_NORMAL,
-        SND_IG_PARTIDA,
-        SND_IG_TRASMAS_LONG,
-        SND_IG_TRASMAS_NEUT,
-        SND_IG_NOEF_DILECT,
-        SND_IG_NOEF_NORMA,
-        SND_IG_VABENE_GIOCA,
-        SND_IG_VABENEONLY,
-        SND_IG_VAVIA,
-        // DON'T change the position or change the load sequence 
-        SND_IG_VUVIA,
      // if you want to add music, make here:
-     */
         MUSIC_INIT_SND,
-        //MUSIC_ONPLAY,
-     //... untill herre. Thank you.
+     //... untill here. Thank you.
         NUM_OF_SOUNDS
     };
-    enum
+    enum // effects: nota che l'ordine è importante e viene usato durante il caricamento
     {
         // synth voice
         SND_WAV_SYF_MONTE,
@@ -74,6 +50,7 @@ public:
         SND_IG_TRASNOEF,
         SND_IG_VABENE,
         SND_IG_VUVIA,
+        SND_IG_BORTOLO,
         //effects
         SND_EFC_CLICK,
 
