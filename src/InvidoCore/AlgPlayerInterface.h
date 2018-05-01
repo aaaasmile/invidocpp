@@ -1,5 +1,3 @@
-
-
 // AlgPlayerInterface.h
 
 
@@ -24,6 +22,8 @@ public:
     virtual void  AbandonGame(int iPlayerIx) = 0;
     //! provides admitted commands
     virtual void  GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex) = 0;
+    //! suplementary commands
+    virtual void  GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex) = 0;
 };
 
 //! class I_MatchScore

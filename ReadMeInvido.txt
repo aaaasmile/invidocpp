@@ -45,6 +45,11 @@ Compile: CTRL + F7
 Der Prozedureinsprungpunkt "inflateValidate" wurde in der DLL "D:\Projects\from_sf_net_to_github\invidocpp\src\VisualStudio\x64\Debug\libpng16-16.dll" nicht gefunden. 
 L'errore sopra riportato è dovuto al fatto che zlib1.dll non è della versione corretta. Va usata quella della SDL_Image a x64
 
+== Stringhe in UTF8
+Per il render delle stringhe in formato UTF8 si usa la funzione TTF_RenderUTF8_Blended, per le ISO West si usa la TTF_RenderText_Blended.
+Nota che le stringhe che provengono dalla classe Languages.cpp sono tutte in formato ascii. Quelle invece che provengono dall'input dell'utente, invece,
+sono in formato UTF8. Quindi la funzione DrawString con il parametro UTF8 le usa solo i controlli che devono mostrare un testo proveniente dall'utente.
+
 == TODO
 - popup tasto destro per la giocata "vado dentro"
 - setup

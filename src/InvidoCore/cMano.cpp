@@ -1033,6 +1033,58 @@ eManoStatus  cMano::nextTableState()
     return eRetState;
 }
 
+void cMano::CommandWithPendingQuestion(cPendQuestion& PendQues, VCT_COMMANDS& vct_Commands, int iPlayerIndex)
+{
+    if (iPlayerIndex == PendQues.m_iPlayerIx)
+    {
+        // if pending question is from the same player,
+        // he can say anything
+        vct_Commands.clear();
+        return;
+    }
+    // the question is an opponent question
+    if (PendQues.m_bIsAMonte)
+    {
+        // pending question is "a monte"
+        vct_Commands.push_back(VABENE);
+        vct_Commands.push_back(NO);
+    }
+    else
+    {
+        // pending question is score
+        vct_Commands.push_back(VADOVIA);
+        vct_Commands.push_back(AMONTE);
+        vct_Commands.push_back(GIOCA);
+        // get the next score
+        if (PendQues.m_eScore != PARTIDA)
+        {
+            // it is possible to call more score
+            eGiocataScoreState eNextScore = m_mapScoreScNext[PendQues.m_eScore];
+            eSayPlayer eCallMore = m_mapScoreSay[eNextScore];
+            vct_Commands.push_back(eCallMore);
+        }
+    }
+}
+
+void cMano::GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex)
+{
+    vct_Commands.clear();
+
+    cPendQuestion PendQues;
+    if (get_LastPendQuest(PendQues))
+    {
+        CommandWithPendingQuestion(PendQues, vct_Commands, iPlayerIndex);
+        return;
+    }
+    vct_Commands.push_back(VADODENTRO);
+    if (m_iPlayerChangeScore == iPlayerIndex)
+    {
+        vct_Commands.push_back(CHIAMADIPIU);
+    }
+    else if (m_iPlayerChangeScore == NOT_VALID_INDEX){
+        vct_Commands.push_back(CHIAMA);
+    }
+}
 
 
 ////////////////////////////////////////
@@ -1047,70 +1099,36 @@ void    cMano::GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex)
     eSayPlayer eSayAvail;
     if (get_LastPendQuest(PendQues))
     {
-        
-        if (iPlayerIndex == PendQues.m_iPlayerIx)
-        {
-            // if pending question is from the same player,
-            // he can say anything
-            vct_Commands.clear();
-            return;
-        }
-        // the question is an opponent question
-        if (PendQues.m_bIsAMonte)
-        {
-            // pending question is "a monte"
-            vct_Commands.push_back(VABENE);
-            vct_Commands.push_back(NO);
-        }
-        else
-        {
-            // pending question is score
-            vct_Commands.push_back(VADOVIA);
-            vct_Commands.push_back(AMONTE);
-            vct_Commands.push_back(GIOCA);
-            //vct_Commands.push_back(VABENE);
-            // get the next score
-            if (PendQues.m_eScore != PARTIDA )
-            {
-                // it is possible to call more score
-                eGiocataScoreState eNextScore = m_mapScoreScNext[PendQues.m_eScore];
-                eSayPlayer eCallMore = m_mapScoreSay[eNextScore];
-                vct_Commands.push_back(eCallMore);
-            }
+        CommandWithPendingQuestion(PendQues, vct_Commands, iPlayerIndex);
+        return;
+    }
+    
+    // no pending questions
 
-
-        }
+    // check if the giocata is a monte
+    if ( isGiocataAMonte() )
+    {
+        // game is gone a monte, no command available
+        vct_Commands.clear();
     }
     else
     {
-        // no pending questions
-
-        // check if the giocata is a monte
-        if ( isGiocataAMonte() )
+        // we are on game 
+        vct_Commands.push_back(VADOVIA);
+        vct_Commands.push_back(AMONTE);
+        if (m_iPlayerChangeScore != iPlayerIndex)
         {
-            // game is gone a monte, no command available
-            vct_Commands.clear();
+            // player can call in order to increase the score
+            if ( nextAvailSayScore(&eSayAvail) )
+            {
+                vct_Commands.push_back(eSayAvail);
+            }
         }
         else
         {
-            // we are on game 
-            vct_Commands.push_back(VADOVIA);
-            vct_Commands.push_back(AMONTE);
-            if (m_iPlayerChangeScore != iPlayerIndex)
-            {
-                // player can call in order to increase the score
-                if ( nextAvailSayScore(&eSayAvail) )
-                {
-                    vct_Commands.push_back(eSayAvail);
-                }
-            }
-            else
-            {
-                // increment score not admitted
-            }
+            // increment score not admitted
         }
     }
-
 }
 
 ////////////////////////////////////////

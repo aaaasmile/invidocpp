@@ -40,7 +40,8 @@ enum eSayPlayer
     NO = 9,
     VADODENTRO = 10,
     GIOCA = 11,
-    NOTHING = 12
+    CHIAMA = 12,
+    NOTHING = 13
 };
 
 //! giocata score state

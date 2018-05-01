@@ -175,7 +175,7 @@ void   cLabelLinkGfx::Draw(SDL_Surface*  pScreen)
 			iYOffset = 0;
 			iXOffSet = 0;
 			GFX_UTIL::DrawString(pScreen, m_strButText.c_str(), m_rctButt.x + iXOffSet,
-				m_rctButt.y + iYOffset, m_colCurrent, m_pFontText);
+				m_rctButt.y + iYOffset, m_colCurrent, m_pFontText, false);
 
 
 		}

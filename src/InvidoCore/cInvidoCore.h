@@ -115,6 +115,7 @@ public:
     BOOL      Player_playCard(int iPlayerIx, const CARDINFO* pCardInfo);
     //! provides admitted commands
     void      GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
+    void      GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
     //! player abandon the game
     void      AbandonGame(int iPlayerIx);
 

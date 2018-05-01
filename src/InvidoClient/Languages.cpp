@@ -62,7 +62,7 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ITA][ID_S_BT_PARTIDA] = "Partita";
 	m_matStringsLang[LANG_ITA][ID_S_BT_VABENE] = "Va bene";
 	m_matStringsLang[LANG_ITA][ID_S_BT_VADOVIA] = "Vado via";
-	m_matStringsLang[LANG_ITA][ID_S_BT_CHIAMADIPIU] = "Chiama più";
+	m_matStringsLang[LANG_ITA][ID_S_BT_CHIAMADIPIU] = "Chiama di più";
 	m_matStringsLang[LANG_ITA][ID_S_BT_NO] = "No";
 	m_matStringsLang[LANG_ITA][ID_S_BT_GIOCA] = "Gioca";
 	m_matStringsLang[LANG_ITA][ID_S_CANELA] = "Stanga";
@@ -112,6 +112,8 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ITA][ID_NO] = "No";
 	m_matStringsLang[LANG_ITA][ID_CHOOSENAME] = "Immetti il tuo nome";
 	m_matStringsLang[LANG_ITA][ID_SHOWFOTOBACK] = "Mostra foto sfondo";
+    m_matStringsLang[LANG_ITA][ID_S_BT_VADODENTRO] = "Vado dentro";
+    m_matStringsLang[LANG_ITA][ID_S_BT_CHIAMA] = "Chiama";
 	
 	// Dialetto bredese
 	m_matStringsLang[LANG_DIAL_MN][ID_START] = "Cumincia";
@@ -208,6 +210,8 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_DIAL_MN][ID_NO] = "No";
 	m_matStringsLang[LANG_DIAL_MN][ID_CHOOSENAME] = "Scriv al to nom";
 	m_matStringsLang[LANG_DIAL_MN][ID_SHOWFOTOBACK] = "La foto in dal sfont";
+    m_matStringsLang[LANG_DIAL_MN][ID_S_BT_VADODENTRO] = "A vu dentar";
+    m_matStringsLang[LANG_DIAL_MN][ID_S_BT_CHIAMA] = "Ciama";
 
 	// English language
 	m_matStringsLang[LANG_ENG][ID_START] = "Start";
@@ -304,6 +308,8 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ENG][ID_NO] = "No";
 	m_matStringsLang[LANG_ENG][ID_CHOOSENAME] = "Insert your name";
 	m_matStringsLang[LANG_ENG][ID_SHOWFOTOBACK] = "Show foto in background";
+    m_matStringsLang[LANG_ENG][ID_S_BT_VADODENTRO] = "I go inside";
+    m_matStringsLang[LANG_ENG][ID_S_BT_CHIAMA] = "Call";
 }
 
 

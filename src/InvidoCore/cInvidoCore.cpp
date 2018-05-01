@@ -655,6 +655,12 @@ void  cInvidoCore::GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIn
 	m_Mano.GetAdmittedCommands(vct_Commands, iPlayerIndex);
 }
 
+// GetMoreCommands
+void   cInvidoCore::GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex)
+{
+    m_Mano.GetMoreCommands(vct_Commands, iPlayerIndex);
+}
+
 ////////////////////////////////////////
 //       NotifyScript
 /*Notify event to the script engine

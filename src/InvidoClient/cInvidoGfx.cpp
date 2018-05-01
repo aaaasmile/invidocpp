@@ -151,6 +151,9 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_bt_Say[CHIAMADIPIU] = pLangMgr->GetStringId(cLanguages::ID_S_BT_CHIAMADIPIU).c_str();
     m_Map_bt_Say[NO] = pLangMgr->GetStringId(cLanguages::ID_S_BT_NO).c_str();
     m_Map_bt_Say[GIOCA] = pLangMgr->GetStringId(cLanguages::ID_S_BT_GIOCA).c_str();
+    m_Map_bt_Say[VADODENTRO] = pLangMgr->GetStringId(cLanguages::ID_S_BT_VADODENTRO).c_str();
+    m_Map_bt_Say[CHIAMA] = pLangMgr->GetStringId(cLanguages::ID_S_BT_CHIAMA).c_str();
+    m_Map_bt_Say[NOTHING] = "";
 
     // say strings
     m_Map_fb_Say[AMONTE] = pLangMgr->GetStringId(cLanguages::ID_S_AMONTE).c_str();
@@ -416,13 +419,13 @@ void cInvidoGfx::renderPlayerName(int iPlayerIx)
     {
         sprintf(txt_to_render, "%s", pPlayer->GetName());
         GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, 150, 25, 310, 17, m_pSurf_Bar);
-        GFX_UTIL::DrawString(m_pScreen, txt_to_render, 315, 21, GFX_UTIL_COLOR::White, m_pFontText);
+        GFX_UTIL::DrawString(m_pScreen, txt_to_render, 315, 21, GFX_UTIL_COLOR::White, m_pFontText, false);
     }
     else if (iPlayerIx == PLAYER1)
     {
         sprintf(txt_to_render, "%s", pPlayer->GetName());
         GFX_UTIL::DrawStaticSpriteEx(m_pScreen, 0, 0, 150, 25, 310, m_pScreen->h - 35, m_pSurf_Bar);
-        GFX_UTIL::DrawString(m_pScreen, txt_to_render, 315, m_pScreen->h - 31, GFX_UTIL_COLOR::White, m_pFontText);
+        GFX_UTIL::DrawString(m_pScreen, txt_to_render, 315, m_pScreen->h - 31, GFX_UTIL_COLOR::White, m_pFontText, true);
     }
     else
     {
@@ -1228,16 +1231,10 @@ void cInvidoGfx::showPopUpCallMenu(CardSpec&   cardClicked, int iX, int iY, eSay
     *peSay = NOTHING;
     VCT_COMMANDS vct_cmd;
     ASSERT(m_pInvidoCore);
-    vct_cmd.push_back(VADODENTRO);
+    m_pInvidoCore->GetMoreCommands(vct_cmd, m_iPlayer1Index);
     vct_cmd.push_back(NOTHING);
 
     size_t iNumCmdsAval = vct_cmd.size();
-
-    if (iNumCmdsAval == 0)
-    {
-        // no commands available
-        return;
-    }
 
     // prepare the size of the box
     cPopUpMenuGfx   PopUpMenu;
@@ -1685,13 +1682,14 @@ void cInvidoGfx::showCurrentScore()
         SDL_BlitSurface(m_pAnImages[IMG_HORIZONTAL], NULL, m_pScreen, &dest);
     }
 
-    // name on grid
+    // name on grid - player 1
     cPlayer* pPlayer = m_pInvidoCore->GetPlayer(PLAYER1);
     STRING strTmp = pPlayer->GetName();
     int iLenName = (int)strTmp.length();
-    GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical - (9 * iLenName), iY1, GFX_UTIL_COLOR::White, m_pFontText);
+    GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical - (9 * iLenName), iY1, GFX_UTIL_COLOR::White, m_pFontText, true);
+    // player 2
     pPlayer = m_pInvidoCore->GetPlayer(PLAYER2);
-    GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical + 10, iY1, GFX_UTIL_COLOR::White, m_pFontText);
+    GFX_UTIL::DrawString(m_pScreen, pPlayer->GetName(), iX_vertical + 10, iY1, GFX_UTIL_COLOR::White, m_pFontText, false);
 
     // current giocata score
     eGiocataScoreState eCurrScore = m_pMatchPoints->GetCurrScore();
@@ -1707,7 +1705,7 @@ void cInvidoGfx::showCurrentScore()
     int iX_posCurrScore = iX_vertical - tx / 2;
     int iY_posCurrScore = iY_end + 10;
     GFX_UTIL::DrawString(m_pScreen, buffTmp, iX_posCurrScore,
-        iY_posCurrScore, GFX_UTIL_COLOR::White, m_pFontText);
+        iY_posCurrScore, GFX_UTIL_COLOR::White, m_pFontText, false);
 
     //player score
     int iNumGiocate = m_pMatchPoints->GetNumGiocateInCurrMatch();

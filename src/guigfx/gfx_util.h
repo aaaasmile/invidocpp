@@ -14,6 +14,8 @@ namespace  GFX_UTIL
 	///WRITE PIXEL TO A SURFACE
 	void inline   SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 
+    void DrawString(SDL_Surface * screen, const char * strText, int x, int y, SDL_Color color, TTF_Font * customfont, bool isUtf8);
+
 	///DRAW A NON-FILLED BOX (RGBA)
 	void rectangleRGBA(SDL_Surface *screen,int x,int y,int x2,int y2,unsigned char r,unsigned char g,unsigned char b,unsigned char a);
 	///DRAW A FILLED BOX (RGBA)
@@ -23,8 +25,6 @@ namespace  GFX_UTIL
 	void ScreenShade(SDL_Surface *surface, SDL_Rect *rect, float opacity, unsigned char r, unsigned char g,unsigned char b);
 	///SHAKE THE SCREEN FOR THE SPECIFIED TIME PERIOD
 	void ScreenShake(SDL_Surface *screen,int val, int time,int delay, SDL_Renderer* psdlRenderer);
-    //! draw a string
-    void DrawString(SDL_Surface *screen, const char* tmp, int x, int y, SDL_Color color, TTF_Font* customfont);
     //! draw a sprite
     void DrawStaticSpriteEx(SDL_Surface *screen, int src_x, int src_y, int src_dx, int src_dy, int dst_x, int dst_y, SDL_Surface* sprite);
     //! draw a line

@@ -233,12 +233,17 @@ void inline GFX_UTIL::SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 }
 
 void GFX_UTIL::DrawString(SDL_Surface *screen, const char* strText, int x, int y,
-	SDL_Color color, TTF_Font* customfont)
+	SDL_Color color, TTF_Font* customfont, bool isUtf8)
 {
 	int tx, ty;
 	TTF_SizeText(customfont, strText, &tx, &ty);
-	//SDL_Surface* s = TTF_RenderText_Blended(customfont, tmp, color);
-	SDL_Surface* surFont = TTF_RenderUTF8_Blended(customfont, strText, color);
+    SDL_Surface* surFont;
+    if (isUtf8) {
+        surFont = TTF_RenderUTF8_Blended(customfont, strText, color);
+    }
+    else {
+        surFont = TTF_RenderText_Blended(customfont, strText, color);
+    }
 	GFX_UTIL::DrawStaticSpriteEx(screen, 0, 0, tx, ty, x, y, surFont);
 	SDL_FreeSurface(surFont);
 }

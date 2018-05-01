@@ -128,6 +128,8 @@ public:
     void    MatchStart();
     //! provides available calls
     void    GetAdmittedCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
+    void    GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex);
+    void    CommandWithPendingQuestion(cPendQuestion& PendQues, VCT_COMMANDS& vct_Commands, int iPlayerIndex);
     //! giocata start notification
     void    GiocataStart();
 

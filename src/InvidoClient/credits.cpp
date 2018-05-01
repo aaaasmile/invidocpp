@@ -572,6 +572,6 @@ void cCredits::draw_textFontM(char* pstrLine, int offset, SDL_Surface* pScreen)
 		trect.x =  (pScreen->w  - tx)/ 2;
 		
 	}
-    GFX_UTIL::DrawString(pScreen, strRes.c_str(), trect.x,trect.y, m_colCurrent, m_pMainFont);
+    GFX_UTIL::DrawString(pScreen, strRes.c_str(), trect.x,trect.y, m_colCurrent, m_pMainFont, false);
 
 }
