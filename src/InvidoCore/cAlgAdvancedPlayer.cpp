@@ -204,6 +204,7 @@ void cAlgAdvancedPlayer::doVadoDentro(int cardPos)
 void cAlgAdvancedPlayer::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) 
 {
     ASSERT(pCard);
+    ASSERT(pCard->byIndex != NOT_VALID_INDEX);
 	CardSpec cardUndef;
 	int i;
     if (iPlayerIx == m_iMyIndex)
@@ -231,6 +232,7 @@ void cAlgAdvancedPlayer::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCar
 		
     }
     m_CardPlayed.SetCardInfo(*pCard);
+    ASSERT(m_CardPlayed.GetName() != "");
     m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]Player %d has played [%s]\n", iPlayerIx, m_CardPlayed.GetName() ); 
 
 	i = 0;

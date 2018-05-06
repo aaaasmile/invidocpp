@@ -2013,13 +2013,15 @@ void cInvidoGfx::opponentHasPlayedCard(CardSpec& Card, BOOL vadoDentro)
     {
         if (m_aOpponentCards[iIndex].State == cCardGfx::CSW_ST_BACK)
         {
-            m_aOpponentCards[iIndex].State = cCardGfx::CSW_ST_VISIBLE;
-            m_aOpponentCards[iIndex].cardSpec = Card;
-            TRACE("card played %s\n", Card.GetName());
+            
             if (vadoDentro) {
+                TRACE("Opponent va dentro, draw it\n");
                 drawVadoDentroCard(&m_aOpponentCards[iIndex]);
             }
             else {
+                TRACE("card played %s\n", Card.GetName());
+                m_aOpponentCards[iIndex].State = cCardGfx::CSW_ST_VISIBLE;
+                m_aOpponentCards[iIndex].cardSpec = Card;
                 drawPlayedCard(&m_aOpponentCards[iIndex]);
             }
             bFound = true;
