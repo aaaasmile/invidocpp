@@ -36,9 +36,6 @@
     <ClInclude Include="..\InvidoCore\cAlgAdvancedPlayer.h">
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
-    <ClInclude Include="..\InvidoCore\cAlgDummyPlayer.h">
-      <Filter>Source Files\InvidoCore</Filter>
-    </ClInclude>
     <ClInclude Include="..\InvidoCore\CardSpec.h">
       <Filter>Source Files\InvidoCore</Filter>
     </ClInclude>
@@ -435,9 +432,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp">
-      <Filter>Source Files\InvidoCore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\InvidoCore\cAlgDummyPlayer.cpp">
       <Filter>Source Files\InvidoCore</Filter>
     </ClCompile>
     <ClCompile Include="..\InvidoCore\CardSpec.cpp">

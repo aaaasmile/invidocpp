@@ -235,7 +235,6 @@
     <ClInclude Include="..\InvidoClient\regkey.h" />
     <ClInclude Include="..\InvidoCore\AlgPlayerInterface.h" />
     <ClInclude Include="..\InvidoCore\cAlgAdvancedPlayer.h" />
-    <ClInclude Include="..\InvidoCore\cAlgDummyPlayer.h" />
     <ClInclude Include="..\InvidoCore\CardSpec.h" />
     <ClInclude Include="..\InvidoCore\cGiocata.h" />
     <ClInclude Include="..\InvidoCore\cInvidoCore.h" />
@@ -285,7 +284,6 @@
     <ClCompile Include="..\InvidoClient\regkey.cpp" />
     <ClCompile Include="..\InvidoClient\StdAfx.cpp" />
     <ClCompile Include="..\InvidoCore\cAlgAdvancedPlayer.cpp" />
-    <ClCompile Include="..\InvidoCore\cAlgDummyPlayer.cpp" />
     <ClCompile Include="..\InvidoCore\CardSpec.cpp" />
     <ClCompile Include="..\InvidoCore\cGiocata.cpp" />
     <ClCompile Include="..\InvidoCore\cInvidoCore.cpp" />

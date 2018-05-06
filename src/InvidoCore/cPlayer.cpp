@@ -120,12 +120,6 @@ void    cPlayer::SetLevel(eGameLevel eNewLevel, I_ALG_Player* I_val)
     
     switch(eNewLevel)
     {
-        case DUMMY:
-            
-            m_pIAlgorithm = new cAlgDummyPlayer();
-            m_vctAlgToDestroy.push_back(m_pIAlgorithm);
-            break;
-
         case BEGINNER:
             ASSERT(0);
             break;
