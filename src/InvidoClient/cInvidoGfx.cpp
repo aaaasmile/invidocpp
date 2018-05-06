@@ -1935,10 +1935,10 @@ void cInvidoGfx::ALG_Play()
 
 
 ////////////////////////////////////////
-//       ALG_Say
+//       ALG_HaveToRespond
 /*! player have to responce notification
 */
-void cInvidoGfx::ALG_Say()
+void cInvidoGfx::ALG_HaveToRespond()
 {
     TRACE("%s %s\n", lpszCST_SU, m_pLangMgr->GetStringId(cLanguages::ID_CP_RISP1).c_str());
     enableCmds();

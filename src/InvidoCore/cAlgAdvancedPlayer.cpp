@@ -1058,12 +1058,12 @@ void cAlgAdvancedPlayer::ALG_MatchEnd(I_MatchScore* pScore)
 }
 
 ////////////////////////////////////////
-//       ALG_Say
+//       ALG_HaveToRespond
 /*! Algorithm is invited to respond
 */
-void cAlgAdvancedPlayer::ALG_Say()
+void cAlgAdvancedPlayer::ALG_HaveToRespond()
 {
-    m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Invited to say");
+    m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] have to respond");
     CardSpec cardUndef;
     int lastNumChiamate = m_iNumChiamateInGiocata;
     if (m_OpponentSay == AMONTE && m_sayMyRisp == NO)

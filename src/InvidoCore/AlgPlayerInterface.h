@@ -88,8 +88,8 @@ public:
     virtual void ALG_GiocataEnd(I_MatchScore* pScore) = 0;
     //! match end notification
     virtual void ALG_MatchEnd(I_MatchScore* pScore) = 0;
-    //! player have to say
-    virtual void ALG_Say() = 0;
+    //! player have to respond
+    virtual void ALG_HaveToRespond() = 0;
     //! giocata score changed
     virtual void ALG_GicataScoreChange(eGiocataScoreState eNewScore) = 0;
     //! player has said something not correct

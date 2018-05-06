@@ -506,8 +506,7 @@ void   cInvidoCore::NtyWaitingPlayer_ToResp(int iPlayerIx)
 	I_ALG_Player* pAlg = m_vctAlgPlayer[iPlayerIx];
 	ASSERT(pAlg);
 
-	// algorithm have to play
-	pAlg->ALG_Say();
+	pAlg->ALG_HaveToRespond();
 }
 
 ////////////////////////////////////////

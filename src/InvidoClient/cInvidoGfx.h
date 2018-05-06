@@ -131,8 +131,8 @@ public:
     virtual void ALG_GiocataEnd(I_MatchScore* pScore) ;
     //! match end notification
     virtual void ALG_MatchEnd(I_MatchScore* pScore) ;
-    //! player say
-    virtual void ALG_Say();
+    //! player have to respond
+    virtual void ALG_HaveToRespond();
     //! giocata score changed
     virtual void ALG_GicataScoreChange(eGiocataScoreState eNewScore);
     //! player said something wrong
