@@ -125,7 +125,7 @@ private:
     int                  m_iNumChiamateInGiocata;
     int                  m_itrChan;
     BOOL                 m_bIamCalledPoints;
-    int                  m_pCPUCardDentroPos;
+    int                  m_iCPUCardDentroPos;
     bool                 m_opponetIsVadoDentro;
     bool                 m_WonFirstHand;
     int                  m_ixCurrMano;
