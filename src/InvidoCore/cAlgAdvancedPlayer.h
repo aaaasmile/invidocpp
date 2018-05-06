@@ -66,6 +66,7 @@ public:
     //! player has played a card
     virtual void ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard) ;
     virtual void ALG_PlayerHasVadoDentro(int iPlayerIx);
+    void doVadoDentro(const CARDINFO * pCard);
     //! player has said something
     virtual void ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer eSay) ;
     //! player have to play notification
@@ -93,6 +94,7 @@ private:
     BOOL      ChiamaAMonte(int  lastNumChiamate);
     void      Chiama(eSayPlayer eSay, int lastChiamataNum);
     void      GiocaACaso();
+    void      doVadoDentro(int cardPos);
 
 private:
     //! cards hold on cpu
@@ -125,8 +127,9 @@ private:
     int                  m_iNumChiamateInGiocata;
     int                  m_itrChan;
     BOOL                 m_bIamCalledPoints;
-    CARDINFO*            m_pCPUCardDentro;
+    int                  m_pCPUCardDentroPos;
     bool                 m_opponetIsVadoDentro;
+    bool                 m_WonFirstHand;
 };
 
 #endif // !defined(AFX_cAlgAdvancedPlayer_H__C00C987D_219F_4552_893D_1A67CCACCC8D__INCLUDED_)
