@@ -57,7 +57,7 @@ enum
     NUM_CARDS_MAZZBRI = 40,
     //! cards on hand of the player
     NUM_CARDS_HAND    = 3,
-	NUM_CARDS_PLAYED_GIOCATA = 6,
+    NUM_HANDS         = 3,
     //! num of cards played on the table
     NUM_CARDS_PLAYED  = 2,
     //! total points to win a match

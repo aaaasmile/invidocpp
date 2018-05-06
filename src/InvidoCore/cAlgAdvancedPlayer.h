@@ -93,14 +93,14 @@ private:
     void      Chiama(eSayPlayer eSay, int lastChiamataNum);
     void      GiocaACaso();
     void      doVadoDentro(int cardPos);
+    void      handleSayAmonte(int curr_mano, int pointsFirstCard, int lastNumChiamate, int maxpoints, int sum_points);
+    void      handleSayPopints(int curr_mano, int pointsFirstCard, int lastNumChiamate, int maxpoints, int sum_points);
 
 private:
     //! cards hold on cpu
-    CardSpec             m_vct_Cards_CPU[NUM_CARDS_HAND];
+    CardSpec               m_vct_Cards_CPU[NUM_CARDS_HAND];
 	//! cards played in this giocata
-	CardSpec             m_vct_Cards_played[NUM_CARDS_PLAYED_GIOCATA];
-    //! card played from opponent
-    CardSpec             m_CardPlayed;
+	std::vector<CardSpec>  m_vct_Cards_played[NUM_HANDS];
     //! current giocata score
     eGiocataScoreState   m_eScoreCurrent;
     //! core invido pointer
@@ -128,6 +128,7 @@ private:
     int                  m_pCPUCardDentroPos;
     bool                 m_opponetIsVadoDentro;
     bool                 m_WonFirstHand;
+    int                  m_ixCurrMano;
 };
 
 #endif // !defined(AFX_cAlgAdvancedPlayer_H__C00C987D_219F_4552_893D_1A67CCACCC8D__INCLUDED_)
