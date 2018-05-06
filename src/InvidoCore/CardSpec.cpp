@@ -109,6 +109,8 @@ void CardSpec::FillInfo(CARDINFO* pCardInfo)
 
  int CardSpec::GetPoints()
  {
-     return g_PointsTable[GetCardIndex()];
+     int ix = GetCardIndex();
+     ASSERT(ix >= 0 && ix < 40)
+     return g_PointsTable[ix];
  }
 

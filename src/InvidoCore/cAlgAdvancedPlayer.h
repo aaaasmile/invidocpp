@@ -125,6 +125,8 @@ private:
     int                  m_iNumChiamateInGiocata;
     int                  m_itrChan;
     BOOL                 m_bIamCalledPoints;
+    CARDINFO*            m_pCPUCardDentro;
+    bool                 m_opponetIsVadoDentro;
 };
 
 #endif // !defined(AFX_cAlgAdvancedPlayer_H__C00C987D_219F_4552_893D_1A67CCACCC8D__INCLUDED_)

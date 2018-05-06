@@ -129,6 +129,7 @@ void cAlgAdvancedPlayer::ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCa
     m_iNumChiamateMonte = 0;
     m_iNumChiamateInGiocata = 0;
     m_bIamCalledPoints = FALSE;
+    m_opponetIsVadoDentro = TRUE;
 
     m_iPlayerOnTurn = iPlayerIx;
     
@@ -169,8 +170,16 @@ void cAlgAdvancedPlayer::ALG_PlayerHasVadoDentro(int iPlayerIx)
 {
     if (iPlayerIx == m_iMyIndex)
     {
-        // TODO: l'idea è quella di ritrovare la carta con la quale si è andati dentro e poi di chiamare ALG_PlayerHasPlayed
-        ASSERT(0);
+        // l'idea è quella di ritrovare la carta con la quale si è andati dentro e poi di chiamare ALG_PlayerHasPlayed
+        ASSERT(m_pCPUCardDentro);
+        ALG_PlayerHasPlayed(iPlayerIx, m_pCPUCardDentro);
+    }
+    else
+    {
+        m_opponetIsVadoDentro = TRUE;
+        CardSpec Card;
+        Card.SetCardIndex(3);
+        ALG_PlayerHasPlayed(iPlayerIx,Card.GetCardInfo());
     }
 }
 
@@ -660,7 +669,10 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
 {
 	CARDINFO* result = NULL;
     CardSpec cardUndef;
-    int pointsFirstCard = m_CardPlayed.GetPoints();
+    int pointsFirstCard = 0;
+    if (!m_opponetIsVadoDentro && m_CardPlayed != cardUndef) {
+        m_CardPlayed.GetPoints();
+    }
     int curr_mano = NumMano();
     int lastNumChiamate = m_iNumChiamateInGiocata;
 
@@ -690,13 +702,19 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         }
         if(points > pointsFirstCard && points < first_take_points)
         {
-            first_take_pos = i;
+            first_take_pos = i; // La carta più bassa che può prendere
             first_take_points = points;
         }
         arrPoints[i] = points;
         sum_points += points;
 	}
-    if(first_take_pos != -1)
+    if (m_opponetIsVadoDentro)
+    {
+        // Avversario è andato dentro, quindi si gioca la carta più bassa che si vince la mano
+        result = m_vct_Cards_CPU[min_pos].GetCardInfo();
+        m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG]PL2nd_min_vadodentro: %s\n", result->CardName);
+    }
+    else if(first_take_pos != -1)
     {
         // si prende
         result = m_vct_Cards_CPU[first_take_pos].GetCardInfo();
@@ -715,7 +733,11 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]PL2nd_cand_min_pos: %s\n", result->CardName);
     }
     
-    if(pointsFirstCard > maxpoints && m_iNumManiWon == 0 && curr_mano > 1)
+    if (m_opponetIsVadoDentro)
+    {
+        // play the min card and say nothing
+    }
+    else if(pointsFirstCard > maxpoints && m_iNumManiWon == 0 && curr_mano > 1)
     {
         if(CASO(20) < 16)
         {
@@ -829,9 +851,10 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         }
         if(result != NULL)
         {
-            // va dentro non è implementato nel core...
-            //Chiama( VADODENTRO);
-            result = m_vct_Cards_CPU[min_pos].GetCardInfo();
+            // Vado dentro
+            result = NULL;
+            m_pCPUCardDentro = m_vct_Cards_CPU[min_pos].GetCardInfo();
+            m_pCoreGame->Player_vaDentro(m_iMyIndex, m_pCPUCardDentro);
             m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]PL2nd_cand_min_pos: %s\n", result->CardName);
         }
     }
@@ -920,6 +943,10 @@ void cAlgAdvancedPlayer::ALG_Play()
 */
 void cAlgAdvancedPlayer::ALG_ManoEnd(I_MatchScore* pScore) 
 {
+    m_opponetIsVadoDentro = FALSE;
+    CardSpec cardUndef;
+    m_CardPlayed = cardUndef;
+
     m_bLastManoPatada = pScore->IsManoPatada();
     int index  = pScore->GetManoNum() - 1;
     ASSERT(index >= 0 && index < NUM_CARDS_HAND);
