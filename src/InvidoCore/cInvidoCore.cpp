@@ -17,7 +17,6 @@ cInvidoCore::cInvidoCore()
 	m_pStartPlayer = 0;
 	m_pMyMazzo = 0;
 	resetCardInfoPlayers();
-	m_iFirstPlayerPython = NOT_VALID_INDEX;
 }
 
 
@@ -74,8 +73,6 @@ void cInvidoCore::Create(cPlayer* pHmiPlayer, int iNumPlayers)
 
 	m_MatchPoints.SetManoObj(&m_Mano);
 
-	m_iFirstPlayerPython = NOT_VALID_INDEX;
-
 }
 
 
@@ -93,6 +90,10 @@ BOOL  cInvidoCore::WhoWonsTheGame(cPlayer** ppPlayer)
 	return TRUE;
 }
 
+int  cInvidoCore::getNewMatchFirstPlayer()
+{
+    return CASO(m_lNumPlayers);
+}
 
 ////////////////////////////////////////
 //       NewMatch
@@ -103,34 +104,7 @@ void  cInvidoCore::NewMatch()
 	NotifyScript(SCR_NFY_NEWMATCH);
 
 	// extract the first player
-	int iFirstPlayer = 0;
-	if (m_iFirstPlayerPython != NOT_VALID_INDEX)
-	{
-		// python is ongoing
-		iFirstPlayer = m_iFirstPlayerPython;
-	}
-	else
-	{
-		iFirstPlayer = CASO(m_lNumPlayers);
-	}
-
-	if (m_eGameType == NET_CLIENT_TYPE)
-	{
-		// TO DO:
-		// make sure that we are connected and the opponent has started the game
-		BOOL bCanStartNetGame = FALSE;
-		if (!bCanStartNetGame)
-		{
-			// could'n start the match
-			return;
-		}
-		else
-		{
-			// ok we can start a new match
-			// TO DO:
-			// retrives the first player 
-		}
-	}
+	int iFirstPlayer = getNewMatchFirstPlayer();
 
 	// save players alg in a table
 	// don't change level during a match
@@ -764,7 +738,6 @@ void  cInvidoCore::Script_OverrideDeck(int iPlayer, int iC1, int iC2, int iC3)
 */
 void cInvidoCore::Script_SetStartPlayer(int iPlayer)
 {
-	m_iFirstPlayerPython = iPlayer;
 
 }
 

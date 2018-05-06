@@ -125,6 +125,7 @@ private:
     CardSpec*    checkValidCardPlayed(int iPlayerIx, const CARDINFO * pCardInfo);
     void         resetCardInfoPlayers();
     BOOL         resetCard(int iPlayerIx, CARDINFO* pCardInfo);
+    int          getNewMatchFirstPlayer();
     
 private:
     //! players on table
@@ -157,8 +158,6 @@ private:
     CardSpec                  m_aCardInfo[NUM_CARDS_HAND * MAX_NUM_PLAYER];
     //! tracer service
     TraceService*             m_pTracer;
-    //! firts player set in python script
-    int                       m_iFirstPlayerPython;
 };
 
 #endif

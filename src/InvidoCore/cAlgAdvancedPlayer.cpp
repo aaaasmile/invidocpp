@@ -394,7 +394,7 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsFirst()
         arrPoints[i] = points;
         sum_points += points;
 	}
-    TRACE("Take: min pos %d (pt %d), med pos %d (pt %d), max pos %d(pt %d) \n", min_pos,
+    TRACE("[1ST]Take: min pos %d (pt %d), med pos %d (pt %d), max pos %d(pt %d) \n", min_pos,
         min_points, med_pos, med_points, max_pos, maxpoints);
 
     if (curr_mano == 2 && m_iNumManiWon == 1)
@@ -762,7 +762,7 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         arrPoints[i] = points;
         sum_points += points;
 	}
-    TRACE("Points played card %d, Take: min pos %d (pt %d), first_take_pos %d (pt %d), max pos %d(pt %d) \n", pointsFirstCard, min_pos,
+    TRACE("[2ND]Points played card %d, Take: min pos %d (pt %d), first_take_pos %d (pt %d), max pos %d(pt %d) \n", pointsFirstCard, min_pos,
         min_points, first_take_pos, first_take_points, max_pos, maxpoints);
     if (m_opponetIsVadoDentro)
     {
@@ -915,9 +915,9 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
             }
         }
     }
-    else if(pointsFirstCard > maxpoints && m_iNumManiWon == 1)
+    else if(pointsFirstCard > maxpoints)
     {
-        if(CASO(20) > 15)
+        if(CASO(20) > 15 || (curr_mano == 3 && m_iNumManiWon == 1) || (curr_mano == 2 && m_iNumManiWon == 0))
         {
             if(result != NULL && ChiamaAMonte(lastNumChiamate))
             {
@@ -928,9 +928,9 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         if(result != NULL)
         {
             // Vado dentro
-            result = NULL;
             doVadoDentro(min_pos);
-            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]PL2nd_cand_min_pos: %s\n", result->CardName);
+            m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]PL2nd_cardmin_vadentro_notake_: %s\n", result->CardName);
+            result = NULL;
         }
     }
     else if(lastNumChiamate == m_iNumChiamateInGiocata && result == NULL)
