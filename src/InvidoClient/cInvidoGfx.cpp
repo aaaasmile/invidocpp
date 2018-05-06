@@ -1666,7 +1666,7 @@ void cInvidoGfx::guiPlayerTurn(int iPlayer)
 
     if (g_Options.All.iVerbose > 5)
     {
-        TRACE("%s Player che deve giocare %d: %s", lpszCST_INFO, iPlayer, pPlayer->GetName());
+        TRACE("%s Player che deve giocare %d: %s\n", lpszCST_INFO, iPlayer, pPlayer->GetName());
     }
 }
 
@@ -1939,7 +1939,7 @@ void cInvidoGfx::ALG_Play()
 */
 void cInvidoGfx::ALG_Say()
 {
-    TRACE("%s %s", lpszCST_SU, m_pLangMgr->GetStringId(cLanguages::ID_CP_RISP1).c_str());
+    TRACE("%s %s\n", lpszCST_SU, m_pLangMgr->GetStringId(cLanguages::ID_CP_RISP1).c_str());
     enableCmds();
 }
 
@@ -1959,7 +1959,7 @@ void cInvidoGfx::ALG_PlayerHasSaid(int iPlayerIx, eSayPlayer SaySomeThing)
         // viene solo ripetuta la voce dell'avversario. Quella del giocatore è in echo
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
         STRING lpsNameSay = m_Map_fb_Say[SaySomeThing];
-        TRACE("%s %s %s %s:  %s", lpszCST_INFO,
+        TRACE("%s %s %s %s:  %s\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PLAYER).c_str(), pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_DICE).c_str(), lpsNameSay.c_str());
 
@@ -2041,7 +2041,7 @@ void cInvidoGfx::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard)
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
         if (g_Options.All.iVerbose > 5)
         {
-            TRACE("%s %s ha giocato %s", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
+            TRACE("%s %s ha giocato %s\n", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
         }
         int iNumCardPlayed = m_pMatchPoints->GetCurrNumCardPlayed();
         if (iNumCardPlayed == 1)
@@ -2159,7 +2159,7 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
         cPlayer* pPlayer = pTable->GetPlayerIndex(m_iPlayerThatHaveMarkup);
 
         // Mano patada, tocca a
-        TRACE("%s %s %s", lpszCST_INFO,
+        TRACE("%s %s %s\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_MANOPATA).c_str(), pPlayer->GetName());
 
         // animation of pata, use an index outside the player table
@@ -2169,7 +2169,7 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
     {
         cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
         // Mano vinta da
-        TRACE("%s %s %s", lpszCST_INFO,
+        TRACE("%s %s %s\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_MANOVINTA).c_str(), pPlayer->GetName());
 
         animateManoEnd(iPlayerIx);
@@ -2193,14 +2193,14 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
     if (bIsPata)
     {
         // giocata patada
-        TRACE("%s %s", lpszCST_INFO,
+        TRACE("%s %s\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAPATA).c_str());
         strMsgFinGiocata = m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAPATA);
     }
     else if (pScore->IsGiocataMonte())
     {
         // giocata a monte
-        TRACE("%s %s", lpszCST_INFO,
+        TRACE("%s %s\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAMONTE).c_str());
         strMsgFinGiocata = m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAMONTE);
         bIsPata = TRUE;
@@ -2223,13 +2223,13 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
         cPlayer* pPlLoser = m_pInvidoCore->GetPlayer(iPlayLoser);
 
         // Giocata vinta da
-        TRACE("%s %s %s (%s %d)", lpszCST_INFO,
+        TRACE("%s %s %s (%s %d)\n", lpszCST_INFO,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(),
             pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
-        sprintf(buffText, "%s \"%s\" (%s %d)", m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), pPlayer->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
+        sprintf(buffText, "%s \"%s\" (%s %d)\n", m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), pPlayer->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
         // punti
-        TRACE("%s %s %s %d, %s %s %d", lpszCST_SCORE, pPlayer->GetName(),
+        TRACE("%s %s %s %d, %s %s %d\n", lpszCST_SCORE, pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetPointsPlayer(iPlayerIx),
             pPlLoser->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetPointsPlayer(iPlayLoser));
 
@@ -2270,7 +2270,7 @@ void cInvidoGfx::ALG_MatchEnd(I_MatchScore* pScore)
         m_pLangMgr->GetStringId(cLanguages::ID_CP_VINCE).c_str(),
         pScore->GetPointsPlayer(iPlayerIx), pScore->GetPointsPlayer(iPlayLoser));
 
-    TRACE("%s %s", lpszCST_INFO, buff);
+    TRACE("%s %s\n", lpszCST_INFO, buff);
 
     drawStaticScene();
 
@@ -2289,7 +2289,7 @@ void cInvidoGfx::ALG_GicataScoreChange(eGiocataScoreState eNewScore)
 {
     STRING lpsNamePoints = m_MapPunti[eNewScore];
     // Punteggio della giocata ora è:
-    TRACE("%s %s: %s", lpszCST_INFO,
+    TRACE("%s %s: %s\n", lpszCST_INFO,
         m_pLangMgr->GetStringId(cLanguages::ID_CP_NOWPOINTS).c_str(), lpsNamePoints.c_str());
 }
 
@@ -2299,7 +2299,7 @@ void cInvidoGfx::ALG_PlayerSaidWrong(int iPlayerIx)
     if (iPlayerIx == m_PlayerGuiIndex)
     {
         // Quello che hai chiamato non è corretto
-        TRACE("%s, %s", lpszCST_SU,
+        TRACE("%s, %s\n", lpszCST_SU,
             m_pLangMgr->GetStringId(cLanguages::ID_CP_BUIADA).c_str());
     }
 }

@@ -564,6 +564,7 @@ void cInvidoCore::RaiseError(const std::string &errorMsg)
 {
 	ASSERT(0);
 	TRACE(const_cast<char *>(errorMsg.c_str()));
+    TRACE("\n");
 }
 
 
@@ -713,7 +714,7 @@ void   cInvidoCore::GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex
 */
 void  cInvidoCore::NotifyScript(eScriptNotification eVal)
 {
-	TRACE("Event %d", eVal);
+	TRACE("Event %d\n", eVal);
 }
 
 
@@ -725,7 +726,7 @@ void  cInvidoCore::NotifyScript(eScriptNotification eVal)
 */
 void  cInvidoCore::NotifyScriptAlgorithm(int iPlayerIx, eScriptNotification eVal)
 {
-	TRACE("Algorithm %d, %d", iPlayerIx, eVal);
+	TRACE("Algorithm %d, %d\n", iPlayerIx, eVal);
 }
 
 ////////////////////////////////////////// functions called by Script

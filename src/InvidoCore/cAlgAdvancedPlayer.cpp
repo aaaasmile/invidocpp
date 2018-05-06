@@ -169,7 +169,7 @@ void cAlgAdvancedPlayer::ALG_NewGiocata(const CARDINFO* pCardArray, int iNumOfCa
 
 void cAlgAdvancedPlayer::ALG_PlayerHasVadoDentro(int iPlayerIx)
 {
-    TRACE("Player %1 va dentro", iPlayerIx);
+    TRACE("Player %1 va dentro\n", iPlayerIx);
     if (iPlayerIx == m_iMyIndex)
     {
         // l'idea è quella di ritrovare la carta con la quale si è andati dentro e poi di chiamare ALG_PlayerHasPlayed
@@ -376,10 +376,12 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsFirst()
 		int points = m_vct_Cards_CPU[i].GetPoints();
 		if(points > maxpoints)
 		{
+            med_points = maxpoints;
+            med_pos = max_pos;
 			maxpoints = points;
             max_pos = i;
 		}
-        if(points > med_points && points != maxpoints)
+        else if(points >= med_points )
         {
             med_points = points;
             med_pos = i;
@@ -392,13 +394,13 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsFirst()
         arrPoints[i] = points;
         sum_points += points;
 	}
-    TRACE("Take: min pos %d (pt %d), med pos %d (pt %d), max pos %d(pt %d) ", min_pos,
+    TRACE("Take: min pos %d (pt %d), med pos %d (pt %d), max pos %d(pt %d) \n", min_pos,
         min_points, med_pos, med_points, max_pos, maxpoints);
 
     if (curr_mano == 2 && m_iNumManiWon == 1)
     {
         result = m_vct_Cards_CPU[min_pos].GetCardInfo();
-        TRACE("Candidate from min position");
+        TRACE("Candidate from min position\n");
     }
     else
     {
@@ -418,6 +420,14 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsFirst()
     {
         result = m_vct_Cards_CPU[med_pos].GetCardInfo();
         m_pTracer->AddSimpleTrace(m_itrChan,"[TRALG]PLF_cand_med_pos: %s\n", result->CardName);
+    }
+    else if (curr_mano == 1 && maxpoints >= 11 && med_points < 10)
+    {
+        if (CASO(10) > 5)
+        {
+            result = m_vct_Cards_CPU[med_pos].GetCardInfo();
+            m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG]PLF_cand_med_pos Brnd: %s\n", result->CardName);
+        }
     }
     else if(m_iNumManiWon == 1 && maxpoints >= 12 && m_eScoreCurrent == SC_CANELA)
     {
@@ -475,7 +485,7 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsFirst()
     else if(curr_mano == 2 && m_iNumManiWon == 1)
     {
         // seconda mano prima mano vinta
-        TRACE("Vado dentro? maxpoints is %d", maxpoints);
+        TRACE("Vado dentro? maxpoints is %d\n", maxpoints);
         if (maxpoints == 13)
         {
             // tre in mano che vince sicuro
@@ -752,7 +762,7 @@ CARDINFO* cAlgAdvancedPlayer::PlayAsSecond()
         arrPoints[i] = points;
         sum_points += points;
 	}
-    TRACE("Points played card %d, Take: min pos %d (pt %d), first_take_pos %d (pt %d), max pos %d(pt %d) ", pointsFirstCard, min_pos,
+    TRACE("Points played card %d, Take: min pos %d (pt %d), first_take_pos %d (pt %d), max pos %d(pt %d) \n", pointsFirstCard, min_pos,
         min_points, first_take_pos, first_take_points, max_pos, maxpoints);
     if (m_opponetIsVadoDentro)
     {

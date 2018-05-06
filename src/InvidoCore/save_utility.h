@@ -135,6 +135,7 @@ VOID TraceContainer( T &myContainer, const std::string &strComment )
     w = out.str();
     //::OutputDebugString(w.c_str());
     TRACE(w.c_str());
+    TRACE("\n");
 }//end TraceContainer
 
 // trace an object in the debug window
@@ -152,6 +153,7 @@ VOID TraceItem( T &myContainer, const std::string &strComment )
     w = out.str();
     //::OutputDebugString(w.c_str());
     TRACE(w.c_str());
+    TRACE("\n");
 }//end TraceItem
 #else
 
