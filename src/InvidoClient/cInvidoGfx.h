@@ -171,6 +171,7 @@ private:
     int     showYesNoMsgBox(LPCSTR strText);
     void    animateManoEnd(int iPlayerIx);
     void    showPopUpCallMenu(CardSpec&   cardClicked, int iX, int iY, eSayPlayer* peSay);
+    void    opponentHasPlayedCard(CardSpec & Card, BOOL vadoDentro);
 private:
     //! from AppGfx
 	SDL_Surface*      m_pScreen;

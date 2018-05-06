@@ -1,4 +1,5 @@
 // Languages.h 
+// Change this file manually, please.
 
 #ifndef   __LANGUAG_GEN_HEAD_H_
 #define   __LANGUAG_GEN_HEAD_H_  
@@ -55,6 +56,7 @@ public:
 		ID_S_CHIAMADIPIU,
 		ID_S_NO,
 		ID_S_GIOCA,
+        ID_S_VADODENTRO,
 		ID_S_BT_AMONTE,
 		ID_S_BT_INVIDO,
 		ID_S_BT_TRASMAS,

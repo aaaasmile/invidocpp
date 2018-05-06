@@ -167,6 +167,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_fb_Say[CHIAMADIPIU] = pLangMgr->GetStringId(cLanguages::ID_S_CHIAMADIPIU).c_str();
     m_Map_fb_Say[NO] = pLangMgr->GetStringId(cLanguages::ID_S_NO).c_str();
     m_Map_fb_Say[GIOCA] = pLangMgr->GetStringId(cLanguages::ID_S_GIOCA).c_str();
+    m_Map_fb_Say[VADODENTRO] = pLangMgr->GetStringId(cLanguages::ID_S_VADODENTRO).c_str();
 
     // sound call echo player
     m_Map_id_EchoSay[AMONTE] = cMusicManager::SND_IG_MONTE_NORM;
@@ -191,7 +192,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_idSynth_Say[VABENE] = cMusicManager::SND_WAV_SYF_VABENE;
     m_Map_idSynth_Say[VADOVIA] = cMusicManager::SND_WAV_SYF_VUVIA;
     m_Map_idSynth_Say[CHIAMADIPIU] = cMusicManager::SND_WAV_SYF_CHIADIPIU;
-    
+
     m_Map_idSynth_Say[NO] = cMusicManager::SND_WAV_SYF_NO;
     m_Map_idSynth_Say[GIOCA] = cMusicManager::SND_WAV_SYF_GIOCA;
 
@@ -1220,7 +1221,7 @@ void cInvidoGfx::handleMouseDownEvent(SDL_Event &event)
                         {
                             vadoDentro(iIndexCardSelected);
                         }
-                        else 
+                        else
                         {
                             INP_PlayerSay(eSay);
                             if (g_Options.All.bMyCallEcho)
@@ -1362,7 +1363,7 @@ void cInvidoGfx::drawPlayedCard(cCardGfx* pCard)
     pCard->SetSymbolTocard(cCardGfx::SYMBOL_BRISCNET, m_iCardWidth, m_iCardHeight, m_pScreen);
     renderCard(pCard);
     renderScreen();
-    
+
 }
 
 ////////////////////////////////////////
@@ -1987,13 +1988,59 @@ void cInvidoGfx::ALG_PlayerHasVadoDentro(int iPlayerIx)
             TRACE("card played %s\n", m_aPlayerCards[m_CardVadoDentroIndex].cardSpec.GetName());
 
             drawVadoDentroCard(&m_aPlayerCards[m_CardVadoDentroIndex]);
-       
+
         }
         m_DelayAction.CheckPoint(600, cDelayNextAction::NOCHANGE);
     }
-  
+    else if (iPlayerIx == m_iOpponentIndex)
+    {
+        STRING lpsNameSay = m_Map_fb_Say[VADODENTRO];
+        m_pbalGfx->StartShow(lpsNameSay.c_str());
+        CardSpec Card;
+        Card.SetCardIndex(3);
+        opponentHasPlayedCard(Card, TRUE);
+    }
+    else
+    {
+        ASSERT(0);
+    }
 }
 
+void cInvidoGfx::opponentHasPlayedCard(CardSpec& Card, BOOL vadoDentro)
+{
+    BOOL bFound = FALSE;
+    for (int iIndex = 0; !bFound && iIndex < NUM_CARDS_HAND; iIndex++)
+    {
+        if (m_aOpponentCards[iIndex].State == cCardGfx::CSW_ST_BACK)
+        {
+            m_aOpponentCards[iIndex].State = cCardGfx::CSW_ST_VISIBLE;
+            m_aOpponentCards[iIndex].cardSpec = Card;
+            TRACE("card played %s\n", Card.GetName());
+            if (vadoDentro) {
+                drawVadoDentroCard(&m_aOpponentCards[iIndex]);
+            }
+            else {
+                drawPlayedCard(&m_aOpponentCards[iIndex]);
+            }
+            bFound = true;
+        }
+    }
+    ASSERT(bFound);
+    cPlayer* pPlayer = m_pInvidoCore->GetPlayer(m_iOpponentIndex);
+    TRACE("%s %s ha giocato %s\n", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
+    int iNumCardPlayed = m_pMatchPoints->GetCurrNumCardPlayed();
+    if (iNumCardPlayed == 1)
+    {
+        // first card played from opponent, don't need a delay
+        m_DelayAction.CheckPoint(50, cDelayNextAction::NOCHANGE);
+
+    }
+    else
+    {
+        // opponent was not the first, delay action to show a little the current table
+        m_DelayAction.CheckPoint(600, cDelayNextAction::NOCHANGE);
+    }
+}
 
 ////////////////////////////////////////
 //       ALG_PlayerHasPlayed
@@ -2024,41 +2071,12 @@ void cInvidoGfx::ALG_PlayerHasPlayed(int iPlayerIx, const CARDINFO* pCard)
     if (iPlayerIx == m_iOpponentIndex)
     {
         // opponent play a card
+        opponentHasPlayedCard(Card, FALSE);
 
-        for (int iIndex = 0; !bFound && iIndex < NUM_CARDS_HAND; iIndex++)
-        {
-            if (m_aOpponentCards[iIndex].State == cCardGfx::CSW_ST_BACK)
-            {
-                m_aOpponentCards[iIndex].State = cCardGfx::CSW_ST_VISIBLE;
-                m_aOpponentCards[iIndex].cardSpec = Card;
-                TRACE("card played %s\n", Card.GetName());
-                drawPlayedCard(&m_aOpponentCards[iIndex]);
-                bFound = true;
-
-            }
-        }
-        ASSERT(bFound);
-        cPlayer* pPlayer = m_pInvidoCore->GetPlayer(iPlayerIx);
-        if (g_Options.All.iVerbose > 5)
-        {
-            TRACE("%s %s ha giocato %s\n", lpszCST_INFO, pPlayer->GetName(), Card.GetName());
-        }
-        int iNumCardPlayed = m_pMatchPoints->GetCurrNumCardPlayed();
-        if (iNumCardPlayed == 1)
-        {
-            // first card played from opponent, don't need a delay
-            m_DelayAction.CheckPoint(50, cDelayNextAction::NOCHANGE);
-
-        }
-        else
-        {
-            // opponent was not the first, delay action to show a little the current table
-            m_DelayAction.CheckPoint(600, cDelayNextAction::NOCHANGE);
-        }
     }
     else if (iPlayerIx == m_PlayerGuiIndex)
     {
-        // card was played correctly
+        // HMI has played correctly
         for (int iIndex = 0; !bFound && iIndex < NUM_CARDS_HAND; iIndex++)
         {
             if (m_aPlayerCards[iIndex].cardSpec == Card)
@@ -2227,7 +2245,7 @@ void cInvidoGfx::ALG_GiocataEnd(I_MatchScore* pScore)
             m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(),
             pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
-        sprintf(buffText, "%s \"%s\" (%s %d)\n", m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), pPlayer->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
+        sprintf(buffText, "%s \"%s\" (%s %d)", m_pLangMgr->GetStringId(cLanguages::ID_CP_GIOCATAVINTA).c_str(), pPlayer->GetName(), m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetCurrScore());
         // punti
         TRACE("%s %s %s %d, %s %s %d\n", lpszCST_SCORE, pPlayer->GetName(),
             m_pLangMgr->GetStringId(cLanguages::ID_CP_PUNTI).c_str(), pScore->GetPointsPlayer(iPlayerIx),
