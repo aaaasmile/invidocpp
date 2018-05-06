@@ -113,7 +113,7 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ITA][ID_CHOOSENAME] = "Immetti il tuo nome";
 	m_matStringsLang[LANG_ITA][ID_SHOWFOTOBACK] = "Mostra foto sfondo";
     m_matStringsLang[LANG_ITA][ID_S_BT_VADODENTRO] = "Vado dentro";
-    m_matStringsLang[LANG_ITA][ID_S_BT_CHIAMA] = "Chiama";
+    m_matStringsLang[LANG_ITA][ID_S_BT_CHIAMA_BORTOLO] = "Dagli del bortolo";
     m_matStringsLang[LANG_ITA][ID_S_VADODENTRO] = "Vado dentro";
 	
 	// Dialetto bredese
@@ -212,7 +212,7 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_DIAL_MN][ID_CHOOSENAME] = "Scriv al to nom";
 	m_matStringsLang[LANG_DIAL_MN][ID_SHOWFOTOBACK] = "La foto in dal sfont";
     m_matStringsLang[LANG_DIAL_MN][ID_S_BT_VADODENTRO] = "A vu dentar";
-    m_matStringsLang[LANG_DIAL_MN][ID_S_BT_CHIAMA] = "Ciama";
+    m_matStringsLang[LANG_DIAL_MN][ID_S_BT_CHIAMA_BORTOLO] = "Dag dal burtul";
     m_matStringsLang[LANG_DIAL_MN][ID_S_VADODENTRO] = "Vu dentar";
 
 	// English language
@@ -311,7 +311,7 @@ cLanguages::cLanguages()
 	m_matStringsLang[LANG_ENG][ID_CHOOSENAME] = "Insert your name";
 	m_matStringsLang[LANG_ENG][ID_SHOWFOTOBACK] = "Show foto in background";
     m_matStringsLang[LANG_ENG][ID_S_BT_VADODENTRO] = "I go inside";
-    m_matStringsLang[LANG_ENG][ID_S_BT_CHIAMA] = "Call";
+    m_matStringsLang[LANG_ENG][ID_S_BT_CHIAMA_BORTOLO] = "Call bortolo";
     m_matStringsLang[LANG_ENG][ID_S_VADODENTRO] = "Go inside";
 }
 

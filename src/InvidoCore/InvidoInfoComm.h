@@ -40,7 +40,7 @@ enum eSayPlayer
     NO = 9,
     VADODENTRO = 10,
     GIOCA = 11,
-    CHIAMA = 12,
+    CHIAMA_BORTOLO = 12,
     NOTHING = 13
 };
 

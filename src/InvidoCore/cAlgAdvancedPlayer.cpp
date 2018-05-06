@@ -1371,6 +1371,19 @@ void cAlgAdvancedPlayer::handleSayPopints(int curr_mano, int pointsFirstCard, in
             m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say Pt R036");
         }
     }
+    else if (curr_mano == 3 && m_iPlayerOnTurn == m_iOppIndex && (( pointsFirstCard < 11 && !m_WonFirstHand) ||
+                                                                 ( pointsFirstCard < 12 && m_WonFirstHand)))
+    {
+        if (!ChiamaAMonte(lastNumChiamate))
+        {
+            m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say Pt R035-A");
+            Chiama(VADOVIA, lastNumChiamate);
+        }
+        else
+        {
+            m_pTracer->AddSimpleTrace(m_itrChan, "[TRALG] Say Pt R036-B");
+        }
+    }
     else
     {
         TRACE("[TRALG] unhandled response rule: curr_mano %d, maxpoints: %d, pointsFirstCard %d, m_iPlayerOnTurn %d, prima vinta %d, mani vinte %d \n",

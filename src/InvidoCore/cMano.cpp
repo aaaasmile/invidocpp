@@ -446,7 +446,7 @@ BOOL  cMano::Player_Say(int iPlayerIx, eSayPlayer eSay)
     {
         handleVadoVia(iPlayerIx);
     }
-    else if (eSay == CHIAMADIPIU || eSay == CHIAMA)
+    else if (eSay == CHIAMADIPIU || eSay == CHIAMA_BORTOLO)
     {
         handle_CallMoreOrInvido(iPlayerIx);
     }
@@ -1070,7 +1070,7 @@ void cMano::GetMoreCommands(VCT_COMMANDS& vct_Commands, int iPlayerIndex)
         vct_Commands.push_back(CHIAMADIPIU);
     }
     else if (m_iPlayerChangeScore == NOT_VALID_INDEX) {
-        vct_Commands.push_back(CHIAMA);
+        vct_Commands.push_back(CHIAMA_BORTOLO);
     }
 }
 

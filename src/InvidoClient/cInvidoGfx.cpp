@@ -152,7 +152,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_bt_Say[NO] = pLangMgr->GetStringId(cLanguages::ID_S_BT_NO).c_str();
     m_Map_bt_Say[GIOCA] = pLangMgr->GetStringId(cLanguages::ID_S_BT_GIOCA).c_str();
     m_Map_bt_Say[VADODENTRO] = pLangMgr->GetStringId(cLanguages::ID_S_BT_VADODENTRO).c_str();
-    m_Map_bt_Say[CHIAMA] = pLangMgr->GetStringId(cLanguages::ID_S_BT_CHIAMA).c_str();
+    m_Map_bt_Say[CHIAMA_BORTOLO] = pLangMgr->GetStringId(cLanguages::ID_S_BT_CHIAMA_BORTOLO).c_str();
     m_Map_bt_Say[NOTHING] = "";
 
     // say strings
@@ -181,7 +181,7 @@ void cInvidoGfx::Initialize(SDL_Surface *pScreen, SDL_Renderer* pRender, SDL_Tex
     m_Map_id_EchoSay[CHIAMADIPIU] = cMusicManager::SND_IG_CHIAMAPIU;
     m_Map_id_EchoSay[NO] = cMusicManager::SND_IG_NO;
     m_Map_id_EchoSay[GIOCA] = cMusicManager::SND_IG_GIOCA;
-    m_Map_id_EchoSay[CHIAMA] = cMusicManager::SND_IG_BORTOLO;
+    m_Map_id_EchoSay[CHIAMA_BORTOLO] = cMusicManager::SND_IG_BORTOLO;
     //sound synth opponent
     m_Map_idSynth_Say[AMONTE] = cMusicManager::SND_WAV_SYF_MONTE;
     m_Map_idSynth_Say[INVIDO] = cMusicManager::SND_WAV_SYF_INVIDO;

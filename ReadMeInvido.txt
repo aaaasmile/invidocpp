@@ -51,12 +51,13 @@ Nota che le stringhe che provengono dalla classe Languages.cpp sono tutte in for
 sono in formato UTF8. Quindi la funzione DrawString con il parametro UTF8 le usa solo i controlli che devono mostrare un testo proveniente dall'utente.
 
 == TODO
-- Avversario sul vado dentro deve giocare la carta più bassa
-- Animazione vado dentro inesistente
-- Manca audio igor che dice "chiama"
-- Manca menu item che dice "Dagli del bortolo"
-- Menu item "chiama" deve essere "Digli di chiamare"
 - setup
+- Animazione della presa: la carta che dal centro va verso il giocatore
+- Test dell'algoritmo di gioco che ha margini di miglioramento
+- Avversario sul vado dentro deve giocare la carta più bassa [DONE]
+- Animazione vado dentro inesistente [DONE]
+- Manca menu item che dice "Dagli del bortolo" [DONE]
+- Menu item "chiama" deve essere "Chiama bortolo" [DONE]
 - popup tasto destro per la giocata "vado dentro" [DONE]
 - message box con solo OK non è corretta, manca l'alpha. (Ma, forse è meglio senza alpha) [DONE]
 - tasti nella toolbox del nome[DONE]
