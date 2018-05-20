@@ -52,7 +52,7 @@ sono in formato UTF8. Quindi la funzione DrawString con il parametro UTF8 le usa
 
 == TODO
 - setup
-- Animazione della presa: la carta che dal centro va verso il giocatore
+- Animazione della presa: la carta che dal centro va verso il giocatore [DONE]
 - Test dell'algoritmo di gioco che ha margini di miglioramento
 - Avversario sul vado dentro deve giocare la carta più bassa [DONE]
 - Animazione vado dentro inesistente [DONE]
