@@ -51,6 +51,7 @@ Nota che le stringhe che provengono dalla classe Languages.cpp sono tutte in for
 sono in formato UTF8. Quindi la funzione DrawString con il parametro UTF8 le usa solo i controlli che devono mostrare un testo proveniente dall'utente.
 
 == TODO
+- Log file deve essere il una directory sua e ogni esecuzione ha il proprio file (nome dalla data e tempo)
 - setup
 - Animazione della presa: la carta che dal centro va verso il giocatore [DONE]
 - Test dell'algoritmo di gioco che ha margini di miglioramento
