@@ -66,8 +66,9 @@
 
 #ifndef TRACE
     #include <stdio.h>
+    extern void TraceInLogFile(char* myBuff);
     #ifdef WIN32
-        // windows platform
+        
         inline void TRACE(const char* fmt, ...)
         {
             char myBuff[512];
@@ -77,9 +78,10 @@
 
             int result = vsprintf(myBuff, fmt, args); 
         #ifdef USEDIALOGTRACE
-                    std::cout << "[TR] " <<myBuff;
+            std::cout << "[TR] " <<myBuff;
         #else
-                    ::OutputDebugString(myBuff);
+            ::OutputDebugString(myBuff);
+            TraceInLogFile(myBuff);
         #endif
         }
     #else

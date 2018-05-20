@@ -13,6 +13,7 @@ class cLanguages;
 class cInvidoGfx;
 class cMusicManager;
 class cMenuMgr;
+class TraceService;
 
 //! class cEngineApp
 class AppGfx
@@ -100,6 +101,7 @@ private:
 	BOOL              m_bOpzWinRunning;
 	// application directory
 	STRING            m_strApplicationDir;
+    TraceService*     m_pTracer;
 };
 
 

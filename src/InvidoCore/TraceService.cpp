@@ -218,49 +218,57 @@ void   TraceService::AddCommentToLastEntry(LPCSTR lpszForm, ... )
 // \param LPCSTR lpszForm : 
 // \param ... : 
 */
-void TraceService::AddSimpleTrace(int iChannel, LPCSTR lpszForm, ...)
+void TraceService::AddSimpleTrace(int iChannelNext, LPCSTR lpszForm, ...)
 {
-    ASSERT(iChannel >= 0 && iChannel < NUM_OF_CHANN);
-    if (m_abChannelMask[iChannel])
+    ASSERT(iChannelNext >= 0 && iChannelNext < NUM_OF_CHANN);
+    int iChannel = TR_CORE_CH; // Always trace to the channel TR_CORE_CH
+    do
     {
-        int iIndexNew = m_aiChannelCursor[iChannel];
-        ASSERT(iIndexNew >= 0 && iIndexNew < NUM_OF_ENTRIES);
-
-        SYSTEMTIME SysTm;
-        GetSystemTime( &SysTm);
-
-        // updat info trace
-        m_mtxEntryTraceDetails[iChannel][iIndexNew].m_eTrType = EntryTraceDetail::TR_INFO;
-        m_mtxEntryTraceDetails[iChannel][iIndexNew].m_iID  = -1;
-        m_mtxEntryTraceDetails[iChannel][iIndexNew].m_iLineNumber  = -1;
-        m_mtxEntryTraceDetails[iChannel][iIndexNew].m_strFileName  = "\\nofile";
-        m_mtxEntryTraceDetails[iChannel][iIndexNew].m_ulTimeStamp  = SysTm.wMinute * 60 + SysTm.wSecond;
-
-        // info for flashout
-        m_iLastEntryUsed = iIndexNew;
-        m_iLastChannelUsed = iChannel;
-
-        static CHAR buff[512];
-        va_list marker;
-	    va_start(marker, lpszForm);										
-	    vsprintf(buff, lpszForm, marker);						
-	    va_end(marker);	
-        m_mtxEntryTraceDetails[m_iLastChannelUsed][m_iLastEntryUsed].m_strComment = buff ;
-
-        // put it out
-        flashTheEntry();
-
-        m_iLastEntryUsed = -1;
-        m_iLastChannelUsed = -1;
-
-        // set the cursor to a new entry
-        m_aiChannelCursor[iChannel] ++;
-        if (m_aiChannelCursor[iChannel] >= NUM_OF_ENTRIES)
+        if (m_abChannelMask[iChannel])
         {
-            // circular buffer
-            m_aiChannelCursor[iChannel] = 0;
+            int iIndexNew = m_aiChannelCursor[iChannel];
+            ASSERT(iIndexNew >= 0 && iIndexNew < NUM_OF_ENTRIES);
+
+            SYSTEMTIME SysTm;
+            GetSystemTime(&SysTm);
+
+            // update info trace
+            m_mtxEntryTraceDetails[iChannel][iIndexNew].m_eTrType = EntryTraceDetail::TR_INFO;
+            m_mtxEntryTraceDetails[iChannel][iIndexNew].m_iID = -1;
+            m_mtxEntryTraceDetails[iChannel][iIndexNew].m_iLineNumber = -1;
+            m_mtxEntryTraceDetails[iChannel][iIndexNew].m_strFileName = "\\nofile";
+            m_mtxEntryTraceDetails[iChannel][iIndexNew].m_ulTimeStamp = SysTm.wMinute * 60 + SysTm.wSecond;
+
+            // info for flashout
+            m_iLastEntryUsed = iIndexNew;
+            m_iLastChannelUsed = iChannel;
+
+            static CHAR buff[512];
+            va_list marker;
+            va_start(marker, lpszForm);
+            vsprintf(buff, lpszForm, marker);
+            va_end(marker);
+            m_mtxEntryTraceDetails[m_iLastChannelUsed][m_iLastEntryUsed].m_strComment = buff;
+
+            // put it out
+            flashTheEntry();
+
+            m_iLastEntryUsed = -1;
+            m_iLastChannelUsed = -1;
+
+            // set the cursor to a new entry
+            m_aiChannelCursor[iChannel] ++;
+            if (m_aiChannelCursor[iChannel] >= NUM_OF_ENTRIES)
+            {
+                // circular buffer
+                m_aiChannelCursor[iChannel] = 0;
+            }
         }
-    }
+        if (iChannel == iChannelNext)
+            iChannel = -1;
+        else
+            iChannel = iChannelNext;
+    } while (iChannel == -1);
 }
 
 

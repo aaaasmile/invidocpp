@@ -770,7 +770,7 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
         if (loopCount > 100) {
             bEnd = TRUE;
         }
-    //} while (uiTickTot < 2000 && !bEnd);
+        //} while (uiTickTot < 2000 && !bEnd);
     } while (!bEnd);
 
     SDL_FreeSurface(pCurrentDisplay);
@@ -1081,6 +1081,8 @@ void cInvidoGfx::InitInvidoVsCPU()
     pPlayer2->SetLevel(ADVANCED, NULL);
     m_pMatchPoints = m_pInvidoCore->GetMatchPointsObj();
 
+    TRACE("Partita tra %s e %s", pPlayer1->GetName(), pPlayer2->GetName());
+
     m_bMatchTerminated = FALSE;
 }
 
@@ -1104,13 +1106,13 @@ void cInvidoGfx::MatchLoop()
 
     uiLast_time = SDL_GetTicks();
     STRING strTextTmp;
-
+    TRACE("Inizio partita loop \n");
     while (done == 0 &&
         m_bMatchTerminated == FALSE)
     {
         uiFrame++;
 
-
+        
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -1121,6 +1123,7 @@ void cInvidoGfx::MatchLoop()
                 strTextTmp = m_pLangMgr->GetStringId(cLanguages::ID_MATCHENDQUESTION);
                 if (showYesNoMsgBox(strTextTmp.c_str()) == cMesgBoxGfx::MB_RES_YES)
                 {
+                    TRACE("Partita finita per scelta utente\n");
                     return;
                 }
                 break;
@@ -2019,7 +2022,7 @@ void cInvidoGfx::opponentHasPlayedCard(CardSpec& Card, BOOL vadoDentro)
     {
         if (m_aOpponentCards[iIndex].State == cCardGfx::CSW_ST_BACK)
         {
-            
+
             if (vadoDentro) {
                 TRACE("Opponent va dentro, draw it\n");
                 drawVadoDentroCard(&m_aOpponentCards[iIndex]);

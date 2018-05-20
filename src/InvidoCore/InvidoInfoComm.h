@@ -1,11 +1,15 @@
-
-
 // InvidoInfoComm.h
 
 #ifndef __INVIDOINFO_COMM_H
 #define __INVIDOINFO_COMM_H
 
 #include <vector>
+
+enum
+{
+    // trace channels
+    TR_CORE_CH = 0,
+};
 
 #ifndef BOOL 
     typedef int BOOL;
