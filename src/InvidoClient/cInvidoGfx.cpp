@@ -686,6 +686,7 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
 
     BOOL bEnd = FALSE;
     BOOL bPhase1_X = FALSE;
+    int loopCount = 0;
     SDL_Texture* pTextureAlphaDisplay = SDL_CreateTextureFromSurface(m_psdlRenderer, m_pAlphaDisplay);
     do
     {
@@ -765,7 +766,12 @@ void cInvidoGfx::animateManoEnd(int iPlayerIx)
             SDL_Delay(uiLast_time + uiFrameRate - uiNowTime);
             uiLast_time = uiNowTime;
         }
-    } while (uiTickTot < 2000 && !bEnd);
+        loopCount += 1;
+        if (loopCount > 100) {
+            bEnd = TRUE;
+        }
+    //} while (uiTickTot < 2000 && !bEnd);
+    } while (!bEnd);
 
     SDL_FreeSurface(pCurrentDisplay);
 }
@@ -2163,12 +2169,6 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
     // necessary to show the cards played on the table
     SDL_Delay(500);
 
-    // cards played
-    for (int k = 0; k < NUM_CARDS_PLAYED; k++)
-    {
-        m_CardsTable[k].State = cCardGfx::CSW_ST_INVISIBLE;
-    }
-
     // update the screen
     drawStaticScene();
     if (pScore->IsManoPatada())
@@ -2194,6 +2194,12 @@ void cInvidoGfx::ALG_ManoEnd(I_MatchScore* pScore)
 
         animateManoEnd(iPlayerIx);
         m_iPlayerThatHaveMarkup = iPlayerIx;
+    }
+
+    // cards played
+    for (int k = 0; k < NUM_CARDS_PLAYED; k++)
+    {
+        m_CardsTable[k].State = cCardGfx::CSW_ST_INVISIBLE;
     }
 
     drawStaticScene();
