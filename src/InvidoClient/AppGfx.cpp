@@ -12,6 +12,7 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <string>
+#include <time.h>
 #include "Languages.h"
 #include "cHightScoreMgr.h"
 #include "cMusicManager.h"
@@ -25,6 +26,7 @@
 #include "OptionGfx.h"
 #include "EnterNameGfx.h"
 #include "TraceService.h"
+
 
 #ifdef WIN32
 #include "Shlwapi.h"
@@ -47,7 +49,7 @@ static const char* lpszImageSplash = "modify_01.jpg";
 static const char* lpszCreditsTitle = "data/images/titlecredits.png";
 static const char* lpszHelpFileName = "data/help/invido-guida.pdf";
 static const char* lpszTraceFileName = "trace_invido.log";
-
+static const char* lpszFolderTrace = "InvidoTrace";
 
 AppGfx* g_MainApp = 0;
 
@@ -190,14 +192,29 @@ void AppGfx::Init()
     m_Histmenu.push(cMenuMgr::MENU_ROOT);
     m_pTracer = TraceService::Instance();
 #ifdef WIN32
-    TCHAR szPath[MAX_PATH];
+    TCHAR szPath[1024];
     if (SUCCEEDED(SHGetFolderPath(NULL,
         CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE,
         NULL,
         0,
         szPath)))
     {
-        PathAppend(szPath, lpszTraceFileName);
+        PathAppend(szPath, lpszFolderTrace);
+        DWORD dwAttrib = GetFileAttributes(szPath);
+
+        if (!(dwAttrib != INVALID_FILE_ATTRIBUTES &&
+            (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))) {
+            LPSECURITY_ATTRIBUTES attr;
+            attr = NULL;
+            CreateDirectory(szPath, attr);
+        }
+        TCHAR fname[128];
+        time_t t = time(NULL);
+        struct tm tm = *localtime(&t);
+        sprintf(fname, "%d-%d-%d_%d%d%d%s", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, lpszTraceFileName);
+        
+        PathAppend(szPath, fname);
+
         m_pTracer->SetOutputChannel(TR_CORE_CH, TraceService::OT_FILE, szPath);
         m_pTracer->EnableChannel(TR_CORE_CH, TRUE);
     }
@@ -224,7 +241,7 @@ void AppGfx::Init()
     m_pMxAccOptions = SDL_CreateMutex();
     m_pOptCond = SDL_CreateCond();
 
-    m_pTracer->AddSimpleTrace(TR_CORE_CH,"Init invido game ok");
+    m_pTracer->AddSimpleTrace(TR_CORE_CH, "Init invido game ok");
 }
 
 
