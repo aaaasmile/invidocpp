@@ -48,7 +48,7 @@ static const char* lpszImageDir = "data/images/";
 static const char* lpszImageSplash = "modify_01.jpg";
 static const char* lpszCreditsTitle = "data/images/titlecredits.png";
 static const char* lpszHelpFileName = "data/help/invido-guida.pdf";
-static const char* lpszTraceFileName = "trace_invido.log";
+static const char* lpszTraceFileName = "invido.log";
 static const char* lpszFolderTrace = "InvidoTrace";
 
 AppGfx* g_MainApp = 0;
@@ -211,7 +211,7 @@ void AppGfx::Init()
         TCHAR fname[128];
         time_t t = time(NULL);
         struct tm tm = *localtime(&t);
-        sprintf(fname, "%d-%d-%d_%d%d%d%s", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, lpszTraceFileName);
+        sprintf(fname, "%d-%02d-%02d_%02d%02d%02d-%s", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, lpszTraceFileName);
         
         PathAppend(szPath, fname);
 
