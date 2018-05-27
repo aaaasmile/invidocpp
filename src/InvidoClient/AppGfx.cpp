@@ -50,6 +50,7 @@ static const char* lpszCreditsTitle = "data/images/titlecredits.png";
 static const char* lpszHelpFileName = "data/help/invido-guida.pdf";
 static const char* lpszTraceFileName = "invido.log";
 static const char* lpszFolderTrace = "InvidoTrace";
+// nota che la versione del programma si trova nel file cMenuMgr.cpp
 
 AppGfx* g_MainApp = 0;
 

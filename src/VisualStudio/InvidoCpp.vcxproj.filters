@@ -575,5 +575,8 @@
     <Image Include="..\..\out\data\images\icona_asso.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="invido.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

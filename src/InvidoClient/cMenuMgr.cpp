@@ -23,7 +23,7 @@
 
 static const char* lpszUrlHome = "http://www.invido.it";
 static const char* lpszMsgUrl = "Go to www.invido.it";
-static const char* lpszVersion = "Invido ver. 2.1.20180429";
+static const char* lpszVersion = "Ver 2.1.0 20180527"; // formato simile a 'Ver 0.5.4 14042008'
 static const char* lpszIniFontVera = "data/font/vera.ttf"; 
 
 //////////////////////////////////////////////////////////////////////

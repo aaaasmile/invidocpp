@@ -24,8 +24,10 @@ if $0 == __FILE__
   end
   dep.read_sw_version()
   ver_suffix = dep.get_version_suffix
-  root_version_dir = File.join(opt[:root_deploy], "cuperativa_" + ver_suffix)
+  p root_version_dir = File.join(opt[:root_deploy], "invido_" + ver_suffix)
 
+  exit
+  
   puts "-------- Delete current deploy dir"
   if File.directory?(root_version_dir)
     FileUtils.rm_rf(root_version_dir)
@@ -34,15 +36,15 @@ if $0 == __FILE__
   puts "-------- Create deploy directory #{root_version_dir}"
   FileUtils.mkdir_p(root_version_dir)
 
-  puts "------- Copy src/res stuff "
+  puts "------- Copy app stuff "
   app_dir = "app"
-  dst_dir = File.join(root_version_dir, "src_stuff/#{app_dir}")
+  dst_dir = File.join(root_version_dir, "#{app_dir}")
   dep.prepare_src_in_deploy(dst_dir)
 
-  puts "--------- Create a zip"
-  out_zip =  File.join(root_version_dir, app_dir + "_#{ver_suffix}.zip")
-  cmd_zip = "#{opt[:p7zip_exe]} a #{out_zip} #{dst_dir} -tzip"
-  dep.exec_mycmd(cmd_zip)
+  #puts "--------- Create a zip"
+  #out_zip =  File.join(root_version_dir, app_dir + "_#{ver_suffix}.zip")
+  #cmd_zip = "#{opt[:p7zip_exe]} a #{out_zip} #{dst_dir} -tzip"
+  #dep.exec_mycmd(cmd_zip)
 
   puts "--------- Prepare installer files and compile it"
   installer_dir = File.join(root_version_dir, 'Installer')

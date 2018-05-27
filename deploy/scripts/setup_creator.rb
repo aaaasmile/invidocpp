@@ -7,7 +7,6 @@ require 'rubygems'
 require 'yaml'
 require 'erubis'
 require 'fileutils'
-require 'src/core/info_available_games'
 require 'filescandir'
 
 class SetupCreator
@@ -17,12 +16,12 @@ class SetupCreator
   end
   
   def read_sw_version()
-    script_fname = File.expand_path('../../src/cuperativa_gui.rb')
+    script_fname = File.expand_path('../../src/InvidoClient/cMenuMgr.cpp')
     File.open(script_fname, "r").each_line do |line|
       #p line
       # search line with VER_PRG_STR it is something like:
       # VER_PRG_STR = \"Ver 0.5.4 14042008\"
-      if line =~ /VER_PRG_STR(.*)/
+      if line =~ /lpszVersion(.*)/
         arr_tmp =  $1.split("\"")
         arr_tmp.each do |tmp_str|
           if tmp_str =~ /Ver(.*)/
@@ -30,14 +29,15 @@ class SetupCreator
             p ver_str_arr = $1.strip.split(" ")
             @ver_sw =  ver_str_arr[0].split(".")
             log "recognized version: #{@ver_sw[0]}-#{@ver_sw[1]}-#{@ver_sw[2]}"
+            log "File parsed is #{script_fname}"
             return 
           end
         end
-        log("Error on parsing VER_PRG_STR")
+        log("Error on parsing lpszVersion")
         return 
       end
     end
-    log("Error VER_PRG_STR not found")
+    log("Error lpszVersion not found")
   end
   
   def prepare_src_in_deploy(target_dir)

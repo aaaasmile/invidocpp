@@ -312,6 +312,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\out\data\images\icona_asso.bmp" />
+    <Image Include="invido.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
