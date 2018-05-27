@@ -7,12 +7,10 @@ require 'setup_creator'
 
 if $0 == __FILE__
   # Create the setup.exe in one step:
-  # - copy the app code into the deploy dir (cuperativa version is used implicitely)
-  # - zip the app
-  # - copy othe stuff like ruby package and create the nsis file
+  # - copy the app code into the deploy dir (Invido version is used implicitely)
+  # - copy othe stuff like License, help and create the nsis file
   # - copile the nsis file
-  # Requisites: 7zip (version used 9.20), nsis (version used 2.48). 
-  #             Ruby package: a zip with an essential ruby distribution that can execute the cuperativa application
+  # Requisites: nsis (version used 2.48). 
   # Write these full paths into the target_deploy_info.yaml
   puts "== Create the setup for InvidoCpp ==="
   dep = SetupCreator.new
@@ -45,7 +43,7 @@ if $0 == __FILE__
   puts "--------- Prepare installer files and compile it"
   installer_dir = dst_app_dir
   nsi_out_name = dep.create_nsi_installer_script(installer_dir, dst_app_dir)
-  #nsi_cmd = "#{opt[:nsi_exe]}  #{nsi_out_name}"
-  #dep.exec_mycmd(nsi_cmd)
+  nsi_cmd = "#{opt[:nsi_exe]}  #{nsi_out_name}"
+  dep.exec_mycmd(nsi_cmd)
   puts "Setup #{nsi_out_name} successfully created"
 end

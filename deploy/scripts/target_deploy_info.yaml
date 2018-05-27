@@ -4,4 +4,3 @@
 :root_deploy: D:\Projects\from_sf_net_to_github\invidocpp\Resources_not_used\deployed
 :source_bin: D:\Projects\from_sf_net_to_github\invidocpp\src\VisualStudio\x64\out
 :nsi_exe: C:\Program Files (x86)\NSIS\makensis.exe
-:p7zip_exe: C:\Program Files\7-Zip\7z.exe

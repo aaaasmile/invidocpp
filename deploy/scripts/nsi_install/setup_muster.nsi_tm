@@ -23,7 +23,7 @@
   OutFile "..\Invido_<%="#{@ver_sw[0]}#{@ver_sw[1]}#{@ver_sw[2]}"%>_setup.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\invido_it\${MUI_PRODUCT}\ver_<%="#{@ver_sw[0]}_#{@ver_sw[1]}_#{@ver_sw[2]}"%>"
+  InstallDir "$PROGRAMFILES64\invido_it\${MUI_PRODUCT}\ver_<%="#{@ver_sw[0]}_#{@ver_sw[1]}_#{@ver_sw[2]}"%>"
   
   ; Non uso il registro per non sovrascrivere vecchie versioni
   ;Get installation folder from registry if available
