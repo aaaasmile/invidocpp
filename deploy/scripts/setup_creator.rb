@@ -40,79 +40,46 @@ class SetupCreator
     log("Error lpszVersion not found")
   end
   
-  def prepare_src_in_deploy(target_dir)
+  def prepare_src_in_deploy(src_app, target_dir)
     FileUtils.rm_rf(target_dir)
     FileUtils.mkdir_p(target_dir) unless File.directory?(target_dir)
-    copy_app_subdir("res", target_dir)
-    copy_app_subdir("src", target_dir)
+    copy_app_subdir(src_app, target_dir)
   end
   
-  def create_nsi_installer_script(target_dir, app_data_fullpath, rubypackage_fullpath, startscript)
+  def create_nsi_installer_script(target_dir, app_data_fullpath)
     FileUtils.mkdir_p(target_dir) unless File.directory?(target_dir)
     
-    @start_script = startscript
+    #@start_script = startscript
     # copy some extra file
     license_name = "License.txt"
-    manual_filename = "cuperativa.chm"
-    readme_filename = "Readme.txt"
-    ruby_dirname = 'Ruby'
-    app_dirname = 'App'
-    # copy license file
+    manual_filename = "Invido-help.pdf"
+    #readme_filename = "Readme.txt"
+    #ruby_dirname = 'Ruby'
+    #app_dirname = 'App'
+    
+     # copy license file
     log "Copy license"
-    file_src = File.join(File.dirname(__FILE__), "../artifacts/#{license_name}")
+    file_src = File.join(File.dirname(__FILE__), "../help/#{license_name}")
     dest_full = File.join(target_dir, license_name)
     FileUtils.cp(file_src, dest_full)
     # copy manual file
     log "Copy manual"
-    file_src = File.join(File.dirname(__FILE__), "../../res/help/#{manual_filename}")
+    file_src = File.join(File.dirname(__FILE__), "../help/#{manual_filename}")
     dest_full = File.join(target_dir, manual_filename)
     FileUtils.cp(file_src, dest_full)
-    # copy readme file
-    log "Copy Readme"
-    file_src = File.join(File.dirname(__FILE__), "../artifacts/#{readme_filename}")
-    dest_full = File.join(target_dir, readme_filename)
-    FileUtils.cp(file_src, dest_full)
-    # copy starter files
-    log "Copy starter"
-    scanner = FileScanDir.new
-    scanner.is_silent = true
-    scanner.scan_dir(File.join(File.dirname(__FILE__), "../artifacts/starter"))
-    scanner.result_list.each do |file_src|
-      tmp = File.split(file_src)
-      base_name = tmp[1]
-      ext = File.extname(base_name)
-      if(ext == ".dll" or ext == ".exe" or ext == ".config")
-        log "Copy starter part: #{base_name}"
-        dest_full = File.join(target_dir, base_name)
-        FileUtils.cp(file_src, dest_full)
-      end
-    end
-    #copy ruby
-    @ruby_package = copy_package(File.join(target_dir, ruby_dirname), rubypackage_fullpath)
+   
     #copy app
-    copy_package(File.join(target_dir, app_dirname), app_data_fullpath)
+    #copy_package(File.join(target_dir, app_dirname), app_data_fullpath)
+    #copy_package(target_dir, app_data_fullpath)
      
     # list of all files
     list_app_files = list_of_app_deployed_files(target_dir, target_dir + '/')
     # merge with app file list
     file_to_be_installed = list_app_files
-    
-    # get info about installed games
-    #str_giochi_avail = "Briscola in 2, Mariazza"
-    # parse yaml file with game information
-    map_game_info = InfoAvailableGames.info_supported_games(nil)
-    arr_giochi_avail = []
-    map_game_info.each_value do |game_info|
-      if game_info[:enabled] == true
-        p game_info[:name]
-        arr_giochi_avail << game_info[:name]
-      end
-    end
-    str_giochi_avail = arr_giochi_avail.join(", ")
-    
+     
     # generate nsi using template
     template_name = 'nsi_install/setup_muster.nsi_tm'
-    nsi_out_name = File.join(target_dir, 'cuperativa_gen.nsi')
+    nsi_out_name = File.join(target_dir, 'invido_gen.nsi')
     
     aString = ""
     # use template and eruby
@@ -144,11 +111,13 @@ private
     puts str
   end
   
-  def copy_package(out_dir, full_sr)
+  def copy_package(out_dir, full_src)
     FileUtils.mkdir_p(out_dir) unless File.directory?(out_dir)
-    tmp = File.split(full_sr)
-    dest_full = File.join(out_dir, tmp[1])
-    FileUtils.cp(full_sr, dest_full)
+    #tmp = File.split(full_src)
+    #dest_full = File.join(out_dir, tmp[1])
+    p "copy #{full_src} to #{out_dir}"
+    #FileUtils.cp(full_src, dest_full)
+    FileUtils.cp(full_src, out_dir)
     log "Copy #{dest_full}"
     return tmp[1]
   end
@@ -191,15 +160,13 @@ private
     return "#{val}"
   end
   
-  def copy_app_subdir(sub_dir, target_dir)
+  def copy_app_subdir(src_app_dir, target_dir)
     fscd = FileScanDir.new
     fscd.add_extension_filter([".yaml", ".yml", ".log"])
     fscd.is_silent = true
-    start_dir = File.join( File.dirname(__FILE__), "../../#{sub_dir}")
-    start_dir = File.expand_path(start_dir)
-    target_res = File.join( target_dir, sub_dir)
+    start_dir = src_app_dir
     fscd.scan_dir(start_dir)
-    copy_appl_to_dest(fscd.result_list, start_dir, target_res)
+    copy_appl_to_dest(fscd.result_list, start_dir, target_dir)
   end
 
   def copy_appl_to_dest(file_list, start_dir, dst_dir)

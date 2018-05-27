@@ -14,7 +14,7 @@ if $0 == __FILE__
   # Requisites: 7zip (version used 9.20), nsis (version used 2.48). 
   #             Ruby package: a zip with an essential ruby distribution that can execute the cuperativa application
   # Write these full paths into the target_deploy_info.yaml
-  
+  puts "== Create the setup for InvidoCpp ==="
   dep = SetupCreator.new
   options_filename = 'target_deploy_info.yaml'
   opt = YAML::load_file( options_filename )
@@ -24,10 +24,8 @@ if $0 == __FILE__
   end
   dep.read_sw_version()
   ver_suffix = dep.get_version_suffix
-  p root_version_dir = File.join(opt[:root_deploy], "invido_" + ver_suffix)
+  root_version_dir = File.join(opt[:root_deploy], "invido_" + ver_suffix)
 
-  exit
-  
   puts "-------- Delete current deploy dir"
   if File.directory?(root_version_dir)
     FileUtils.rm_rf(root_version_dir)
@@ -37,19 +35,17 @@ if $0 == __FILE__
   FileUtils.mkdir_p(root_version_dir)
 
   puts "------- Copy app stuff "
-  app_dir = "app"
-  dst_dir = File.join(root_version_dir, "#{app_dir}")
-  dep.prepare_src_in_deploy(dst_dir)
-
-  #puts "--------- Create a zip"
-  #out_zip =  File.join(root_version_dir, app_dir + "_#{ver_suffix}.zip")
-  #cmd_zip = "#{opt[:p7zip_exe]} a #{out_zip} #{dst_dir} -tzip"
-  #dep.exec_mycmd(cmd_zip)
-
+  app_dir = 'Installer'
+  dst_app_dir = File.join(root_version_dir, "#{app_dir}")
+  src_app = opt[:source_bin]
+  puts "Source is #{src_app}"
+  puts "Destination is #{dst_app_dir}"
+  dep.prepare_src_in_deploy(src_app, dst_app_dir)
+  
   puts "--------- Prepare installer files and compile it"
-  installer_dir = File.join(root_version_dir, 'Installer')
-  nsi_out_name = dep.create_nsi_installer_script(installer_dir, out_zip, opt[:ruby_package], 'src/start_cuperativa.rb')
-  nsi_cmd = "#{opt[:nsi_exe]}  #{nsi_out_name}"
-  dep.exec_mycmd(nsi_cmd)
+  installer_dir = dst_app_dir
+  nsi_out_name = dep.create_nsi_installer_script(installer_dir, dst_app_dir)
+  #nsi_cmd = "#{opt[:nsi_exe]}  #{nsi_out_name}"
+  #dep.exec_mycmd(nsi_cmd)
   puts "Setup #{nsi_out_name} successfully created"
 end
