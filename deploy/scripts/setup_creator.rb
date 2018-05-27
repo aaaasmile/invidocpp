@@ -63,10 +63,10 @@ class SetupCreator
     dest_full = File.join(target_dir, license_name)
     FileUtils.cp(file_src, dest_full)
     # copy manual file
-    log "Copy manual"
-    file_src = File.join(File.dirname(__FILE__), "../help/#{manual_filename}")
-    dest_full = File.join(target_dir, manual_filename)
-    FileUtils.cp(file_src, dest_full)
+    #log "Copy manual"
+    #file_src = File.join(File.dirname(__FILE__), "../help/#{manual_filename}")
+    #dest_full = File.join(target_dir, manual_filename)
+    #FileUtils.cp(file_src, dest_full)
    
     #copy app
     #copy_package(File.join(target_dir, app_dirname), app_data_fullpath)

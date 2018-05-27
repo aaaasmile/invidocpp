@@ -136,7 +136,7 @@ Section "Invido" SecInvido
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}<%="#{@ver_sw[0]}_#{@ver_sw[1]}_#{@ver_sw[2]}"%>\Invido.lnk" \
     "$INSTDIR\Invido.exe"
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}<%="#{@ver_sw[0]}_#{@ver_sw[1]}_#{@ver_sw[2]}"%>\Manuale.lnk" \
-    "$INSTDIR\Invido-help.pdf"
+    "$INSTDIR\data\help\invido-guida.pdf"
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}<%="#{@ver_sw[0]}_#{@ver_sw[1]}_#{@ver_sw[2]}"%>\Uninstall.lnk" \
     "$INSTDIR\Uninstall.exe"
 
