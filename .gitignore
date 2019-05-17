@@ -21,3 +21,5 @@ deploy/out_for_setup/*
 *.tlog
 *.pdb
 Resources_not_used
+*.bin
+*.ipch
